@@ -1,0 +1,310 @@
+@import 'tailwindcss';
+
+/* Class-based theming: <html class="dark"> or <html class="light"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ *
+ * Tokens
+ * ------------------------------------------------------------------ */
+:root,
+html.dark {
+  --canvas: #0a0e0c;
+  --surface: #101713;
+  --elevated: #16201a;
+  --line: rgba(57, 255, 20, 0.16);
+  --line-strong: rgba(57, 255, 20, 0.34);
+  --ink: #e9f6ec;
+  --ink-soft: #cfe0d4;
+  --muted: #a6bfb2;
+  --neon: #39ff14;
+  --neon-ink: #06110a;
+  --cyan: #5be3ff;
+  --hku: #0f402e;
+  --cream: #f6f1e4;
+  --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.9);
+
+  --era-codes: #ffb74d;
+  --era-theory: #5be3ff;
+  --era-algorithms: #c79bff;
+  --era-hardware: #39ff14;
+
+  --verdict-myth: #ff6b6b;
+  --verdict-fact: #4ade80;
+  --verdict-nuance: #ffc857;
+
+  --scanline: rgba(255, 255, 255, 0.035);
+  color-scheme: dark;
+}
+
+html.light {
+  --canvas: #f6f1e4;
+  --surface: #fffdf7;
+  --elevated: #ffffff;
+  --line: rgba(15, 64, 46, 0.16);
+  --line-strong: rgba(15, 64, 46, 0.4);
+  --ink: #0d2119;
+  --ink-soft: #22392e;
+  --muted: #4a6156;
+  --neon: #0f7a2e;
+  --neon-ink: #f2fff5;
+  --cyan: #0e7490;
+  --hku: #0f402e;
+  --cream: #ffffff;
+  --shadow: 0 24px 50px -30px rgba(15, 64, 46, 0.4);
+
+  --era-codes: #b45309;
+  --era-theory: #0e7490;
+  --era-algorithms: #6d28d9;
+  --era-hardware: #0f7a2e;
+
+  --verdict-myth: #b91c1c;
+  --verdict-fact: #15803d;
+  --verdict-nuance: #a16207;
+
+  --scanline: rgba(15, 64, 46, 0.03);
+  color-scheme: light;
+}
+
+@theme inline {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Baloo 2', 'Inter', ui-sans-serif, sans-serif;
+  --font-mono: 'VT323', ui-monospace, SFMono-Regular, monospace;
+  --font-hand: 'Caveat', cursive;
+
+  /* Raised type scale: nothing meaningful renders below 13px, and body copy
+     sits at 15–17px. VT323 is only ever used at display sizes (see below). */
+  --text-xs: 0.8125rem; /* 13px */
+  --text-xs--line-height: 1.55;
+  --text-sm: 0.9375rem; /* 15px */
+  --text-sm--line-height: 1.65;
+  --text-base: 1.0625rem; /* 17px */
+  --text-base--line-height: 1.7;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-neon: var(--neon);
+  --color-neon-ink: var(--neon-ink);
+  --color-cyan: var(--cyan);
+  --color-hku: var(--hku);
+  --color-cream: var(--cream);
+  --color-era-codes: var(--era-codes);
+  --color-era-theory: var(--era-theory);
+  --color-era-algorithms: var(--era-algorithms);
+  --color-era-hardware: var(--era-hardware);
+  --color-verdict-myth: var(--verdict-myth);
+  --color-verdict-fact: var(--verdict-fact);
+  --color-verdict-nuance: var(--verdict-nuance);
+
+  --shadow-lift: var(--shadow);
+
+  --animate-blink: blink 1.05s step-end infinite;
+  --animate-scan: scan 7s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-drift: drift 26s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.6s ease-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 400px 400px;
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* VT323 is a pixel font whose cap-height is far smaller than its em box, so a
+     nominal 13px renders like ~8px. Enforce a legible floor everywhere it is
+     used; anything smaller must use the sans stack instead. */
+  .font-mono {
+    font-size: max(1em, 1.0625rem);
+  }
+
+  ::selection {
+    background: var(--neon);
+    color: var(--neon-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--canvas);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Component utilities
+ * ------------------------------------------------------------------ */
+@utility grid-paper {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@utility crt-overlay {
+  position: relative;
+}
+@utility crt-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--scanline) 0px,
+    var(--scanline) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@utility text-glow {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--neon) 55%, transparent);
+}
+
+@utility card-surface {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+@utility pixel-frame {
+  border: 2px solid var(--line-strong);
+  box-shadow:
+    inset 0 0 0 2px var(--canvas),
+    0 0 0 1px var(--line);
+}
+
+/* Small uppercase UI label. Deliberately sans-serif: VT323 is a pixel font with
+   a tiny cap-height and is close to unreadable below ~18px. */
+@utility ui-label {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Tabular figures, so columns of numbers align. */
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Display-size mono text — the retro voice, used only where it is large. */
+@utility display-mono {
+  font-family: var(--font-mono);
+  font-size: 1.375rem; /* 22px */
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+}
+
+/* Screen-reader only */
+@utility sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Reduced motion: kill decorative animation everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

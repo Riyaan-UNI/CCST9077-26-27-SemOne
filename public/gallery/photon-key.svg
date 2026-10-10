@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" role="img" aria-label="Photons carrying a key">
+<defs>
+  <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+    <path d="M48 0H0V48" fill="none" stroke="rgba(57,255,20,0.10)" stroke-width="1"/>
+  </pattern>
+  <radialGradient id="vign" cx="50%" cy="45%" r="72%">
+    <stop offset="0%" stop-color="#39ff14" stop-opacity="0.10"/>
+    <stop offset="100%" stop-color="#070b09" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="glow" x="-70%" y="-70%" width="240%" height="240%">
+    <feGaussianBlur stdDeviation="7" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="2.2" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#39ff14" stop-opacity="0"/>
+    <stop offset="50%" stop-color="#5be3ff" stop-opacity="0.75"/>
+    <stop offset="100%" stop-color="#39ff14" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+<rect width="900" height="1100" fill="#070b09"/>
+<rect width="900" height="1100" fill="url(#grid)"/>
+<rect width="900" height="1100" fill="url(#vign)"/>
+<path d="M 80 220.0 L 820 880.0" stroke="url(#beam)" stroke-width="90" stroke-linecap="round" opacity="0.5"/>
+<path d="M 80 220.0 L 820 880.0" stroke="#5be3ff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+<circle cx="162" cy="293" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="122" y1="293" x2="202" y2="293" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="208" y="301" fill="#39ff14" font-family="monospace" font-size="24">0&#176;</text>
+<circle cx="244" cy="367" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="216" y1="338" x2="273" y2="395" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="290" y="375" fill="#39ff14" font-family="monospace" font-size="24">45&#176;</text>
+<circle cx="327" cy="440" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="327" y1="400" x2="327" y2="480" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="373" y="448" fill="#39ff14" font-family="monospace" font-size="24">90&#176;</text>
+<circle cx="409" cy="513" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="437" y1="485" x2="381" y2="542" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="455" y="521" fill="#39ff14" font-family="monospace" font-size="24">135&#176;</text>
+<circle cx="491" cy="587" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="451" y1="587" x2="531" y2="587" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="537" y="595" fill="#39ff14" font-family="monospace" font-size="24">0&#176;</text>
+<circle cx="573" cy="660" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="573" y1="620" x2="573" y2="700" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="619" y="668" fill="#39ff14" font-family="monospace" font-size="24">90&#176;</text>
+<circle cx="656" cy="733" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="627" y1="705" x2="684" y2="762" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="702" y="741" fill="#39ff14" font-family="monospace" font-size="24">45&#176;</text>
+<circle cx="738" cy="807" r="30" fill="#070b09" stroke="#39ff14" stroke-width="3" filter="url(#glow)"/>
+<line x1="766" y1="778" x2="709" y2="835" stroke="#f6f1e4" stroke-width="4" stroke-linecap="round"/>
+<text x="784" y="815" fill="#39ff14" font-family="monospace" font-size="24">135&#176;</text>
+<text x="80" y="180.0" fill="#5be3ff" font-family="monospace" font-size="30">ALICE</text>
+<text x="700" y="950.0" fill="#5be3ff" font-family="monospace" font-size="30">BOB</text>
+<text x="450.0" y="1040" text-anchor="middle" fill="#f6f1e4" font-family="monospace" font-size="28" opacity="0.9">BB84 &#183; randomly chosen bases</text>
+<g opacity="0.30"><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1.2" fill="#ffffff" opacity="0.05"/></pattern><rect width="100%" height="100%" fill="url(#scan)"/></g></svg>

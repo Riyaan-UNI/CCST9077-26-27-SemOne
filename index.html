@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      name="description"
+      content="The Quantum Revolution - an interactive journey from secret codes to quantum computers, hosted by Qubi. A CCST9077 group project."
+    />
+    <meta name="theme-color" content="#0b0f0d" />
+    <title>The Quantum Revolution · From Secret Codes to Quantum Computers</title>
+    <style>
+      html {
+        background: #0b0f0d;
+      }
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #0b0f0d;
+        color: #39ff14;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+        font-size: 14px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        z-index: 9999;
+        transition: opacity 0.35s ease;
+      }
+      /* Added by main.tsx once React has mounted. */
+      #boot.boot--done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #boot .bar {
+        margin-top: 14px;
+        width: 180px;
+        height: 6px;
+        box-sizing: border-box;
+        overflow: hidden; /* keep the sliding bar inside the frame */
+        border: 1px solid rgba(57, 255, 20, 0.4);
+      }
+      #boot .bar i {
+        display: block;
+        height: 100%;
+        width: 40%;
+        background: #39ff14;
+        animation: bootslide 1.1s ease-in-out infinite;
+      }
+      @keyframes bootslide {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(250%); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot">
+      <div>
+        <div>initialising qubit&hellip;</div>
+        <div class="bar"><i></i></div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Safety net: if the app never boots (a failed chunk, an offline asset),
+      // never leave the viewer staring at the splash screen forever.
+      setTimeout(function () {
+        var boot = document.getElementById('boot');
+        if (boot) {
+          boot.classList.add('boot--done');
+          setTimeout(function () {
+            boot.remove();
+          }, 400);
+        }
+      }, 8000);
+    </script>
+  </body>
+</html>
