@@ -23,7 +23,15 @@ npm run dev        # http://127.0.0.1:5173
 | `npm run test:e2e` | Playwright end-to-end + axe-core accessibility checks |
 | `npm run lint` | ESLint (see `eslint.config.js`) |
 
-Deploy the `dist/` folder to any static host — Vercel, Netlify, Cloudflare Pages or GitHub Pages. Because routing is client-side, configure a SPA fallback (rewrite all paths to `index.html`).
+## Deploying
+
+**GitHub Pages is already configured** — pushing to `main` publishes the site automatically via `.github/workflows/deploy.yml`. Enable it once under **Settings → Pages → Source: GitHub Actions**, then just `git push`.
+
+Live URL: `https://riyaan-uni.github.io/CCST9077-26-27-SemOne/`
+
+See **[DEPLOY.md](./DEPLOY.md)** for the full walkthrough, Vercel/Netlify/Cloudflare alternatives, custom domains, and troubleshooting.
+
+> Working on a file under `public/`? Reference it with the `asset()` helper from `src/lib/utils.ts`, not a literal `/path`. Literal paths work locally but 404 on a GitHub Pages sub-path.
 
 ---
 
@@ -64,6 +72,7 @@ src/
 public/gallery/           # procedural SVG plates
 scripts/make_gallery.py   # regenerates those plates
 e2e/site.spec.ts          # Playwright: boot hand-off, routes, lab, axe a11y
+.github/workflows/deploy.yml  # build + publish to GitHub Pages on push
 ```
 
 ---

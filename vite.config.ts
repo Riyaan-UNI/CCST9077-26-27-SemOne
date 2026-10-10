@@ -4,6 +4,14 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
 
 export default defineConfig({
+  /*
+   * Deployment base.
+   *   - Vercel / Netlify / any root-served host: leave unset ('/').
+   *   - GitHub Pages project site (served from /<repo-name>/): the deploy
+   *     workflow sets VITE_BASE=/<repo-name>/ so every asset URL is absolute
+   *     and therefore correct at any route depth.
+   */
+  base: process.env.VITE_BASE || '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: { '@': path.resolve(import.meta.dirname, './src') },

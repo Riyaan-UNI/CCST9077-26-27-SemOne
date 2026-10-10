@@ -20,9 +20,14 @@ import App from './App';
 const root = document.getElementById('root');
 if (!root) throw new Error('Root element #root not found');
 
+/* When the app is served from a sub-path (e.g. a GitHub Pages project site at
+   /CCST9077-26-27-SemOne/), the router must know that prefix or every route
+   would 404. BASE_URL is '/' unless VITE_BASE is set at build time. */
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 createRoot(root).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </StrictMode>,

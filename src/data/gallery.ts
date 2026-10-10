@@ -1,3 +1,5 @@
+import { asset } from '@/lib/utils';
+
 export interface GalleryItem {
   id: string;
   src: string;
@@ -15,7 +17,7 @@ export interface GalleryItem {
 export const gallery: GalleryItem[] = [
   {
     id: 'bloch',
-    src: '/gallery/bloch-sphere.svg',
+    src: asset('/gallery/bloch-sphere.svg'),
     width: 1000,
     height: 1000,
     title: 'The Bloch sphere',
@@ -24,7 +26,7 @@ export const gallery: GalleryItem[] = [
   },
   {
     id: 'entangled',
-    src: '/gallery/entangled-pair.svg',
+    src: asset('/gallery/entangled-pair.svg'),
     width: 1200,
     height: 800,
     title: 'An entangled pair',
@@ -33,7 +35,7 @@ export const gallery: GalleryItem[] = [
   },
   {
     id: 'crt',
-    src: '/gallery/qubi-crt.svg',
+    src: asset('/gallery/qubi-crt.svg'),
     width: 900,
     height: 1100,
     title: 'Qubi, the qubit terminal',
@@ -42,7 +44,7 @@ export const gallery: GalleryItem[] = [
   },
   {
     id: 'interference',
-    src: '/gallery/interference.svg',
+    src: asset('/gallery/interference.svg'),
     width: 1100,
     height: 1100,
     title: 'Interference',
@@ -51,7 +53,7 @@ export const gallery: GalleryItem[] = [
   },
   {
     id: 'lattice',
-    src: '/gallery/error-correction.svg',
+    src: asset('/gallery/error-correction.svg'),
     width: 1200,
     height: 800,
     title: 'The surface code',
@@ -60,7 +62,7 @@ export const gallery: GalleryItem[] = [
   },
   {
     id: 'photon-key',
-    src: '/gallery/photon-key.svg',
+    src: asset('/gallery/photon-key.svg'),
     width: 900,
     height: 1100,
     title: 'Photons carrying a key',

@@ -110,7 +110,9 @@ export default function Qubi({
       role="img"
       aria-label={label}
     >
-      <svg viewBox="0 0 200 190" width="100%" height="auto" className="overflow-visible">
+      {/* Sizing comes from CSS, not attributes: `height="auto"` is not a valid
+          SVG length and browsers log an error for it. */}
+      <svg viewBox="0 0 200 190" className="h-auto w-full overflow-visible">
         <defs>
           <filter id="qubiGlow" x="-60%" y="-60%" width="220%" height="220%">
             <feGaussianBlur stdDeviation="3.2" result="b" />
