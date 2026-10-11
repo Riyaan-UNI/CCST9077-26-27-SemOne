@@ -69,6 +69,24 @@ test.describe('boot sequence', () => {
 
     await page.evaluate(() => document.getElementById('boot')?.remove());
   });
+
+  test('reports an actionable error instead of a blank screen if the bundle fails', async ({
+    page,
+  }) => {
+    // Block the app entry point so React never mounts — this is what a wrong
+    // deploy base path looks like to a visitor.
+    await page.route('**/main.tsx*', (route) => route.abort());
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const error = page.locator('#boot-error');
+    await expect(error).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByText(/could not start the app/i)).toBeVisible();
+    await expect(page.getByRole('button', { name: /reload/i })).toBeVisible();
+
+    // And it must not be a silent void: the page still says something.
+    const text = (await page.locator('body').innerText()).trim();
+    expect(text.length).toBeGreaterThan(0);
+  });
 });
 
 /* ------------------------------------------------------------------ *

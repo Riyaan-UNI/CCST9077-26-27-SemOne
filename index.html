@@ -52,28 +52,63 @@
         0% { transform: translateX(-100%); }
         100% { transform: translateX(250%); }
       }
+      #boot .inner {
+        max-width: 22rem;
+        text-align: center;
+      }
+      #boot-error p {
+        margin: 0 0 0.5rem;
+        letter-spacing: 0.04em;
+        text-transform: none;
+      }
+      #boot-error .muted {
+        color: rgba(233, 246, 236, 0.6);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      #boot-error button {
+        margin-top: 0.75rem;
+        padding: 0.5rem 1rem;
+        font: inherit;
+        letter-spacing: 0.12em;
+        color: #06110a;
+        background: #39ff14;
+        border: 0;
+        border-radius: 8px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div id="boot">
-      <div>
-        <div>initialising qubit&hellip;</div>
-        <div class="bar"><i></i></div>
+      <div class="inner">
+        <div id="boot-status">initialising qubit&hellip;</div>
+        <div class="bar" id="boot-bar"><i></i></div>
+        <div id="boot-error" hidden>
+          <p>Could not start the app.</p>
+          <p class="muted">
+            The script bundle did not load. On a fresh deploy this can take a minute &mdash;
+            otherwise check the browser console.
+          </p>
+          <button type="button" onclick="location.reload()">Reload</button>
+        </div>
       </div>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Safety net: if the app never boots (a failed chunk, an offline asset),
-      // never leave the viewer staring at the splash screen forever.
+      // Safety net. If the app has not taken over within 8 seconds the bundle
+      // failed to load (wrong base path, failed deploy, blocked asset). Say so
+      // instead of leaving the viewer on a blank screen with no explanation.
       setTimeout(function () {
         var boot = document.getElementById('boot');
-        if (boot) {
-          boot.classList.add('boot--done');
-          setTimeout(function () {
-            boot.remove();
-          }, 400);
-        }
+        if (!boot || boot.classList.contains('boot--done')) return; // React is in charge
+        var status = document.getElementById('boot-status');
+        var bar = document.getElementById('boot-bar');
+        var err = document.getElementById('boot-error');
+        if (status) status.textContent = 'startup failed';
+        if (bar) bar.style.display = 'none';
+        if (err) err.hidden = false;
       }, 8000);
     </script>
   </body>
