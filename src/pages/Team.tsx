@@ -10,7 +10,7 @@ import { useStore } from '@/store/useStore';
 function MemberCard({ member }: { member: (typeof team)[number] }) {
   const reduceMotion = useStore((s) => s.reduceMotion);
   const [open, setOpen] = useState(false);
-  const pending = member.name.value.startsWith('[');
+  const pendingBio = member.funFact.value.includes('[Add');
 
   const expand = reduceMotion
     ? { duration: 0 }
@@ -27,15 +27,24 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
         <Qubi mood={member.deliverables.includes('mascot') ? 'happy' : 'curious'} size={64} float={false} />
         <div className="min-w-0">
           <h3 className="text-xl">
-            {member.name.value}
+            {member.fullName ? (
+              <>
+                {member.fullName}
+                {member.location && (
+                  <span className="ml-2 text-sm font-normal text-muted">· {member.location}</span>
+                )}
+              </>
+            ) : (
+              member.name.value
+            )}
             {member.nickname && (
               <span className="ml-2 text-sm font-normal text-muted">“{member.nickname.value}”</span>
             )}
           </h3>
           <p className="font-hand text-lg text-neon">{member.title.value}</p>
-          {pending && (
+          {pendingBio && (
             <p className="mt-1 text-xs text-hype-amber">
-              Name pending — placeholder shown
+              Fun fact pending — placeholder shown
             </p>
           )}
         </div>
@@ -62,6 +71,10 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
                 ))}
               </ul>
               <div className="mt-4 rounded-lg border border-line bg-elevated px-4 py-3">
+                <p className="text-xs text-muted">Bio</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.bio.value}</p>
+              </div>
+              <div className="mt-3 rounded-lg border border-line bg-elevated px-4 py-3">
                 <p className="text-xs text-muted">Fun fact</p>
                 <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.value}</p>
               </div>
@@ -79,7 +92,7 @@ export default function Team() {
       <Section
         eyebrow="The people"
         title="Three humans, one robot"
-        lead="A small team that built this site. Tap a card to see what each person brought. All bios are pending your approval (see the placeholders)."
+        lead="A small team that built this site. Tap a card to see what each person brought. Fun facts and short bios are placeholders — fill them in before submission."
       >
         <div className="grid gap-5 lg:grid-cols-3">
           {team.map((m) => (
