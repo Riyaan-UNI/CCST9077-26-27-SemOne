@@ -17,7 +17,7 @@ export default function Glossary() {
               <div className="h-full rounded-2xl border border-line bg-surface p-5">
                 <dt className="font-display text-lg text-ink">{g.term}</dt>
                 <dd className="mt-2 text-sm leading-relaxed text-ink-soft">{g.plain}</dd>
-                <dd className="mt-3 text-xs uppercase tracking-[0.12em] text-muted">
+                <dd className="mt-3 text-xs text-muted">
                   Source: {g.source.source}
                 </dd>
               </div>

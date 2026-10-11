@@ -27,6 +27,8 @@ export interface TeamMember {
   id: string;
   name: Confirmed<string>;
   nickname?: Confirmed<string>;
+  fullName?: string;
+  location?: string;
   title: Confirmed<string>;
   bio: Confirmed<string>;
   contributions: Confirmed<string>[];
@@ -47,6 +49,8 @@ export const team: TeamMember[] = [
     id: 'riyaan',
     name: { value: 'Riyaan', confirm: true },
     nickname: { value: 'Chicha', confirm: true },
+    fullName: 'Patan Mohammed Riyaan',
+    location: 'India',
     title: { value: 'The First-Principles Tinkerer', confirm: true },
     bio: {
       value:
@@ -55,11 +59,10 @@ export const team: TeamMember[] = [
     },
     contributions: [
       { value: 'Website design and build direction (with a disclosed AI coding assistant)', confirm: true },
-      { value: 'Mascot direction', confirm: true },
       { value: 'Project coordination', confirm: true },
     ],
-    funFact: { value: '[ADD]', confirm: true },
-    deliverables: ['website', 'mascot', 'scripts'],
+    funFact: { value: '[Add a fun fact about yourself]', confirm: true },
+    deliverables: ['website', 'scripts'],
     devices: [
       { device: 'Metaphor', example: 'rebuilds them from the ground up', note: 'Describes a way of thinking by comparing it to building.' },
       { device: 'Simile', example: 'like a physicist who insists on re-deriving gravity', note: 'A direct "like" comparison.' },
@@ -69,36 +72,40 @@ export const team: TeamMember[] = [
     ],
   },
   {
-    id: 'member-2',
-    name: { value: '[MEMBER_2_NAME]', confirm: true },
-    title: { value: 'The Time Lord of the Timeline (video editor)', confirm: true },
+    id: 'long',
+    name: { value: 'Long', confirm: true },
+    nickname: { value: 'Yat', confirm: true },
+    fullName: 'Long Yat Damian Lau',
+    location: 'Hong Kong',
+    title: { value: 'The Mascot Maker of Qubi', confirm: true },
     bio: {
       value:
-        '[MEMBER_2_NAME] doesn’t just edit; they bend time. Before the edit, every video exists in a superposition of masterpiece and mess; one export button collapses it, and [MEMBER_2_NAME] is the one holding the button. Armed with scissors made of pixels and patience made of steel, they turn hours of raw footage into minutes you actually want to watch.',
+        'Long doesn’t just draw; he gives Qubi a soul. Before each iteration the mascot exists only as a sketch on paper; one careful pass through the SVG later, and Qubi is blinking on the page, alive and unmistakably himself. Armed with the patient and a good eye for pixel grids, he turns rough ideas into the friendly CRT-monitor robot you see in every page header.',
       confirm: true,
     },
     contributions: [
+      { value: 'Qubi mascot design and SVG build', confirm: true },
       { value: 'Editing and pacing', confirm: true },
       { value: 'Motion graphics', confirm: true },
       { value: 'Captions', confirm: true },
-      { value: 'Qubi animation in the videos', confirm: true },
     ],
-    funFact: { value: '[ADD]', confirm: true },
-    deliverables: ['videos'],
+    funFact: { value: '[Add a fun fact about yourself]', confirm: true },
+    deliverables: ['mascot', 'videos'],
     devices: [
-      { device: 'Metaphor', example: 'bend time', note: 'Editing described as controlling time.' },
-      { device: 'Simile', example: 'patience made of steel', note: 'A "made of" comparison.' },
-      { device: 'Hyperbole', example: 'hours of raw footage into minutes', note: 'Exaggeration for effect.' },
-      { device: 'Alliteration', example: 'made of pixels … patience made of steel', note: 'Repeated initial sounds.' },
+      { device: 'Metaphor', example: 'gives Qubi a soul', note: 'Drawing described as animating something to life.' },
+      { device: 'Simile', example: 'alive and unmistakably himself', note: 'A direct "as if" comparison.' },
+      { device: 'Personification', example: 'Qubi is blinking on the page', note: 'A static drawing given human-like action.' },
     ],
   },
   {
-    id: 'member-3',
-    name: { value: '[MEMBER_3_NAME]', confirm: true },
-    title: { value: 'The Voice of the Quantum (video speaker)', confirm: true },
+    id: 'markus',
+    name: { value: 'Markus', confirm: true },
+    fullName: 'Markus Skjerstad Dølvik',
+    location: 'Norway',
+    title: { value: 'The Voice of the Quantum', confirm: true },
     bio: {
       value:
-        '[MEMBER_3_NAME] explains entanglement without a single equation and without a single tear, a feat rarer than a photon with a day off. Their voice is the thread that ties the series together: calm as a ground state, clear as a perfectly measured qubit.',
+        'Markus explains entanglement without a single equation and without a single tear, a feat rarer than a photon with a day off. His voice is the thread that ties the series together: calm as a ground state, clear as a perfectly measured qubit.',
       confirm: true,
     },
     contributions: [
@@ -106,7 +113,7 @@ export const team: TeamMember[] = [
       { value: 'Script polishing', confirm: true },
       { value: 'Pronunciation checks', confirm: true },
     ],
-    funFact: { value: '[ADD]', confirm: true },
+    funFact: { value: '[Add a fun fact about yourself]', confirm: true },
     deliverables: ['videos'],
     devices: [
       { device: 'Metaphor', example: 'the thread that ties the series together', note: 'A voice compared to a connecting thread.' },

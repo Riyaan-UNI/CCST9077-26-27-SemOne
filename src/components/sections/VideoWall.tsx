@@ -10,8 +10,15 @@ import { videos } from '@/data/videos';
  * requests until the viewer asks for one.
  */
 export default function VideoWall() {
+  const hasUpcoming = videos.some((v) => v.status !== 'live');
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div>
+      {hasUpcoming && (
+        <p className="mb-6 text-sm text-muted">
+          All five episodes are coming soon. Click a card to load its video when ready.
+        </p>
+      )}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {videos.map((v) => (
         <article
           key={v.id}
@@ -33,7 +40,7 @@ export default function VideoWall() {
                 <div className="relative flex flex-col items-center gap-2 px-4 text-center">
                   <span className="ui-label text-hype-amber">Signal incoming…</span>
                   <Qubi mood="curious" size={88} float={false} />
-                  <p className="max-w-[16rem] text-sm text-muted">{v.title} — coming soon.</p>
+                  <p className="max-w-[16rem] text-sm text-muted">{v.title}</p>
                 </div>
               </div>
             )}
@@ -54,6 +61,7 @@ export default function VideoWall() {
           </div>
         </article>
       ))}
+      </div>
     </div>
   );
 }

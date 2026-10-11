@@ -32,7 +32,7 @@ export const nav = [
   { label: 'Videos', href: '/videos' },
   { label: 'Team', href: '/team' },
   { label: 'Timeline', href: '/timeline' },
-  { label: 'Course map', href: '/course-map' },
+  { label: 'Course', href: '/course-map' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Glossary', href: '/glossary' },
   { label: 'Sandbox', href: '/computer' },

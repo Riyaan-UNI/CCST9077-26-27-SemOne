@@ -84,10 +84,10 @@ export default function Nav() {
               </span>
               <span className="hidden leading-tight sm:block">
                 <span className="block font-display text-[15px] font-bold tracking-tight">
-                  {site.courseTitle}
+                  Qubi's Quantum Playground
                 </span>
-                <span className="block text-xs uppercase tracking-[0.16em] text-muted">
-                  {isHkuBrand ? `${site.course} · ${site.institution}` : 'Group project'}
+                <span className="block text-xs text-muted">
+                  {isHkuBrand ? `${site.course} · ${site.institution}` : site.course}
                 </span>
               </span>
             </Link>

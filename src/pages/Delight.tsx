@@ -18,22 +18,14 @@ export default function Delight() {
 
   return (
     <Page>
-      <header className="relative overflow-hidden border-b border-line pt-32 pb-14">
-        <div className="absolute inset-0 grid-paper opacity-40" />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="ui-label text-neon">Delight</p>
-            <h1 className="mt-3 text-4xl sm:text-5xl">Play, test, explore</h1>
-            <p className="mt-4 max-w-xl leading-relaxed text-ink-soft">
-              Mini-games and interactives that reinforce the course ideas through play.
-              No equations required.
-            </p>
-          </div>
-          <Qubi mood="excited" size={150} className="shrink-0" />
+      <Section
+        eyebrow="Delight"
+        title="Play, test, explore"
+        lead="Mini-games and interactives that reinforce the course ideas through play. No equations required."
+      >
+        <div className="mb-8 flex items-center justify-end">
+          <Qubi mood="excited" size={80} className="hidden shrink-0 sm:block" />
         </div>
-      </header>
-
-      <Section className="pt-12">
         <Tabs.Root value={tab} onValueChange={setTab}>
           <Tabs.List
             aria-label="Delight sections"
@@ -44,13 +36,13 @@ export default function Delight() {
                 key={id}
                 value={id}
                 className={cn(
-                  'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-ink-soft transition',
+                  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink-soft transition sm:px-4',
                   'data-[state=active]:bg-neon data-[state=active]:text-neon-ink',
                   'hover:text-neon data-[state=active]:hover:text-neon-ink',
                 )}
               >
                 <Icon size={15} aria-hidden="true" />
-                {label}
+                <span className="hidden sm:inline">{label}</span>
               </Tabs.Trigger>
             ))}
           </Tabs.List>
@@ -58,7 +50,7 @@ export default function Delight() {
           <Tabs.Content value="hype" className="mt-8 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">Rate the Quantum Hype</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 Grade real quantum claims from A to F, then see how the course would grade them.
                 Includes the good/bad/ugly taxonomy of popular science.
               </p>
@@ -69,7 +61,7 @@ export default function Delight() {
           <Tabs.Content value="20q" className="mt-8 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">20 Questions · The Battleship Game</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 Find hidden ships on a grid using yes/no questions. Each question gives you one bit
                 of information. This is how Shannon defined information in 1948.
               </p>

@@ -46,7 +46,7 @@ export default function TimelinePage() {
             onClick={() => setListView(false)}
             className="mb-6 inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2 text-sm transition hover:border-neon hover:text-neon"
           >
-            Show scroll view
+            Show as a timeline
           </button>
           <ol className="space-y-4">
             {timelineEvents.map((e) => (
@@ -92,7 +92,7 @@ export default function TimelinePage() {
         lead="A century of ideas, scroll-driven, ending on a node that is yours."
       >
         <div className="mb-8 flex items-center justify-between">
-          <p className="max-w-xl text-sm leading-relaxed text-muted">
+          <p className="max-w-xl text-sm leading-relaxed text-ink-soft">
             From Planck's quanta to the 2022 Nobel Prize. Every entry links to a source.
             Items marked "contested" attracted debate; "hype" attracted overstatement.
           </p>
@@ -102,7 +102,7 @@ export default function TimelinePage() {
             className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2 text-sm transition hover:border-neon hover:text-neon"
           >
             <List size={15} aria-hidden="true" />
-            List view
+            Show as a list
           </button>
         </div>
 
@@ -118,7 +118,7 @@ export default function TimelinePage() {
             aria-hidden="true"
           />
 
-          <ol className="space-y-10 md:space-y-2">
+          <ol className="space-y-14 md:space-y-4">
             {timelineEvents.map((entry, i) => {
               const right = i % 2 === 1;
               return (
