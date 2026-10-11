@@ -164,7 +164,7 @@ export default function Nav() {
                   animate={{ x: 0 }}
                   exit={{ x: '100%' }}
                   transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-                  className="fixed inset-y-0 right-0 z-[61] w-full max-w-sm border-l border-line bg-surface p-6"
+                  className="fixed inset-y-0 right-0 z-[61] flex w-full max-w-sm flex-col overflow-y-auto border-l border-line bg-surface p-6"
                 >
                   <div className="flex items-center justify-between">
                     <Dialog.Title className="font-display text-lg">Navigate</Dialog.Title>
