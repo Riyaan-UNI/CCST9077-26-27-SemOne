@@ -29,7 +29,7 @@ export default function QubiCompanion() {
   if (reduceMotion) return null;
 
   return (
-    <div className="pointer-events-none fixed bottom-4 right-4 z-40 hidden items-end gap-3 sm:flex">
+    <div className="pointer-events-none fixed bottom-3 right-3 z-40 hidden items-end gap-3 sm:flex">
       <AnimatePresence>
         {bubble && (
           <motion.div
@@ -53,7 +53,7 @@ export default function QubiCompanion() {
         aria-label="Ask Qubi for a catchphrase"
         className="pointer-events-auto rounded-2xl transition hover:scale-105 active:scale-95"
       >
-        <Qubi mood={bubble ? 'happy' : 'idle'} size={72} float={false} />
+        <Qubi mood={bubble ? 'happy' : 'idle'} size={64} float={false} />
       </button>
     </div>
   );

@@ -132,59 +132,68 @@ function GameOfLife() {
         className="w-full max-w-full rounded-xl border border-line"
         style={{ imageRendering: 'pixelated' }}
       />
-      <div className="flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={() => setRunning((r) => !r)}
-          className="inline-flex items-center gap-2 rounded-xl bg-neon px-4 py-2.5 font-semibold text-neon-ink transition hover:brightness-110"
-        >
-          {running ? <Pause size={15} /> : <Play size={15} />}
-          {running ? 'Pause' : 'Play'}
-        </button>
-        <button
-          type="button"
-          onClick={step}
-          className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
-        >
-          <SkipForward size={15} />
-          Step
-        </button>
-        <button
-          type="button"
-          onClick={() => reset('random')}
-          className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
-        >
-          <RotateCcw size={15} />
-          Random
-        </button>
-        <button
-          type="button"
-          onClick={() => reset('glider')}
-          className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
-        >
-          Glider gun
-        </button>
-        <button
-          type="button"
-          onClick={() => reset('empty')}
-          className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
-        >
-          Clear
-        </button>
-        <label className="flex items-center gap-2 text-sm text-muted">
-          Speed:
-          <input
-            type="range"
-            min={20}
-            max={500}
-            step={10}
-            value={speed}
-            onChange={(e) => setSpeed(Number(e.target.value))}
-            className="w-24 accent-neon"
-          />
-          <span className="font-mono text-xs">{speed}ms</span>
-        </label>
-        <span className="ml-auto font-mono text-xs text-muted">Gen {generation}</span>
+      <div className="flex flex-wrap items-center gap-6">
+        {/* Play / Pause cluster */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setRunning((r) => !r)}
+            className="inline-flex items-center gap-2 rounded-xl bg-neon px-4 py-2.5 font-semibold text-neon-ink transition hover:brightness-110"
+          >
+            {running ? <Pause size={15} /> : <Play size={15} />}
+            {running ? 'Pause' : 'Play'}
+          </button>
+          <button
+            type="button"
+            onClick={step}
+            className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
+          >
+            <SkipForward size={15} />
+            Step
+          </button>
+        </div>
+        {/* Preset cluster */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => reset('random')}
+            className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
+          >
+            <RotateCcw size={15} />
+            Random
+          </button>
+          <button
+            type="button"
+            onClick={() => reset('glider')}
+            className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
+          >
+            Glider gun
+          </button>
+          <button
+            type="button"
+            onClick={() => reset('empty')}
+            className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm transition hover:border-neon hover:text-neon"
+          >
+            Clear
+          </button>
+        </div>
+        {/* Speed / Gen cluster */}
+        <div className="flex items-center gap-4">
+          <label className="flex items-center gap-2 text-sm text-muted">
+            Speed:
+            <input
+              type="range"
+              min={20}
+              max={500}
+              step={10}
+              value={speed}
+              onChange={(e) => setSpeed(Number(e.target.value))}
+              className="w-24 accent-neon"
+            />
+            <span className="font-mono text-xs">{speed}ms</span>
+          </label>
+          <span className="font-mono text-xs text-muted">Gen {generation}</span>
+        </div>
       </div>
     </div>
   );
@@ -218,38 +227,42 @@ export default function UniverseComputer() {
           </div>
         </div>
 
-        {/* cards */}
+        {/* cards — varied layouts: quote, stat, definition */}
         <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {/* Quote card */}
           <div className="rounded-2xl border border-line bg-surface p-5">
             <p className="ui-label text-era-codes">Turing 1936</p>
-            <h3 className="mt-3 text-lg">The universal machine</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              Alan Turing proved that a single abstract machine could compute anything computable.
-              The idea that the universe itself might be a kind of computer follows naturally: if
-              physics is rule-based, perhaps it is computation all the way down.
+            <p className="mt-4 font-display text-lg italic leading-snug text-ink-soft">
+              "A single abstract machine could compute anything computable."
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Alan Turing proved this in 1936. The idea that the universe itself might be a kind of
+              computer follows naturally: if physics is rule-based, perhaps it is computation all
+              the way down.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-line bg-surface p-5">
+          {/* Stat card */}
+          <div className="rounded-2xl border border-line bg-surface p-5 text-center">
             <p className="ui-label text-era-algorithms">Lloyd 2000</p>
-            <h3 className="mt-3 text-lg">The ultimate laptop</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              Seth Lloyd asked: what is the maximum computational power of a 1-kilogram,
-              1-litre computer? The answer is about{' '}
-              <span className="font-mono text-neon">10⁵⁰</span> operations per second —
-              limited by the speed of light, quantum mechanics, and thermodynamics.
+            <p className="mt-4 font-mono text-5xl text-neon">10⁵⁰</p>
+            <p className="mt-1 text-sm font-medium text-ink-soft">ops/sec</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Seth Lloyd asked: what is the maximum computational power of a 1-kilogram, 1-litre
+              computer? The answer — limited by the speed of light, quantum mechanics, and
+              thermodynamics.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-line bg-surface p-5">
+          {/* Definition card */}
+          <div className="rounded-2xl border-2 border-line-strong bg-elevated p-5">
             <p className="ui-label text-era-hardware">Bekenstein bound</p>
-            <h3 className="mt-3 text-lg">Black holes as hard disks</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              Jacob Bekenstein showed that the maximum information a region can hold is proportional
-              to its surface area, not its volume. A black hole is the densest possible hard drive:
-              about{' '}
-              <span className="font-mono text-neon">2.67 × 10⁴²</span> bits per square metre of
-              event horizon.
+            <p className="mt-4 font-display text-2xl text-ink">Black holes as hard drives</p>
+            <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+              The maximum information a region can hold is proportional to its{' '}
+              <em>surface area</em>, not its volume. A black hole is the densest possible hard
+              drive: <span className="font-mono text-neon">2.67 × 10⁴²</span> bits per m² of event
+              horizon.
             </p>
           </div>
         </div>

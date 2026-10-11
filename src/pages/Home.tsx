@@ -88,18 +88,21 @@ export default function Home() {
             </p>
 
             <div className="mt-7 flex items-center gap-4">
-              <Qubi mood="happy" size={96} float />
+              <Qubi mood="happy" size={96} className="hidden sm:block" float />
               <p className="font-hand text-xl text-neon">“{site.mascot.catchphrase}”</p>
             </div>
 
-            <p className="mt-6 flex items-center gap-2 text-sm text-muted">
+            <p className="mt-6 text-xs text-muted">
               {observerMode
-                ? 'Move your cursor across the page — the field collapses where you observe.'
-                : 'Observer mode is off. Switch it on in the top bar to collapse the field.'}
+                ? 'Move your cursor — the field collapses where you observe.'
+                : ''}
             </p>
           </div>
 
           <div id="magic-box" className="mx-auto w-full max-w-md scroll-mt-24">
+            <p className="mb-2 text-center text-sm text-muted">
+              Try me first — flip the box
+            </p>
             <MagicBoxFlip />
           </div>
         </div>

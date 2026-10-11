@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Check, X } from 'lucide-react';
+import { Check } from 'lucide-react';
 import Page from '@/components/Page';
 import Section from '@/components/Section';
 import Qubi from '@/components/Qubi';
@@ -10,13 +10,11 @@ import { useStore } from '@/store/useStore';
 function MemberCard({ member }: { member: (typeof team)[number] }) {
   const reduceMotion = useStore((s) => s.reduceMotion);
   const [open, setOpen] = useState(false);
-  const [flipped, setFlipped] = useState(false);
   const pending = member.name.value.startsWith('[');
 
   const expand = reduceMotion
     ? { duration: 0 }
     : { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
-  const flip = reduceMotion ? { duration: 0 } : { duration: 0.3 };
 
   return (
     <div className="rounded-2xl border border-line bg-surface">
@@ -36,7 +34,7 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
           </h3>
           <p className="font-hand text-lg text-neon">{member.title.value}</p>
           {pending && (
-            <p className="mt-1 text-xs uppercase tracking-[0.12em] text-hype-amber">
+            <p className="mt-1 text-xs text-hype-amber">
               Name pending — placeholder shown
             </p>
           )}
@@ -54,49 +52,19 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
             className="overflow-hidden"
           >
             <div className="border-t border-line p-5">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={flipped ? 'fact' : 'work'}
-                  initial={reduceMotion ? false : { rotateY: 90, opacity: 0 }}
-                  animate={{ rotateY: 0, opacity: 1 }}
-                  exit={reduceMotion ? { opacity: 0 } : { rotateY: -90, opacity: 0 }}
-                  transition={flip}
-                  style={{ transformPerspective: 800 }}
-                >
-                  {!flipped ? (
-                    <>
-                      <h4 className="ui-label text-neon">What {member.name.value} brought</h4>
-                      <ul className="mt-3 space-y-2 text-sm text-ink-soft">
-                        {member.contributions.map((c) => (
-                          <li key={c.value} className="flex items-start gap-2">
-                            <Check size={15} className="mt-0.5 shrink-0 text-neon" aria-hidden="true" />
-                            <span>{c.value}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <button
-                        type="button"
-                        onClick={() => setFlipped(true)}
-                        className="mt-4 rounded-lg border border-line px-4 py-2 text-sm text-ink-soft transition hover:border-line-strong"
-                      >
-                        Flip to fun fact
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <h4 className="ui-label text-neon">Fun fact</h4>
-                      <p className="mt-3 text-sm leading-relaxed text-ink-soft">{member.funFact.value}</p>
-                      <button
-                        type="button"
-                        onClick={() => setFlipped(false)}
-                        className="mt-4 rounded-lg border border-line px-4 py-2 text-sm text-ink-soft transition hover:border-line-strong"
-                      >
-                        Flip back
-                      </button>
-                    </>
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              <h4 className="ui-label text-neon">What {member.name.value} brought</h4>
+              <ul className="mt-3 space-y-2 text-sm text-ink-soft">
+                {member.contributions.map((c) => (
+                  <li key={c.value} className="flex items-start gap-2">
+                    <Check size={15} className="mt-0.5 shrink-0 text-neon" aria-hidden="true" />
+                    <span>{c.value}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 rounded-lg border border-line bg-elevated px-4 py-3">
+                <p className="text-xs text-muted">Fun fact</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.value}</p>
+              </div>
             </div>
           </motion.div>
         )}
@@ -106,49 +74,16 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
 }
 
 export default function Team() {
-  const [showDevices, setShowDevices] = useState(false);
-
   return (
     <Page>
       <Section
         eyebrow="The people"
         title="Three humans, one robot"
-        lead="A small team that built this site. Tap a card to open its magic box; flip it for a fun fact. All bios are pending your approval (see the placeholders)."
+        lead="A small team that built this site. Tap a card to see what each person brought. All bios are pending your approval (see the placeholders)."
       >
-        {/* Literary-devices toggle */}
-        <div className="mb-8 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setShowDevices((v) => !v)}
-            aria-pressed={showDevices}
-            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm transition hover:border-line-strong"
-          >
-            {showDevices ? <Check size={15} className="text-neon" /> : <X size={15} />}
-            Show the literary devices
-          </button>
-          <span className="text-sm text-muted">
-            {showDevices ? 'On — devices used in the bios are highlighted below.' : 'Off'}
-          </span>
-        </div>
-
         <div className="grid gap-5 lg:grid-cols-3">
           {team.map((m) => (
-            <div key={m.id}>
-              <MemberCard member={m} />
-              {showDevices && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {m.devices.map((d) => (
-                    <span
-                      key={d.device}
-                      title={`${d.device}: ${d.note} (e.g. “${d.example}”)`}
-                      className="rounded-full border border-line bg-elevated px-3 py-1 text-xs text-ink-soft"
-                    >
-                      {d.device}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+            <MemberCard key={m.id} member={m} />
           ))}
         </div>
 
@@ -187,12 +122,14 @@ export default function Team() {
                       return (
                         <td key={d.id} className="px-2 py-3 text-center">
                           <span
-                            className={`inline-grid h-6 w-6 place-items-center rounded-md ${
-                              hit ? 'bg-neon text-neon-ink' : 'border border-line text-transparent'
+                            className={`inline-grid h-6 w-6 place-items-center rounded-md text-xs ${
+                              hit
+                                ? 'bg-neon/15 text-neon'
+                                : 'border border-line text-muted'
                             }`}
-                            aria-label={hit ? `${m.name.value} worked on ${d.label}` : ''}
+                            aria-label={hit ? `${m.name.value} worked on ${d.label}` : `${m.name.value} did not work on ${d.label}`}
                           >
-                            {hit ? <Check size={14} aria-hidden="true" /> : '·'}
+                            {hit ? <Check size={14} aria-hidden="true" /> : '—'}
                           </span>
                         </td>
                       );

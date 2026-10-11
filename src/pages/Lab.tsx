@@ -34,26 +34,18 @@ export default function Lab() {
 
   return (
     <Page>
-      <header className="relative overflow-hidden border-b border-line pt-32 pb-14">
-        <div className="absolute inset-0 grid-paper opacity-40" />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="ui-label text-neon">The lab</p>
-            <h1 className="mt-3 text-4xl sm:text-5xl">Run the maths yourself</h1>
-            <p className="mt-4 max-w-xl leading-relaxed text-ink-soft">
-              Everything here executes locally in your browser, using a hand-written statevector
-              engine. No server, no simulator dependency, and no rounding tricks.
-            </p>
-            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 text-sm text-muted">
-              <ShieldCheck size={14} className="text-neon" aria-hidden="true" />
-              Unit-tested against the analytic results in Vitest
-            </p>
-          </div>
-          <Qubi mood="curious" size={150} className="shrink-0" />
+      <Section
+        eyebrow="The lab"
+        title="Run the maths yourself"
+        lead="Everything here executes locally in your browser, using a hand-written statevector engine. No server, no simulator dependency, and no rounding tricks."
+      >
+        <div className="mb-8 flex items-center justify-between">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 text-sm text-ink-soft">
+            <ShieldCheck size={14} className="text-neon" aria-hidden="true" />
+            Unit-tested against the analytic results in Vitest
+          </p>
+          <Qubi mood="curious" size={80} className="hidden shrink-0 sm:block" />
         </div>
-      </header>
-
-      <Section className="pt-12">
         <Tabs.Root value={tab} onValueChange={setTab}>
           <Tabs.List
             aria-label="Lab sections"
@@ -64,13 +56,13 @@ export default function Lab() {
                 key={id}
                 value={id}
                 className={cn(
-                  'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-ink-soft transition',
+                  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink-soft transition sm:px-4',
                   'data-[state=active]:bg-neon data-[state=active]:text-neon-ink',
                   'hover:text-neon data-[state=active]:hover:text-neon-ink',
                 )}
               >
                 <Icon size={15} aria-hidden="true" />
-                {label}
+                <span className="hidden sm:inline">{label}</span>
               </Tabs.Trigger>
             ))}
           </Tabs.List>
@@ -78,7 +70,7 @@ export default function Lab() {
           <Tabs.Content value="simulator" id="simulator" className="mt-8 scroll-mt-24 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">Quantum circuit simulator</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 Build a circuit gate by gate and watch the amplitudes move. Try the Bell pair preset,
                 then measure it a few times: you will only ever see 00 or 11.
               </p>
@@ -89,7 +81,7 @@ export default function Lab() {
           <Tabs.Content value="entanglement" id="entanglement" className="mt-8 scroll-mt-24 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">Alice, Bob and the Spooky Link</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 Choose each side's measurement angle and watch the correlation. Equal angles always
                 agree; opposite angles are uncorrelated. Try the "send a message" challenge to see
                 why this is not faster-than-light communication.
@@ -101,7 +93,7 @@ export default function Lab() {
           <Tabs.Content value="chsh" id="chsh" className="mt-8 scroll-mt-24 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">The Game Show That Broke Reality</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 A referee, two separated players, and one inequality that separates quantum mechanics
                 from every classical theory. Play the three parts and watch the quantum line settle
                 above the classical ceiling.
@@ -113,7 +105,7 @@ export default function Lab() {
           <Tabs.Content value="hypothesis" id="hypothesis" className="mt-8 scroll-mt-24 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">The Hypothesis Lab</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 Run 100 trials of the magic box. Open-only gives about 50/50. Shake-then-open always
                 lands left. Watch the "fluid" and "ignorance" hypotheses fail.
               </p>
@@ -124,7 +116,7 @@ export default function Lab() {
           <Tabs.Content value="copy" id="copy" className="mt-8 scroll-mt-24 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
               <h2 className="text-2xl">The Copy Machine</h2>
-              <p className="mt-2 leading-relaxed text-muted">
+              <p className="mt-2 leading-relaxed text-ink-soft">
                 Copy a classical bit — easy. Try to copy a quantum state and meet the no-cloning
                 theorem. See why this protects quantum money and blocks the FLASH faster-than-light
                 idea.

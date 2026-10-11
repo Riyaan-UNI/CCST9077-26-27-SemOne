@@ -48,11 +48,11 @@ export default function Credits() {
         title="Sources, attributions & AI use"
         lead="An honest account of where things came from. We cite the course, name the tools, and say plainly what used AI."
       >
-        {/* AI disclosure */}
+        {/* AI disclosure + Sources — merged card */}
         <div className="rounded-2xl border border-line bg-surface p-6">
           <h3 className="flex items-center gap-2 text-xl">
             <Sparkles size={18} className="text-neon" aria-hidden="true" />
-            How AI was used
+            How AI was used & sources
           </h3>
           <ul className="mt-4 space-y-3 text-sm leading-relaxed text-ink-soft">
             <li>
@@ -70,64 +70,63 @@ export default function Credits() {
             </li>
             <li>
               <strong className="text-ink">Gallery (planned, Phase 5).</strong> AI-generated plates
-              will be clearly labelled “AI-generated” on that page; nothing is claimed as human art.
+              will be clearly labelled "AI-generated" on that page; nothing is claimed as human art.
             </li>
           </ul>
+
+          <div className="mt-6 border-t border-line pt-5">
+            <h4 className="flex items-center gap-2 text-base">
+              <BookOpen size={16} className="text-neon" aria-hidden="true" />
+              Sources
+            </h4>
+            <ul className="mt-3 space-y-3 text-sm">
+              {SOURCES.map((s) => (
+                <li key={s.label}>
+                  <p className="text-ink-soft">
+                    {s.url ? (
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="text-neon underline-offset-2 hover:underline"
+                      >
+                        {s.label}
+                      </a>
+                    ) : (
+                      <span className="text-ink">{s.label}</span>
+                    )}
+                  </p>
+                  <p className="mt-1 text-muted">{s.note}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Sources */}
-        <div className="mt-6 rounded-2xl border border-line bg-surface p-6">
-          <h3 className="flex items-center gap-2 text-xl">
-            <BookOpen size={18} className="text-neon" aria-hidden="true" />
-            Sources
-          </h3>
-          <ul className="mt-4 space-y-4 text-sm">
-            {SOURCES.map((s) => (
-              <li key={s.label}>
-                <p className="text-ink-soft">
-                  {s.url ? (
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="text-neon underline-offset-2 hover:underline"
-                    >
-                      {s.label}
-                    </a>
-                  ) : (
-                    <span className="text-ink">{s.label}</span>
-                  )}
-                </p>
-                <p className="mt-1 text-muted">{s.note}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Attributions */}
-        <div className="mt-6 rounded-2xl border border-line bg-surface p-6">
-          <h3 className="flex items-center gap-2 text-xl">
-            <Code2 size={18} className="text-neon" aria-hidden="true" />
+        {/* Attributions — smaller block */}
+        <div className="mt-6 rounded-xl border border-line bg-surface p-5">
+          <h3 className="flex items-center gap-2 text-lg">
+            <Code2 size={16} className="text-neon" aria-hidden="true" />
             Third-party attributions
           </h3>
           <p className="mt-2 text-sm text-muted">
             This project is built on free, open-source software (the full list is in package.json):
           </p>
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {ATTRIBUTIONS.map(([name, license]) => (
               <li
                 key={name}
                 className="flex items-center justify-between rounded-lg border border-line bg-elevated px-3 py-2 text-sm"
               >
                 <span className="text-ink-soft">{name}</span>
-                <span className="ui-label text-muted">{license}</span>
+                <span className="text-xs text-muted">{license}</span>
               </li>
             ))}
           </ul>
         </div>
 
         {/* Course note */}
-        <div className="mt-6 flex items-start gap-3 rounded-2xl border border-line bg-surface p-6">
+        <div className="mt-6 flex items-start gap-3">
           <Heart size={18} className="mt-0.5 shrink-0 text-neon" aria-hidden="true" />
           <p className="text-sm leading-relaxed text-ink-soft">
             {isHkuBrand

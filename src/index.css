@@ -15,7 +15,7 @@ html.dark {
   --line-strong: rgba(57, 255, 20, 0.34);
   --ink: #e9f6ec;
   --ink-soft: #cfe0d4;
-  --muted: #6B7280;
+  --muted: #8a9b91;
   --neon: #39ff14;
   --neon-ink: #06110a;
   --cyan: #5be3ff;
@@ -48,14 +48,14 @@ html.light {
   --line-strong: rgba(15, 64, 46, 0.4);
   --ink: #0d2119;
   --ink-soft: #22392e;
-  --muted: #6B7280;
+  --muted: #4d5b53;
   --neon: #0f7a2e;
   --neon-ink: #f2fff5;
   --cyan: #0e7490;
   --hku: #0F4D2E;
   --hku-green: var(--hku);
   --screen: #111111;
-  --hype-amber: #FFB020;
+  --hype-amber: #92400e;
   --error: #FF5C5C;
   --cream: #ffffff;
   --shadow: 0 24px 50px -30px rgba(15, 64, 46, 0.4);

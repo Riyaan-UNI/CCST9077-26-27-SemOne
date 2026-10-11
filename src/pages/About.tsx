@@ -21,25 +21,14 @@ const STACK = [
 export default function About() {
   return (
     <Page>
-      <header className="relative overflow-hidden border-b border-line pt-32 pb-14">
-        <div className="absolute inset-0 grid-paper opacity-40" />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="ui-label text-neon">About</p>
-            <h1 className="mt-3 text-4xl sm:text-5xl">
-              {site.course} · {site.courseTitle}
-            </h1>
-            <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">
-              {site.courseSubtitle}. A Common Core course at {site.institution} on how a century of
-              quantum theory became an engineering discipline — and what it means for the codes that
-              protect the internet.
-            </p>
-          </div>
-          <Qubi mood="thinking" size={140} className="shrink-0" />
+      <Section
+        eyebrow="About"
+        title={`${site.course} · ${site.courseTitle}`}
+        lead={`${site.courseSubtitle}. A Common Core course at ${site.institution} on how a century of quantum theory became an engineering discipline — and what it means for the codes that protect the internet.`}
+      >
+        <div className="mb-8 flex items-center justify-end">
+          <Qubi mood="thinking" size={80} className="hidden shrink-0 sm:block" />
         </div>
-      </header>
-
-      <Section eyebrow="The mascot" title="Meet Qubi">
         <div className="grid gap-10 lg:grid-cols-[1fr_20rem]">
           <div className="space-y-5 leading-relaxed text-ink-soft">
             <p>
