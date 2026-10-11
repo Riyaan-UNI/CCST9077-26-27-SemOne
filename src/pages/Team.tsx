@@ -41,7 +41,7 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
             </p>
           )}
         </div>
-        <span className="ml-auto text-sm text-muted">{open ? 'Close' : 'Open the box'}</span>
+        <span className="ml-auto hidden text-sm text-muted sm:block">{open ? 'Close' : 'Open'}</span>
       </button>
 
       <AnimatePresence initial={false}>
@@ -161,45 +161,47 @@ export default function Team() {
             correlated.
           </p>
 
-          <table className="mt-6 w-full border-collapse text-sm">
-            <caption className="sr-only">Which deliverables each team member worked on</caption>
-            <thead>
-              <tr>
-                <th scope="col" className="py-2 pr-4 text-left ui-label text-muted">
-                  Member
-                </th>
-                {DELIVERABLES.map((d) => (
-                  <th key={d.id} scope="col" className="px-2 py-2 text-center ui-label text-muted">
-                    {d.label}
+          <div className="mt-6 overflow-x-auto scrollbar-hidden">
+            <table className="w-full border-collapse text-sm" style={{ minWidth: '18rem' }}>
+              <caption className="sr-only">Which deliverables each team member worked on</caption>
+              <thead>
+                <tr>
+                  <th scope="col" className="py-2 pr-4 text-left ui-label text-muted">
+                    Member
                   </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {team.map((m) => (
-                <tr key={m.id} className="border-t border-line">
-                  <th scope="row" className="py-3 pr-4 text-left font-normal text-ink-soft">
-                    {m.name.value}
-                  </th>
-                  {DELIVERABLES.map((d) => {
-                    const hit = m.deliverables.includes(d.id);
-                    return (
-                      <td key={d.id} className="px-2 py-3 text-center">
-                        <span
-                          className={`inline-grid h-6 w-6 place-items-center rounded-md ${
-                            hit ? 'bg-neon text-neon-ink' : 'border border-line text-transparent'
-                          }`}
-                          aria-label={hit ? `${m.name.value} worked on ${d.label}` : ''}
-                        >
-                          {hit ? <Check size={14} aria-hidden="true" /> : '·'}
-                        </span>
-                      </td>
-                    );
-                  })}
+                  {DELIVERABLES.map((d) => (
+                    <th key={d.id} scope="col" className="px-2 py-2 text-center ui-label text-muted">
+                      {d.label}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {team.map((m) => (
+                  <tr key={m.id} className="border-t border-line">
+                    <th scope="row" className="py-3 pr-4 text-left font-normal text-ink-soft">
+                      {m.name.value}
+                    </th>
+                    {DELIVERABLES.map((d) => {
+                      const hit = m.deliverables.includes(d.id);
+                      return (
+                        <td key={d.id} className="px-2 py-3 text-center">
+                          <span
+                            className={`inline-grid h-6 w-6 place-items-center rounded-md ${
+                              hit ? 'bg-neon text-neon-ink' : 'border border-line text-transparent'
+                            }`}
+                            aria-label={hit ? `${m.name.value} worked on ${d.label}` : ''}
+                          >
+                            {hit ? <Check size={14} aria-hidden="true" /> : '·'}
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </Section>
     </Page>

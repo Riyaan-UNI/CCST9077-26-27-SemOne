@@ -110,11 +110,11 @@ export default function TwentyQuestions() {
         </button>
       </div>
 
-      {/* grid */}
-      <div className="inline-block rounded-2xl border border-line bg-surface p-4">
+      {/* grid — responsive cell sizes */}
+      <div className="w-full overflow-x-auto rounded-2xl border border-line bg-surface p-3 sm:p-4 scrollbar-hidden">
         <div
-          className="grid gap-1"
-          style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 2.5rem)` }}
+          className="mx-auto grid gap-1"
+          style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`, maxWidth: 'min(100%, 22rem)' }}
         >
           {grid.map((row, y) =>
             row.map((cell, x) => (
@@ -124,7 +124,7 @@ export default function TwentyQuestions() {
                 onClick={() => ask(x, y)}
                 disabled={cell.questioned || gameOver}
                 className={cn(
-                  'grid h-10 w-10 place-items-center rounded-lg border text-sm font-bold transition',
+                  'grid aspect-square min-h-[2rem] min-w-[2rem] place-items-center rounded-lg border text-sm font-bold transition sm:min-h-[2.5rem] sm:min-w-[2.5rem]',
                   cell.questioned
                     ? cell.hit
                       ? 'border-verdict-fact bg-verdict-fact/20 text-verdict-fact'
