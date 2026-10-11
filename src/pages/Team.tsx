@@ -71,10 +71,6 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
                 ))}
               </ul>
               <div className="mt-4 rounded-lg border border-line bg-elevated px-4 py-3">
-                <p className="text-xs text-muted">Bio</p>
-                <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.bio.value}</p>
-              </div>
-              <div className="mt-3 rounded-lg border border-line bg-elevated px-4 py-3">
                 <p className="text-xs text-muted">Fun fact</p>
                 <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.value}</p>
               </div>
@@ -92,7 +88,7 @@ export default function Team() {
       <Section
         eyebrow="The people"
         title="Three humans, one robot"
-        lead="A small team that built this site. Tap a card to see what each person brought. Fun facts and short bios are placeholders — fill them in before submission."
+        lead="A small team that built this site. Tap a card to see what each person brought."
       >
         <div className="grid gap-5 lg:grid-cols-3">
           {team.map((m) => (

@@ -74,7 +74,7 @@ export const team: TeamMember[] = [
   {
     id: 'long',
     name: { value: 'Long', confirm: true },
-    nickname: { value: 'Yat', confirm: true },
+    nickname: { value: 'Damian', confirm: true },
     fullName: 'Long Yat Damian Lau',
     location: 'Hong Kong',
     title: { value: 'The Mascot Maker of Qubi', confirm: true },
