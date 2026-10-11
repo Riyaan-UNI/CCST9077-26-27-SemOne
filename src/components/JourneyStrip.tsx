@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface JourneyItem {
@@ -16,7 +16,17 @@ export interface JourneyItem {
  */
 export default function JourneyStrip({ items }: { items: JourneyItem[] }) {
   return (
-    <div className="relative">
+    <div className="relative -mx-5 px-5">
+      {/* Right-edge fade gradient — signals there are more cards to the right */}
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-canvas to-transparent sm:w-20"
+        aria-hidden="true"
+      />
+      {/* Small "scroll" hint at the top-right, visible until the user scrolls */}
+      <p className="mb-2 flex items-center justify-end gap-1.5 text-xs text-muted sm:hidden">
+        <ArrowRight size={12} className="animate-pulse" aria-hidden="true" />
+        Swipe for more
+      </p>
       <ul
         className={cn(
           'flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4',
@@ -42,6 +52,8 @@ export default function JourneyStrip({ items }: { items: JourneyItem[] }) {
             </Link>
           </li>
         ))}
+        {/* Trailing empty card — provides padding so the last card can fully snap into view */}
+        <li aria-hidden="true" className="w-2 shrink-0 sm:w-4" />
       </ul>
     </div>
   );
