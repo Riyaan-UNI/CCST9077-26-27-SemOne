@@ -20,7 +20,7 @@ export default function JourneyStrip({ items }: { items: JourneyItem[] }) {
       <ul
         className={cn(
           'flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4',
-          'scroll-smooth [scrollbar-width:thin]',
+          'scroll-smooth scrollbar-hidden',
         )}
       >
         {items.map((item) => (

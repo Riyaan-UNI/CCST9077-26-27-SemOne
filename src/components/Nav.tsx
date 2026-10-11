@@ -92,13 +92,13 @@ export default function Nav() {
               </span>
             </Link>
 
-            <ul className="ml-auto hidden items-center gap-1 lg:flex">
+            <ul className="ml-auto hidden items-center gap-0.5 overflow-x-auto scrollbar-hidden lg:flex">
               {nav.map((item) => (
-                <li key={item.href}>
+                <li key={item.href} className="shrink-0">
                   <Link
                     to={item.href}
                     className={cn(
-                      'rounded-lg px-3 py-2 text-sm text-ink-soft transition hover:bg-elevated hover:text-neon',
+                      'block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] text-ink-soft transition hover:bg-elevated hover:text-neon',
                       location.pathname === item.href && 'text-neon',
                     )}
                   >

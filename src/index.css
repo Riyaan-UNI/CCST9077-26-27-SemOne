@@ -299,6 +299,15 @@ html.light {
   letter-spacing: 0.02em;
 }
 
+/* Hide scrollbar while keeping scroll functionality */
+@utility scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+@utility scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 /* Screen-reader only */
 @utility sr-only-focusable {
   position: absolute;
