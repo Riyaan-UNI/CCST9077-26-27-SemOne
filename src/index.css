@@ -15,11 +15,15 @@ html.dark {
   --line-strong: rgba(57, 255, 20, 0.34);
   --ink: #e9f6ec;
   --ink-soft: #cfe0d4;
-  --muted: #a6bfb2;
+  --muted: #6B7280;
   --neon: #39ff14;
   --neon-ink: #06110a;
   --cyan: #5be3ff;
-  --hku: #0f402e;
+  --hku: #0F4D2E;
+  --hku-green: var(--hku);
+  --screen: #111111;
+  --hype-amber: #FFB020;
+  --error: #FF5C5C;
   --cream: #f6f1e4;
   --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.9);
 
@@ -44,11 +48,15 @@ html.light {
   --line-strong: rgba(15, 64, 46, 0.4);
   --ink: #0d2119;
   --ink-soft: #22392e;
-  --muted: #4a6156;
+  --muted: #6B7280;
   --neon: #0f7a2e;
   --neon-ink: #f2fff5;
   --cyan: #0e7490;
-  --hku: #0f402e;
+  --hku: #0F4D2E;
+  --hku-green: var(--hku);
+  --screen: #111111;
+  --hype-amber: #FFB020;
+  --error: #FF5C5C;
   --cream: #ffffff;
   --shadow: 0 24px 50px -30px rgba(15, 64, 46, 0.4);
 
@@ -92,6 +100,10 @@ html.light {
   --color-neon-ink: var(--neon-ink);
   --color-cyan: var(--cyan);
   --color-hku: var(--hku);
+  --color-hku-green: var(--hku-green);
+  --color-screen: var(--screen);
+  --color-hype-amber: var(--hype-amber);
+  --color-error: var(--error);
   --color-cream: var(--cream);
   --color-era-codes: var(--era-codes);
   --color-era-theory: var(--era-theory);
@@ -295,6 +307,30 @@ html.light {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Glossary term: tap-to-define */
+.term {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  border-bottom: 1px dashed var(--neon);
+  cursor: help;
+  padding: 0 1px;
+  text-underline-offset: 3px;
+}
+.term:hover {
+  color: var(--neon);
+}
+.term-tip {
+  z-index: 80;
+  max-width: 18rem;
+  border: 1px solid var(--line-strong);
+  background: var(--elevated);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  box-shadow: var(--shadow-lift);
+  color: var(--ink);
 }
 
 /* Reduced motion: kill decorative animation everywhere */

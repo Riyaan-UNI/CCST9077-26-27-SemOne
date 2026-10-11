@@ -1,11 +1,14 @@
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
+import { isHkuBrand } from '@/config';
 import type { QubiMood } from '@/store/useStore';
 
 export type { QubiMood };
 
 interface QubiProps {
   mood?: QubiMood;
+  /** Spec alias for `mood` — the mascot's expression. */
+  expression?: QubiMood;
   /** Pixel text rendered on Qubi's screen. */
   message?: string;
   className?: string;
@@ -93,13 +96,15 @@ function Mouth({ mood }: { mood: QubiMood }) {
 
 export default function Qubi({
   mood = 'idle',
+  expression,
   message,
   className,
   size = 200,
   float = true,
   label = 'Qubi, the qubit terminal mascot',
 }: QubiProps) {
-  const screenText = message ?? (mood === 'idle' ? 'HI' : '');
+  const activeMood = expression ?? mood;
+  const screenText = message ?? (activeMood === 'idle' ? 'HI' : '');
 
   return (
     <motion.div
@@ -182,8 +187,8 @@ export default function Qubi({
             </text>
           ) : (
             <>
-              <Eyes mood={mood} />
-              <Mouth mood={mood} />
+              <Eyes mood={activeMood} />
+              <Mouth mood={activeMood} />
             </>
           )}
         </g>
@@ -201,7 +206,7 @@ export default function Qubi({
             fill="var(--cream)"
             letterSpacing="0.6"
           >
-            HKU
+            {isHkuBrand ? 'HKU' : 'Q'}
           </text>
         </g>
 

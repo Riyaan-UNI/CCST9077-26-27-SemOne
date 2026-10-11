@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { GitBranch, Info } from 'lucide-react';
 import Qubi from '@/components/Qubi';
+import { isHkuBrand } from '@/config';
 import { nav, site } from '@/data/site';
 
 export default function Footer() {
@@ -41,9 +42,9 @@ export default function Footer() {
         <div>
           <h2 className="ui-label text-muted">Project</h2>
           <ul className="mt-4 space-y-2 text-sm">
-            <li className="flex items-center gap-2 text-ink-soft">
+              <li className="flex items-center gap-2 text-ink-soft">
               <Info size={14} aria-hidden="true" />
-              {site.course} · {site.faculty}
+              {isHkuBrand ? `${site.course} · ${site.faculty}` : 'A group project'}
             </li>
             <li className="flex items-center gap-2 text-ink-soft">
               <GitBranch size={14} aria-hidden="true" />

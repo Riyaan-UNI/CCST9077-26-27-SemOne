@@ -1,10 +1,13 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import Lenis from 'lenis';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import LoadingScreen from '@/components/LoadingScreen';
 import QubiCompanion from '@/components/QubiCompanion';
+import StartHere from '@/components/StartHere';
+import KonamiCode from '@/components/easter/KonamiCode';
 import { useStore } from '@/store/useStore';
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -61,29 +64,33 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, [location.pathname, location.hash, reduceMotion]);
 
   return (
-    <div className="relative min-h-screen bg-canvas">
-      <a
-        href="#main"
-        className="sr-only-focusable focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-neon focus:px-4 focus:py-2 focus:text-neon-ink"
-      >
-        Skip to content
-      </a>
+    <Tooltip.Provider delayDuration={200}>
+      <div className="relative min-h-screen bg-canvas">
+        <a
+          href="#main"
+          className="sr-only-focusable focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-neon focus:px-4 focus:py-2 focus:text-neon-ink"
+        >
+          Skip to content
+        </a>
 
-      {!booted && !reduceMotion && (
-        <LoadingScreen
-          onDone={() => {
-            sessionStorage.setItem('qubi-booted', '1');
-            setBooted(true);
-          }}
-        />
-      )}
+        {!booted && !reduceMotion && (
+          <LoadingScreen
+            onDone={() => {
+              sessionStorage.setItem('qubi-booted', '1');
+              setBooted(true);
+            }}
+          />
+        )}
 
-      <Nav />
-      <main id="main" className="relative">
-        {children}
-      </main>
-      <Footer />
-      <QubiCompanion />
-    </div>
+        <Nav />
+        <main id="main" className="relative">
+          {children}
+        </main>
+        <Footer />
+        <QubiCompanion />
+        <StartHere />
+        <KonamiCode />
+      </div>
+    </Tooltip.Provider>
   );
 }

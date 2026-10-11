@@ -1,61 +1,75 @@
+/**
+ * Video series data.
+ *
+ * Driven entirely by this file — drop a real YouTube id into `youtubeId` and set
+ * `status: 'live'` and the wall will swap the placeholder for a click-to-load,
+ * privacy-friendly (nocookie) facade. Nothing is fetched from YouTube until a
+ * viewer clicks.
+ *
+ * Titles are WORKING DRAFTS (editable, not final) per the project brief.
+ */
 export interface VideoSlot {
   id: string;
+  episode: number;
   title: string;
-  blurb: string;
-  /** YouTube video id. Leave empty to render a branded placeholder slot. */
+  description: string;
   youtubeId: string;
+  status: 'coming-soon' | 'live';
   /** Optional start time, in seconds. */
   start?: number;
-  tag: string;
+  /** Caption / transcript note shown beneath the card. */
+  transcript: string;
 }
 
-/**
- * Video wall. Drop real YouTube ids into `youtubeId` and the facade will load
- * the thumbnail on click (nothing is fetched from YouTube until you click).
- */
 export const videos: VideoSlot[] = [
   {
-    id: 'what-is-a-qubit',
-    title: 'What is a qubit, really?',
-    blurb: 'Qubi walks through the Bloch sphere and why a qubit is a direction, not a switch.',
+    id: 'the-magic-box',
+    episode: 1,
+    title: 'The Magic Box',
+    description:
+      'Qubi opens the box and shows why a qubit is not just a 0 or a 1 — it is a ball that is spinning until you look.',
     youtubeId: '',
-    tag: 'Foundations',
+    status: 'coming-soon',
+    transcript: 'Captions and a transcript will appear here when this episode goes live.',
   },
   {
-    id: 'entanglement-explained',
-    title: 'Entanglement without the hand-waving',
-    blurb: 'Bell states, correlations, and the one thing entanglement cannot do.',
+    id: 'spooky-twins-no-messages',
+    episode: 2,
+    title: 'Spooky Twins, No Messages',
+    description:
+      'Two entangled photons, one rule that breaks classical intuition — and why neither twin can send the other a text.',
     youtubeId: '',
-    tag: 'Foundations',
+    status: 'coming-soon',
+    transcript: 'Captions and a transcript will appear here when this episode goes live.',
   },
   {
-    id: 'chsh-game',
-    title: 'Playing the CHSH game',
-    blurb: 'Alice, Bob, a referee, and the 85% that classical physics cannot reach.',
+    id: 'the-game-show-that-broke-reality',
+    episode: 3,
+    title: 'The Game Show That Broke Reality',
+    description:
+      'Alice, Bob, a referee and a game no classical team can win more than 75% of the time. Entanglement changes the odds.',
     youtubeId: '',
-    tag: 'Deep dive',
+    status: 'coming-soon',
+    transcript: 'Captions and a transcript will appear here when this episode goes live.',
   },
   {
-    id: 'bb84',
-    title: 'BB84: catching Eve in the act',
-    blurb: 'A step-by-step walk through the first quantum key distribution protocol.',
+    id: 'cant-copy-cant-hack',
+    episode: 4,
+    title: "Can't Copy, Can't Hack",
+    description:
+      'The no-cloning theorem, quantum money, and why an eavesdropper always leaves footprints in the quantum world.',
     youtubeId: '',
-    tag: 'Cryptography',
+    status: 'coming-soon',
+    transcript: 'Captions and a transcript will appear here when this episode goes live.',
   },
   {
-    id: 'shor-grover',
-    title: "Shor, Grover, and what's left",
-    blurb: 'Which cryptography actually falls, and which cryptography just needs bigger keys.',
+    id: 'rate-the-quantum-hype',
+    episode: 5,
+    title: 'Rate the Quantum Hype',
+    description:
+      'We grade real quantum claims from A to F. Bring your scepticism — the course does.',
     youtubeId: '',
-    tag: 'Cryptography',
-  },
-  {
-    id: 'hardware-tour',
-    title: 'Inside a quantum processor',
-    blurb: 'Superconducting circuits, trapped ions, and why they all live in a fridge.',
-    youtubeId: '',
-    tag: 'Hardware',
+    status: 'coming-soon',
+    transcript: 'Captions and a transcript will appear here when this episode goes live.',
   },
 ];
-
-export const videoTags: string[] = ['All', ...Array.from(new Set(videos.map((v) => v.tag)))];

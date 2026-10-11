@@ -115,4 +115,30 @@ describe('statevector simulator', () => {
     expect(sameProbability(CHSH_ANGLES.A0, CHSH_ANGLES.B0)).toBeCloseTo(0.853553, 5);
     expect(1 - sameProbability(CHSH_ANGLES.A1, CHSH_ANGLES.B1)).toBeCloseTo(0.853553, 5);
   });
+
+  it('CHSH quantum win rate is within 0.02 of 0.854 over 100,000 rounds', () => {
+    const rng = makeRng(123456);
+    const rate = chshWinRate(100_000, rng, true);
+    expect(rate).toBeGreaterThanOrEqual(0.854 - 0.02);
+    expect(rate).toBeLessThanOrEqual(0.854 + 0.02);
+  });
+
+  it('best classical strategies win at most 0.75', () => {
+    const rng = makeRng(789);
+    // Always-0 strategy
+    const rateAlways0 = chshWinRate(50_000, rng, false);
+    expect(rateAlways0).toBeLessThanOrEqual(0.75 + 0.01);
+
+    // Shared random coin: both flip a coin and answer that bit
+    let wins = 0;
+    for (let i = 0; i < 50_000; i++) {
+      const x = rng() < 0.5 ? 0 : 1;
+      const y = rng() < 0.5 ? 0 : 1;
+      const coin = rng() < 0.5 ? 0 : 1;
+      const a = coin;
+      const b = coin;
+      if ((a ^ b) === (x & y)) wins++;
+    }
+    expect(wins / 50_000).toBeLessThanOrEqual(0.75 + 0.01);
+  });
 });

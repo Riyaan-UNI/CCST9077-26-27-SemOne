@@ -6,6 +6,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { Eye, EyeOff, Menu, Moon, Sun, Volume2, VolumeX, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { nav, site } from '@/data/site';
+import { isHkuBrand } from '@/config';
 import { useStore } from '@/store/useStore';
 
 function IconButton({
@@ -86,7 +87,7 @@ export default function Nav() {
                   {site.courseTitle}
                 </span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-muted">
-                  {site.course} · {site.institution}
+                  {isHkuBrand ? `${site.course} · ${site.institution}` : 'Group project'}
                 </span>
               </span>
             </Link>

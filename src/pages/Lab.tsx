@@ -1,24 +1,35 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as Tabs from '@radix-ui/react-tabs';
-import { Beaker, Dice5, ShieldCheck } from 'lucide-react';
+import { Beaker, Copy, Dice5, FlaskConical, ShieldCheck } from 'lucide-react';
 import Page from '@/components/Page';
 import Section from '@/components/Section';
 import Qubi from '@/components/Qubi';
 import Simulator from '@/components/lab/Simulator';
 import ChshGame from '@/components/lab/ChshGame';
+import EntanglementLab from '@/components/lab/EntanglementLab';
+import HypothesisLab from '@/components/lab/HypothesisLab';
+import CopyMachine from '@/components/lab/CopyMachine';
 import { cn } from '@/lib/utils';
 
 const TABS = [
   { id: 'simulator', label: 'Simulator', icon: Beaker },
+  { id: 'entanglement', label: 'Entanglement', icon: FlaskConical },
   { id: 'chsh', label: 'CHSH game', icon: Dice5 },
+  { id: 'hypothesis', label: 'Hypothesis', icon: FlaskConical },
+  { id: 'copy', label: 'Copy machine', icon: Copy },
 ] as const;
 
 export default function Lab() {
   const location = useLocation();
-  // The hash is read once on mount, so deep links like /lab#chsh open the right tab.
+  const hashToTab: Record<string, string> = {
+    '#chsh': 'chsh',
+    '#entanglement': 'entanglement',
+    '#hypothesis': 'hypothesis',
+    '#copy': 'copy',
+  };
   const [tab, setTab] = useState<string>(() =>
-    location.hash === '#chsh' ? 'chsh' : 'simulator',
+    hashToTab[location.hash] || 'simulator',
   );
 
   return (
@@ -46,7 +57,7 @@ export default function Lab() {
         <Tabs.Root value={tab} onValueChange={setTab}>
           <Tabs.List
             aria-label="Lab sections"
-            className="inline-flex gap-1 rounded-xl border border-line bg-surface p-1"
+            className="inline-flex flex-wrap gap-1 rounded-xl border border-line bg-surface p-1"
           >
             {TABS.map(({ id, label, icon: Icon }) => (
               <Tabs.Trigger
@@ -75,15 +86,51 @@ export default function Lab() {
             <Simulator />
           </Tabs.Content>
 
+          <Tabs.Content value="entanglement" id="entanglement" className="mt-8 scroll-mt-24 focus-visible:outline-none">
+            <div className="mb-6 max-w-3xl">
+              <h2 className="text-2xl">Alice, Bob and the Spooky Link</h2>
+              <p className="mt-2 leading-relaxed text-muted">
+                Choose each side's measurement angle and watch the correlation. Equal angles always
+                agree; opposite angles are uncorrelated. Try the "send a message" challenge to see
+                why this is not faster-than-light communication.
+              </p>
+            </div>
+            <EntanglementLab />
+          </Tabs.Content>
+
           <Tabs.Content value="chsh" id="chsh" className="mt-8 scroll-mt-24 focus-visible:outline-none">
             <div className="mb-6 max-w-3xl">
-              <h2 className="text-2xl">The CHSH game</h2>
+              <h2 className="text-2xl">The Game Show That Broke Reality</h2>
               <p className="mt-2 leading-relaxed text-muted">
                 A referee, two separated players, and one inequality that separates quantum mechanics
-                from every classical theory. Run the rounds and watch the two win rates settle.
+                from every classical theory. Play the three parts and watch the quantum line settle
+                above the classical ceiling.
               </p>
             </div>
             <ChshGame />
+          </Tabs.Content>
+
+          <Tabs.Content value="hypothesis" id="hypothesis" className="mt-8 scroll-mt-24 focus-visible:outline-none">
+            <div className="mb-6 max-w-3xl">
+              <h2 className="text-2xl">The Hypothesis Lab</h2>
+              <p className="mt-2 leading-relaxed text-muted">
+                Run 100 trials of the magic box. Open-only gives about 50/50. Shake-then-open always
+                lands left. Watch the "fluid" and "ignorance" hypotheses fail.
+              </p>
+            </div>
+            <HypothesisLab />
+          </Tabs.Content>
+
+          <Tabs.Content value="copy" id="copy" className="mt-8 scroll-mt-24 focus-visible:outline-none">
+            <div className="mb-6 max-w-3xl">
+              <h2 className="text-2xl">The Copy Machine</h2>
+              <p className="mt-2 leading-relaxed text-muted">
+                Copy a classical bit — easy. Try to copy a quantum state and meet the no-cloning
+                theorem. See why this protects quantum money and blocks the FLASH faster-than-light
+                idea.
+              </p>
+            </div>
+            <CopyMachine />
           </Tabs.Content>
         </Tabs.Root>
       </Section>
