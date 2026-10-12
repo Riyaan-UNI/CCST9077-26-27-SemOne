@@ -62,7 +62,7 @@ export const team: TeamMember[] = [
       { value: 'Project coordination', confirm: true },
     ],
     funFact: { value: '[Add a fun fact about yourself]', confirm: true },
-    deliverables: ['website', 'scripts'],
+    deliverables: ['website', 'mascot' ,'scripts'],
     devices: [
       { device: 'Metaphor', example: 'rebuilds them from the ground up', note: 'Describes a way of thinking by comparing it to building.' },
       { device: 'Simile', example: 'like a physicist who insists on re-deriving gravity', note: 'A direct "like" comparison.' },
