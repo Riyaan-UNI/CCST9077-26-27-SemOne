@@ -87,7 +87,7 @@ export default function Team() {
     <Page>
       <Section
         eyebrow="The people"
-        title="Three humans, one robot"
+        title="Four humans, one robot"
         lead="A small team that built this site. Tap a card to see what each person brought."
       >
         <div className="grid gap-5 lg:grid-cols-3">
