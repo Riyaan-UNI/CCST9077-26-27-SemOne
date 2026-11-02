@@ -84,7 +84,7 @@ export const team: TeamMember[] = [
       confirm: true,
     },
     contributions: [
-      { value: 'Qubi mascot design and SVG build', confirm: true },
+      { value: 'Qubi mascot design', confirm: true },
       { value: 'Editing and pacing', confirm: true },
       { value: 'Motion graphics', confirm: true },
       { value: 'Captions', confirm: true },
