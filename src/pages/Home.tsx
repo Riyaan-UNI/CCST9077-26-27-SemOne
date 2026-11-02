@@ -46,7 +46,7 @@ const JOURNEY: JourneyItem[] = [
 const TEASERS = [
   { href: '/lab', title: 'Quantum Lab', blurb: 'Hands-on entanglement, the CHSH game and the no-cloning theorem.' },
   { href: '/videos', title: 'Videos', blurb: 'Five explainer episodes, click-to-load so nothing is fetched until you ask.' },
-  { href: '/team', title: 'Team', blurb: 'The three people (and one robot) behind this site.' },
+  { href: '/team', title: 'Team', blurb: 'The four people (and one robot) behind this site.' },
   { href: '/timeline', title: 'Timeline', blurb: 'From a factoring problem to a machine that can undo it.' },
   { href: '/course-map', title: 'Course Map', blurb: 'The exact lecture order of CCST9077, week by week.' },
   { href: '/gallery', title: 'Gallery', blurb: 'AI-generated plates for the ideas hardest to picture.' },
