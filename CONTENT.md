@@ -7,11 +7,11 @@ If you can edit a Word document, you can edit these.
 ## How to add a video
 
 1. Open `src/data/videos.ts`.
-2. Find the placeholder for the episode you want to publish.
-3. Replace the empty `youtubeId: ''` with the real YouTube video id (the part after `v=`).
-4. Change `status: 'coming-soon'` to `status: 'live'`.
-5. Update the `transcript` field if you have one.
-6. Save and commit.
+2. Find the episode slot you want to publish.
+3. Copy its YouTube video ID: from a watch link, use the part after `v=`; from embed code, use the part after `/embed/` and before the next `?`.
+4. Set that slot's `youtubeId` and change `status` to `'live'`.
+5. Add a transcript if you have one. Each episode already has a generated thumbnail in `public/videos/`.
+6. Save and commit. The thumbnail opens a small autoplaying player; YouTube is contacted only after a visitor clicks it.
 
 > If you are not sure of the id, open the YouTube page and copy the letters after `v=`.
 

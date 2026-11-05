@@ -1,10 +1,8 @@
 /**
  * Team content for the /team page.
  *
- * Every human-authored line carries `confirm: true` — these are the strings the
- * project owner must approve before the site goes live. Placeholders
- * ([MEMBER_2_NAME], [MEMBER_3_NAME], [ADD]) are left visibly in the copy on
- * purpose; they are NOT invented.
+ * Every human-authored line carries `confirm: true`. Fun facts are short,
+ * general quantum explanations rather than personal claims about members.
  *
  * `devices` lists the literary devices used in each bio so the page can surface
  * them under the optional "Show the literary devices" toggle.
@@ -58,11 +56,16 @@ export const team: TeamMember[] = [
       confirm: true,
     },
     contributions: [
-      { value: 'Website design and build direction (with a disclosed AI coding assistant)', confirm: true },
-      { value: 'Project coordination', confirm: true },
+      { value: 'Website', confirm: true },
+      { value: 'Video editing', confirm: true },
+      { value: 'Mascot', confirm: true },
     ],
-    funFact: { value: '[Add a fun fact about yourself]', confirm: true },
-    deliverables: ['website', 'mascot' ,'scripts'],
+    funFact: {
+      value:
+        'Quantum algorithms use interference: possible paths can combine so wrong answers cancel while useful answers become more likely.',
+      confirm: true,
+    },
+    deliverables: ['website', 'videos', 'mascot'],
     devices: [
       { device: 'Metaphor', example: 'rebuilds them from the ground up', note: 'Describes a way of thinking by comparing it to building.' },
       { device: 'Simile', example: 'like a physicist who insists on re-deriving gravity', note: 'A direct "like" comparison.' },
@@ -72,53 +75,68 @@ export const team: TeamMember[] = [
     ],
   },
   {
-    id: 'long',
-    name: { value: 'Long', confirm: true },
-    nickname: { value: 'Damian', confirm: true },
-    fullName: 'Long Yat Damian Lau',
-    location: 'Hong Kong',
-    title: { value: 'The Mascot Maker of Qubi', confirm: true },
+    id: 'damian',
+    name: { value: 'Damian', confirm: true },
+    title: { value: 'The Voice of Qubi', confirm: true },
     bio: {
       value:
-        'Long doesn’t just draw; he gives Qubi a soul. Before each iteration the mascot exists only as a sketch on paper; one careful pass through the SVG later, and Qubi is blinking on the page, alive and unmistakably himself. Armed with the patient and a good eye for pixel grids, he turns rough ideas into the friendly CRT-monitor robot you see in every page header.',
+        'Damian voices Qubi in the videos, leads video editing, writes scripts, and invented the Qubi mascot.',
       confirm: true,
     },
     contributions: [
-      { value: 'Qubi mascot design', confirm: true },
-      { value: 'Editing and pacing', confirm: true },
-      { value: 'Motion graphics', confirm: true },
-      { value: 'Captions', confirm: true },
+      { value: 'Voice of Qubi in the videos', confirm: true },
+      { value: 'Chief video editor', confirm: true },
+      { value: 'Video script-writing', confirm: true },
+      { value: 'Inventor of the Qubi mascot', confirm: true },
     ],
-    funFact: { value: '[Add a fun fact about yourself]', confirm: true },
-    deliverables: ['mascot', 'videos'],
-    devices: [
-      { device: 'Metaphor', example: 'gives Qubi a soul', note: 'Drawing described as animating something to life.' },
-      { device: 'Simile', example: 'alive and unmistakably himself', note: 'A direct "as if" comparison.' },
-      { device: 'Personification', example: 'Qubi is blinking on the page', note: 'A static drawing given human-like action.' },
-    ],
+    funFact: {
+      value:
+        'A single qubit’s pure state can be pictured as a point on a sphere called the Bloch sphere; its poles represent 0 and 1.',
+      confirm: true,
+    },
+    deliverables: ['mascot', 'videos', 'scripts'],
+    devices: [],
   },
   {
     id: 'markus',
     name: { value: 'Markus', confirm: true },
     fullName: 'Markus Skjerstad Dølvik',
     location: 'Norway',
-    title: { value: 'The Voice of the Quantum', confirm: true },
+    title: { value: 'A Speaker in the Video Series', confirm: true },
     bio: {
       value:
-        'Markus explains entanglement without a single equation and without a single tear, a feat rarer than a photon with a day off. His voice is the thread that ties the series together: calm as a ground state, clear as a perfectly measured qubit.',
+        'Markus is a speaker in the video series.',
+      confirm: true,
+    },
+    contributions: [{ value: 'Speaker in the videos', confirm: true }],
+    funFact: {
+      value:
+        'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
+      confirm: true,
+    },
+    deliverables: ['videos'],
+    devices: [],
+  },
+  {
+    id: 'cynthia',
+    name: { value: 'Cynthia', confirm: true },
+    fullName: 'Cynthia (Sun Siyan)',
+    title: { value: 'The Scriptwriter and Video Speaker', confirm: true },
+    bio: {
+      value:
+        'Cynthia (Sun Siyan) contributes to the video series through script-writing and as a speaker.',
       confirm: true,
     },
     contributions: [
-      { value: 'On-camera or voiceover delivery', confirm: true },
-      { value: 'Script polishing', confirm: true },
-      { value: 'Pronunciation checks', confirm: true },
+      { value: 'Video script-writing', confirm: true },
+      { value: 'Speaker in the videos', confirm: true },
     ],
-    funFact: { value: '[Add a fun fact about yourself]', confirm: true },
-    deliverables: ['videos'],
-    devices: [
-      { device: 'Metaphor', example: 'the thread that ties the series together', note: 'A voice compared to a connecting thread.' },
-      { device: 'Simile', example: 'calm as a ground state, clear as a perfectly measured qubit', note: 'Two "as" comparisons at once.' },
-      { device: 'Hyperbole', example: 'rarer than a photon with a day off', note: 'Playful overstatement.' },
-    ],
+    funFact: {
+      value:
+        'The no-cloning theorem says an unknown quantum state cannot be copied perfectly, so quantum information needs special ways to detect errors.',
+      confirm: true,
+    },
+    deliverables: ['videos', 'scripts'],
+    devices: [],
   },
 ];

@@ -41,16 +41,11 @@ const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-/* Default the theme to the OS preference (Paper/CRT), then let the saved
-   preference in localStorage win via the persist rehydration below. */
-const prefersLight = () =>
-  typeof window !== 'undefined' &&
-  window.matchMedia?.('(prefers-color-scheme: light)').matches;
-
 export const useStore = create<AppState>()(
   persist(
     (set, get) => ({
-      theme: prefersLight() ? 'light' : 'dark',
+      // New visitors start in dark mode; a saved theme choice still takes precedence.
+      theme: 'dark',
       sound: false,
       observerMode: true,
       reduceMotion: prefersReducedMotion(),

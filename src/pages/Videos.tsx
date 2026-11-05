@@ -8,7 +8,7 @@ export default function Videos() {
       <Section
         eyebrow="Watch"
         title="The video series"
-        lead="Five short episodes hosted by Qubi. Cards load only when you click, so nothing is fetched from YouTube until you ask. Titles are working drafts and will change."
+        lead="Four short episodes hosted by Qubi. Three are ready to watch, and one is coming soon. Videos load only when you click a card."
       >
         <VideoWall />
       </Section>

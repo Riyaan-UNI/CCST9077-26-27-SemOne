@@ -38,19 +38,6 @@ async function hasHorizontalScrollbar(page: any): Promise<boolean> {
   });
 }
 
-async function dismissStartHere(page: any): Promise<void> {
-  // The StartHere tour auto-opens after ~1.6s for first-time visitors.
-  // Wait for it, then click the close button.
-  const closeBtn = page.locator('button[aria-label="Close tour"]');
-  try {
-    await closeBtn.waitFor({ state: 'visible', timeout: 5000 });
-    await closeBtn.click();
-    await page.waitForTimeout(300);
-  } catch {
-    // Dialog didn't appear — already dismissed or blocked
-  }
-}
-
 async function getOverflowElements(page: any): Promise<string[]> {
   return page.evaluate(() => {
     const offenders: string[] = [];
@@ -129,25 +116,33 @@ test.describe('responsive screenshots', () => {
 
 test.describe('mobile nav interaction', () => {
   test('mobile menu opens and is scrollable', async ({ page }) => {
-    // Use a short viewport to force the menu to scroll
-    await page.setViewportSize({ width: 375, height: 500 });
+    // Use a short viewport to force the menu's link area to scroll.
+    await page.setViewportSize({ width: 375, height: 320 });
     await page.goto('/');
     await expect(page.locator('#boot')).toHaveCount(0, { timeout: 15_000 });
-    await dismissStartHere(page);
 
     const menuBtn = page.locator('button[aria-label="Open menu"]');
     await expect(menuBtn).toBeVisible();
     await menuBtn.click();
 
     // Radix Dialog content panel (slide-in nav)
-    const panel = page.locator('.fixed.inset-y-0.right-0');
+    const panel = page.getByRole('dialog');
     await expect(panel).toBeVisible();
 
-    // Verify the menu panel itself is scrollable on short viewports
-    const isScrollable = await panel.evaluate((el: HTMLElement) => {
-      return el.scrollHeight > el.clientHeight || getComputedStyle(el).overflowY === 'auto';
-    });
-    expect(isScrollable).toBe(true);
+    const scrollArea = page.getByTestId('mobile-menu-scroll');
+    const { scrollHeight, clientHeight, overflowY } = await scrollArea.evaluate(
+      (el: HTMLElement) => ({
+        scrollHeight: el.scrollHeight,
+        clientHeight: el.clientHeight,
+        overflowY: getComputedStyle(el).overflowY,
+      }),
+    );
+    expect(overflowY).toBe('auto');
+    expect(scrollHeight).toBeGreaterThan(clientHeight);
+
+    await scrollArea.hover();
+    await page.mouse.wheel(0, 600);
+    await expect.poll(() => scrollArea.evaluate((el: HTMLElement) => el.scrollTop)).toBeGreaterThan(0);
 
     // Close via first link
     await panel.locator('a').first().click();
@@ -175,7 +170,6 @@ test.describe('twenty questions grid on mobile', () => {
     await page.setViewportSize({ width: 320, height: 568 });
     await page.goto('/delight');
     await expect(page.locator('#boot')).toHaveCount(0, { timeout: 15_000 });
-    await dismissStartHere(page);
 
     // Navigate to the 20 Questions tab
     await page.getByRole('tab', { name: /20 Questions/i }).click();

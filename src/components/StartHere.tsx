@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'motion/react';
 import { Compass, X } from 'lucide-react';
@@ -39,44 +39,17 @@ const STEPS: TourStep[] = [
   },
 ];
 
-const STORAGE_KEY = 'qubi-tour-dismissed';
-
-function readDismissed(): boolean {
-  try {
-    return localStorage.getItem(STORAGE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-function writeDismissed() {
-  try {
-    localStorage.setItem(STORAGE_KEY, '1');
-  } catch {
-    /* private mode / disabled storage — the tour simply shows again next time */
-  }
-}
-
 /**
- * "Start here" guided tour for first-time visitors. Progress is remembered in
- * localStorage (wrapped in try/catch). Reduced-motion users get the same tour
- * without the slide/scale transitions.
+ * Optional "Start here" guided tour. It opens from its button so the home page
+ * can lead with the videos. Reduced-motion users get the same tour without
+ * the slide/scale transitions.
  */
 export default function StartHere() {
   const reduceMotion = useStore((s) => s.reduceMotion);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
 
-  /* Auto-open once for first-time visitors, after the boot screen has cleared. */
-  useEffect(() => {
-    if (readDismissed()) return;
-    const timer = window.setTimeout(() => setOpen(true), 1600);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  const close = (remember: boolean) => {
-    if (remember) writeDismissed();
-    setOpen(false);
-  };
+  const close = () => setOpen(false);
 
   const last = step === STEPS.length - 1;
 
@@ -118,7 +91,7 @@ export default function StartHere() {
                         type="button"
                         aria-label="Close tour"
                         className="grid h-8 w-8 place-items-center rounded-lg border border-line text-ink-soft transition hover:text-neon"
-                        onClick={() => close(false)}
+                        onClick={close}
                       >
                         <X size={15} />
                       </button>
@@ -141,15 +114,7 @@ export default function StartHere() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between">
-                    <button
-                      type="button"
-                      onClick={() => close(true)}
-                      className="text-sm text-muted underline-offset-2 hover:underline"
-                    >
-                      Don’t show again
-                    </button>
-
+                  <div className="mt-6 flex items-center justify-end">
                     <div className="flex items-center gap-2">
                       {step > 0 && (
                         <button
@@ -163,7 +128,7 @@ export default function StartHere() {
                       {last ? (
                         <button
                           type="button"
-                          onClick={() => close(true)}
+                          onClick={close}
                           className="rounded-lg bg-neon px-5 py-2 text-sm font-semibold text-neon-ink transition hover:brightness-110"
                         >
                           Got it

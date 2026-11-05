@@ -164,9 +164,9 @@ export default function Nav() {
                   animate={{ x: 0 }}
                   exit={{ x: '100%' }}
                   transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-                  className="fixed inset-y-0 right-0 z-[61] flex w-full max-w-sm flex-col overflow-y-auto border-l border-line bg-surface p-6"
+                  className="fixed right-0 top-0 z-[61] flex h-screen max-h-[100dvh] w-full max-w-sm flex-col overflow-hidden border-l border-line bg-surface p-6"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex shrink-0 items-center justify-between">
                     <Dialog.Title className="font-display text-lg">Navigate</Dialog.Title>
                     <Dialog.Close asChild>
                       <button
@@ -181,25 +181,36 @@ export default function Nav() {
                   <Dialog.Description className="sr-only">
                     Site navigation links
                   </Dialog.Description>
-                  <ul className="mt-8 space-y-1">
-                    {nav.map((item, i) => (
-                      <motion.li
-                        key={item.href}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.05 + i * 0.05 }}
-                      >
-                        <Link
-                          to={item.href}
-                          onClick={() => setOpen(false)}
-                          className="block rounded-xl px-4 py-3 font-display text-2xl text-ink transition hover:bg-elevated hover:text-neon"
+                  <div
+                    data-testid="mobile-menu-scroll"
+                    role="region"
+                    aria-label="Site navigation"
+                    tabIndex={0}
+                    data-lenis-prevent
+                    className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y"
+                  >
+                    <ul className="mt-8 space-y-1">
+                      {nav.map((item, i) => (
+                        <motion.li
+                          key={item.href}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.05 + i * 0.05 }}
                         >
-                          {item.label}
-                        </Link>
-                      </motion.li>
-                    ))}
-                  </ul>
-                  <p className="mt-10 font-hand text-xl text-muted">“{site.mascot.catchphrase}”</p>
+                          <Link
+                            to={item.href}
+                            onClick={() => setOpen(false)}
+                            className="block rounded-xl px-4 py-3 font-display text-2xl text-ink transition hover:bg-elevated hover:text-neon"
+                          >
+                            {item.label}
+                          </Link>
+                        </motion.li>
+                      ))}
+                    </ul>
+                    <p className="mt-10 pb-2 font-hand text-xl text-muted">
+                      “{site.mascot.catchphrase}”
+                    </p>
+                  </div>
                 </motion.div>
               </Dialog.Content>
             </Dialog.Portal>

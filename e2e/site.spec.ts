@@ -109,6 +109,48 @@ test.describe('routes', () => {
     });
   }
 
+  test('home opens on the landing page with dark mode and a direct path to videos', async ({ page }) => {
+    await page.addInitScript(() => localStorage.removeItem('qubi-preferences'));
+    await page.goto('/');
+    await expect(page.locator('#boot')).toHaveCount(0, { timeout: 15_000 });
+    await expect(page.locator('html')).toHaveClass(/dark/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/What if the universe/);
+    await expect(
+      page.getByRole('heading', { name: 'The Quantum Revolution, in four videos' }),
+    ).toBeVisible();
+    const order = await page.evaluate(() => {
+      const hero = document.querySelector('main header');
+      const videoSection = document.querySelector('#videos');
+      return Boolean(hero && videoSection && hero.compareDocumentPosition(videoSection) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(order).toBe(true);
+    await page.getByRole('link', { name: /Watch the videos/ }).click();
+    await expect(page).toHaveURL(/#videos$/);
+    await page.waitForTimeout(1800);
+    await expect(page.getByRole('dialog')).not.toBeVisible();
+  });
+
+  test('thumbnail opens an autoplaying, nonmodal player while the page remains interactive', async ({
+    page,
+  }) => {
+    await page.goto('/videos');
+    await expect(page.locator('#boot')).toHaveCount(0, { timeout: 15_000 });
+    await page.getByRole('button', { name: 'Play episode 1: The Magic Box' }).click();
+
+    const player = page.getByRole('dialog', { name: 'The Magic Box' });
+    await expect(player).toHaveAttribute('aria-modal', 'false');
+    await expect(player.locator('iframe')).toHaveAttribute(
+      'src',
+      /ZNNB-lHQsfI\?autoplay=1/,
+    );
+
+    await page.getByRole('button', { name: 'Switch to light theme' }).click();
+    await expect(page.locator('html')).toHaveClass(/light/);
+    await expect(player).toBeVisible();
+    await page.getByRole('button', { name: 'Close video player' }).click();
+    await expect(player).not.toBeVisible();
+  });
+
   test('deep link /lab#chsh opens the CHSH tab', async ({ page }) => {
     await page.goto('/lab#chsh');
     await expect(page.getByRole('tab', { name: /chsh game/i })).toHaveAttribute(
@@ -120,6 +162,44 @@ test.describe('routes', () => {
   test('an unknown route shows the 404 page', async ({ page }) => {
     await page.goto('/definitely-not-a-page');
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/does not exist/i);
+  });
+});
+
+test.describe('team page', () => {
+  test('shows four members and adapts its grid across screen sizes', async ({ page }) => {
+    await page.goto('/team');
+    await expect(page.locator('#boot')).toHaveCount(0, { timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Four humans, one robot' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Cynthia (Sun Siyan)' })).toBeVisible();
+
+    const grid = page.getByTestId('team-member-grid');
+    await expect(grid.locator(':scope > div')).toHaveCount(4);
+
+    for (const [width, expectedColumns] of [
+      [375, 1],
+      [768, 2],
+      [1280, 4],
+    ]) {
+      await page.setViewportSize({ width, height: 900 });
+      const columns = await grid.evaluate(
+        (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length,
+      );
+      expect(columns).toBe(expectedColumns);
+
+      const pageWidth = await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      );
+      expect(pageWidth).toBe(true);
+    }
+
+    await page.getByRole('button', { name: /Cynthia \(Sun Siyan\)/ }).click();
+    await expect(page.getByText(/unknown quantum state cannot be copied perfectly/i)).toBeVisible();
+    await expect(grid.locator('button[aria-expanded="true"]')).toHaveCount(1);
+    await expect(grid.locator('button[aria-expanded="false"]')).toHaveCount(3);
+
+    await page.getByRole('button', { name: /Patan Mohammed Riyaan/ }).click();
+    await expect(grid.locator('button[aria-expanded="true"]')).toHaveCount(1);
+    await expect(grid.locator('button[aria-expanded="false"]')).toHaveCount(3);
   });
 });
 

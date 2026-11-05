@@ -7,11 +7,16 @@ import Qubi from '@/components/Qubi';
 import { DELIVERABLES, team } from '@/content/team';
 import { useStore } from '@/store/useStore';
 
-function MemberCard({ member }: { member: (typeof team)[number] }) {
+function MemberCard({
+  member,
+  open,
+  onToggle,
+}: {
+  member: (typeof team)[number];
+  open: boolean;
+  onToggle: () => void;
+}) {
   const reduceMotion = useStore((s) => s.reduceMotion);
-  const [open, setOpen] = useState(false);
-  const pendingBio = member.funFact.value.includes('[Add');
-
   const expand = reduceMotion
     ? { duration: 0 }
     : { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
@@ -20,7 +25,7 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
     <div className="rounded-2xl border border-line bg-surface">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={onToggle}
         aria-expanded={open}
         className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-elevated"
       >
@@ -42,11 +47,6 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
             )}
           </h3>
           <p className="font-hand text-lg text-neon">{member.title.value}</p>
-          {pendingBio && (
-            <p className="mt-1 text-xs text-hype-amber">
-              Fun fact pending — placeholder shown
-            </p>
-          )}
         </div>
         <span className="ml-auto hidden text-sm text-muted sm:block">{open ? 'Close' : 'Open'}</span>
       </button>
@@ -83,6 +83,8 @@ function MemberCard({ member }: { member: (typeof team)[number] }) {
 }
 
 export default function Team() {
+  const [openMemberId, setOpenMemberId] = useState<string | null>(null);
+
   return (
     <Page>
       <Section
@@ -90,9 +92,17 @@ export default function Team() {
         title="Four humans, one robot"
         lead="A small team that built this site. Tap a card to see what each person brought."
       >
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div
+          data-testid="team-member-grid"
+          className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4"
+        >
           {team.map((m) => (
-            <MemberCard key={m.id} member={m} />
+            <MemberCard
+              key={m.id}
+              member={m}
+              open={openMemberId === m.id}
+              onToggle={() => setOpenMemberId((current) => (current === m.id ? null : m.id))}
+            />
           ))}
         </div>
 
