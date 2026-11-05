@@ -77,6 +77,8 @@ export const team: TeamMember[] = [
   {
     id: 'damian',
     name: { value: 'Damian', confirm: true },
+    fullName: 'Long Yat Damian Lau',
+    nickname: { value: 'Damian', confirm: true },
     title: { value: 'The Voice of Qubi', confirm: true },
     bio: {
       value:
@@ -108,13 +110,16 @@ export const team: TeamMember[] = [
         'Markus is a speaker in the video series.',
       confirm: true,
     },
-    contributions: [{ value: 'Speaker in the videos', confirm: true }],
+    contributions: [
+      { value: 'Speaker in the videos', confirm: true },
+      { value: 'Video script-writing', confirm: true },
+    ],
     funFact: {
       value:
         'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
       confirm: true,
     },
-    deliverables: ['videos'],
+    deliverables: ['videos', 'scripts'],
     devices: [],
   },
   {
