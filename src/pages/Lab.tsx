@@ -46,19 +46,20 @@ export default function Lab() {
           </p>
           <Qubi mood="curious" size={80} className="hidden shrink-0 sm:block" />
         </div>
-        <Tabs.Root value={tab} onValueChange={setTab}>
+        <Tabs.Root value={tab} onValueChange={setTab} className="lab-console">
           <Tabs.List
             aria-label="Lab sections"
-            className="glass-panel inline-flex flex-wrap gap-1 rounded-xl p-1"
+            className="instrument-panel flex max-w-full gap-1 overflow-x-auto overscroll-x-contain px-2 scrollbar-hidden"
           >
             {TABS.map(({ id, label, icon: Icon }) => (
               <Tabs.Trigger
                 key={id}
                 value={id}
+                aria-label={label}
                 className={cn(
-                  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink-soft transition sm:px-4',
-                  'data-[state=active]:bg-neon data-[state=active]:text-neon-ink',
-                  'hover:text-neon data-[state=active]:hover:text-neon-ink',
+                  'inline-flex min-h-12 shrink-0 items-center gap-2 border-b-2 border-transparent px-3 py-2 text-sm text-ink-soft transition sm:px-4',
+                  'data-[state=active]:border-neon data-[state=active]:bg-neon/10 data-[state=active]:text-neon',
+                  'hover:text-cyan data-[state=active]:hover:text-neon',
                 )}
               >
                 <Icon size={15} aria-hidden="true" />
@@ -128,7 +129,7 @@ export default function Lab() {
       </Section>
 
       <Section className="pt-4">
-        <div className="glass-panel rounded-2xl p-6 sm:p-8">
+        <div className="instrument-panel rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl">How the engine is verified</h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
             The simulator is a plain TypeScript module with no dependencies. Its test suite pins it to

@@ -29,7 +29,7 @@ export default function CopyMachine() {
   return (
     <div className="space-y-6">
       {/* classical */}
-      <div className="glass-panel rounded-2xl p-5">
+      <div className="instrument-panel rounded-2xl p-5">
         <p className="ui-label text-neon">Classical copy machine</p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
           A classical bit is just a 0 or a 1. You can copy it as many times as you like — every
@@ -72,7 +72,7 @@ export default function CopyMachine() {
       </div>
 
       {/* quantum */}
-      <div className="glass-panel rounded-2xl p-5">
+      <div className="instrument-panel rounded-2xl p-5">
         <p className="ui-label text-error">Quantum copy machine</p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
           A qubit can be a blend of 0 and 1. Try to copy it and the universe says no.
@@ -111,7 +111,7 @@ export default function CopyMachine() {
 
       {/* FLASH + banknote */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="glass-panel rounded-2xl p-5">
+        <div className="instrument-panel rounded-2xl p-5">
           <p className="ui-label text-hype-amber">Why this matters · the FLASH idea</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">
             If Alice could clone her entangled qubit, she could measure one copy and keep the other.
@@ -119,7 +119,7 @@ export default function CopyMachine() {
             entanglement <em>cannot</em> be used for faster-than-light messaging.
           </p>
         </div>
-        <div className="glass-panel rounded-2xl p-5">
+        <div className="instrument-panel rounded-2xl p-5">
           <p className="ui-label text-cyan">Quantum money teaser</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">
             Because quantum states cannot be copied, a bank could issue bills encoded in quantum

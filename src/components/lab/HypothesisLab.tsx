@@ -130,7 +130,7 @@ export default function HypothesisLab() {
 
       {/* hypothesis cards */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="glass-panel rounded-2xl p-5">
+        <div className="instrument-panel rounded-2xl p-5">
           <p className="ui-label text-verdict-myth">Hypothesis A · "It's a fluid"</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">
             The ball is actually spread across both sides like a fog. Opening the box forces it to
@@ -141,7 +141,7 @@ export default function HypothesisLab() {
             make it <em>more</em> spread out, not lock it to one side every time.
           </p>
         </div>
-        <div className="glass-panel rounded-2xl p-5">
+        <div className="instrument-panel rounded-2xl p-5">
           <p className="ui-label text-verdict-myth">Hypothesis B · "We just don't know"</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">
             The ball was always on one side; we simply didn't look before opening.

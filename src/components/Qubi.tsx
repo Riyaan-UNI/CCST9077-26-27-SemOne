@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { isHkuBrand } from '@/config';
-import type { QubiMood } from '@/store/useStore';
+import { useStore, type QubiMood } from '@/store/useStore';
 
 export type { QubiMood };
 
@@ -103,6 +103,7 @@ export default function Qubi({
   float = true,
   label = 'Qubi, the qubit terminal mascot',
 }: QubiProps) {
+  const reduceMotion = useStore((s) => s.reduceMotion);
   const activeMood = expression ?? mood;
   const screenText = message ?? (activeMood === 'idle' ? 'HI' : '');
 
@@ -110,8 +111,8 @@ export default function Qubi({
     <motion.div
       className={cn('relative select-none', className)}
       style={{ width: size }}
-      animate={float ? { y: [0, -10, 0] } : undefined}
-      transition={float ? { duration: 6, repeat: Infinity, ease: 'easeInOut' } : undefined}
+      animate={float && !reduceMotion ? { y: [0, -10, 0] } : undefined}
+      transition={float && !reduceMotion ? { duration: 6, repeat: Infinity, ease: 'easeInOut' } : undefined}
       role="img"
       aria-label={label}
     >

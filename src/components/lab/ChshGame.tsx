@@ -120,21 +120,21 @@ export default function ChshGame() {
       {part === 1 && (
         <div className="space-y-5">
           <div className="grid gap-5 md:grid-cols-3">
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
               <p className="ui-label text-neon">1 · The referee</p>
               <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                 Sends a random bit x to Alice and a random bit y to Bob. Neither knows the other's
                 bit, and they cannot communicate.
               </p>
             </div>
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
               <p className="ui-label text-neon">2 · The answers</p>
               <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                 Alice replies a, Bob replies b — each a single bit. They may agree on a strategy in
                 advance, and share randomness.
               </p>
             </div>
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
               <p className="ui-label text-neon">3 · Winning</p>
               <p className="mt-3 font-mono text-sm text-ink-soft">a ⊕ b = x ∧ y</p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -144,7 +144,7 @@ export default function ChshGame() {
             </div>
           </div>
 
-          <div className="glass-panel rounded-2xl p-5">
+          <div className="instrument-panel rounded-2xl p-5">
             <p className="ui-label text-era-codes">Classical strategy · both always answer 0</p>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">
               This is the best any classical team can do. They win when (x,y) is (0,0), (0,1) or
@@ -179,7 +179,7 @@ export default function ChshGame() {
 
       {part === 2 && (
         <div className="space-y-5">
-          <div className="glass-panel rounded-2xl p-5">
+          <div className="instrument-panel rounded-2xl p-5">
             <p className="ui-label text-neon">The quantum trick</p>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">
               Alice and Bob share an entangled Bell pair before the game starts. When the referee
@@ -203,7 +203,7 @@ export default function ChshGame() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
               <div className="flex items-baseline justify-between">
                 <p className="font-display text-lg">Classical strategy</p>
                 <p className="font-mono text-3xl" style={{ color: 'var(--era-codes)' }}>
@@ -220,7 +220,7 @@ export default function ChshGame() {
               </div>
               <p className="mt-2 text-sm text-muted">Ceiling: 75%</p>
             </div>
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
               <div className="flex items-baseline justify-between">
                 <p className="font-display text-lg">Quantum strategy</p>
                 <p className="font-mono text-3xl text-neon">{qRate.toFixed(1)}%</p>
@@ -268,7 +268,7 @@ export default function ChshGame() {
           </div>
 
           {/* convergence chart */}
-          <div className="glass-panel rounded-2xl p-5">
+          <div className="instrument-panel rounded-2xl p-5">
             <p className="ui-label text-neon">Cumulative win rate</p>
             <div className="mt-4 h-72">
               {batches.length === 0 ? (
@@ -313,7 +313,7 @@ export default function ChshGame() {
           </div>
 
           {last && (
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
               <p className="ui-label text-neon">Last round</p>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 {[
@@ -348,7 +348,7 @@ export default function ChshGame() {
 
       {part === 3 && (
         <div className="space-y-5">
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
             <p className="ui-label text-neon">What the game proves</p>
             <p className="mt-3 text-sm leading-relaxed text-ink-soft">
               The CHSH game shows that the world is not "locally real." Einstein assumed two things:
@@ -383,7 +383,7 @@ export default function ChshGame() {
             </div>
           </div>
 
-            <div className="glass-panel rounded-2xl p-5">
+            <div className="instrument-panel rounded-2xl p-5">
             <p className="ui-label text-hype-amber">What it does NOT show</p>
             <ul className="mt-3 space-y-2 text-sm text-ink-soft">
               <li className="flex items-start gap-2">

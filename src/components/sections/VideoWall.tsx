@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { AnimatePresence, motion } from 'motion/react';
 import { Play, X } from 'lucide-react';
 import Qubi from '@/components/Qubi';
 import { asset } from '@/lib/utils';
 import { videos, type VideoSlot } from '@/data/videos';
+import { useStore } from '@/store/useStore';
 
 function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void }) {
+  const reduceMotion = useStore((s) => s.reduceMotion);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
@@ -15,17 +19,23 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
   }, [onClose]);
 
   return createPortal(
-    <div className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-4 sm:p-8">
-      <div aria-hidden="true" className="absolute inset-0 bg-black/45 backdrop-blur-[2px]" />
-      <section
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: 'easeOut' }}
+      className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-3 sm:p-6"
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/28 backdrop-blur-[1px]" />
+      <motion.section
         role="dialog"
         aria-modal="false"
         aria-labelledby="video-popup-title"
-        className="pointer-events-auto relative max-h-[calc(100dvh-2rem)] w-full max-w-5xl overflow-y-auto rounded-2xl border border-white/15 bg-[#080c0a] shadow-2xl shadow-black/60"
+        className="instrument-panel pointer-events-auto relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto border-t-2 border-t-cyan bg-canvas shadow-2xl shadow-black/60"
       >
-        <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 sm:px-6">
           <div className="min-w-0">
-            <p className="ui-label text-neon">Episode {video.episode}</p>
+            <p className="orbit-label ui-label">EP / {String(video.episode).padStart(2, '0')}</p>
             <h2 id="video-popup-title" className="truncate text-lg text-white sm:text-xl">
               {video.title}
             </h2>
@@ -34,7 +44,7 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
             type="button"
             onClick={onClose}
             aria-label="Close video player"
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-white/20 text-white transition hover:border-neon hover:text-neon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon"
+            className="control-surface grid h-11 w-11 shrink-0 place-items-center text-ink-soft transition hover:text-neon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon"
           >
             <X size={18} aria-hidden="true" />
           </button>
@@ -51,11 +61,11 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
           />
         </div>
 
-        <p className="px-4 py-3 text-sm leading-relaxed text-white/70 sm:px-6">
+        <p className="border-t border-line px-4 py-3 text-sm leading-relaxed text-ink-soft sm:px-6">
           {video.description}
         </p>
-      </section>
-    </div>,
+      </motion.section>
+    </motion.div>,
     document.body,
   );
 }
@@ -95,8 +105,8 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
   );
 
   return (
-    <article className="glass-panel glass-card overflow-hidden rounded-2xl">
-      <div className="relative aspect-video overflow-hidden bg-[#070b09]">
+    <article className="instrument-panel instrument-card overflow-hidden rounded-2xl">
+      <div className="relative aspect-video overflow-hidden bg-canvas">
         {canPlay ? (
           <button
             type="button"
@@ -119,7 +129,8 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
         )}
       </div>
 
-      <div className="p-5">
+      <div className="border-t border-line p-5">
+        <p className="orbit-label mb-2 text-xs">ARCHIVE / EP {String(video.episode).padStart(2, '0')}</p>
         <h3 className="text-lg">{video.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{video.description}</p>
         {video.transcript && <p className="mt-3 text-xs text-muted">{video.transcript}</p>}
@@ -147,7 +158,9 @@ export default function VideoWall() {
           <VideoCard key={video.id} video={video} onPlay={setActiveVideo} />
         ))}
       </div>
-      {activeVideo && <VideoPopup video={activeVideo} onClose={() => setActiveVideo(null)} />}
+      <AnimatePresence initial={false}>
+        {activeVideo && <VideoPopup video={activeVideo} onClose={() => setActiveVideo(null)} />}
+      </AnimatePresence>
     </div>
   );
 }

@@ -29,7 +29,7 @@ function IconButton({
           aria-label={label}
           aria-pressed={active}
           className={cn(
-            'grid h-9 w-9 place-items-center rounded-lg border border-line text-ink-soft transition',
+            'control-surface grid h-11 w-11 place-items-center text-ink-soft transition',
             'hover:border-line-strong hover:text-neon',
             active && 'border-line-strong text-neon',
           )}
@@ -51,7 +51,7 @@ function IconButton({
 }
 
 export default function Nav() {
-  const { theme, sound, observerMode, toggleTheme, toggleSound, toggleObserverMode } = useStore();
+  const { theme, sound, observerMode, reduceMotion, toggleTheme, toggleSound, toggleObserverMode } = useStore();
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -67,22 +67,21 @@ export default function Nav() {
 
   return (
     <Tooltip.Provider delayDuration={250}>
-      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-canvas/92 px-3 pt-[env(safe-area-inset-top)] backdrop-blur-md sm:px-5">
         <div
           className={cn(
-            'mx-auto max-w-7xl rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300',
-            scrolled
-              ? 'border-line-strong bg-canvas/88 shadow-lift backdrop-blur-2xl'
-              : 'border-line/80 bg-canvas/65 backdrop-blur-xl',
+            'mx-auto max-w-7xl border-x transition-[background-color,border-color] duration-300',
+            scrolled ? 'border-line-strong bg-canvas/95' : 'border-transparent bg-canvas/70',
           )}
         >
           <nav
-            className="mx-auto flex h-16 w-full items-center gap-3 px-3 sm:px-5"
+            className="mx-auto flex min-h-[4.5rem] w-full items-center gap-3 px-3 sm:px-5"
             aria-label="Primary"
           >
             <Link to="/" className="group flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-xl border border-line-strong bg-elevated font-mono text-lg leading-none text-neon shadow-glow">
+              <span className="relative grid h-11 w-11 place-items-center border border-line-strong bg-elevated font-mono text-2xl leading-none text-neon">
                 Q
+                <span className="absolute -bottom-1 -right-1 h-2 w-2 bg-cyan" aria-hidden="true" />
               </span>
               <span className="hidden leading-tight sm:block">
                 <span className="block font-display text-[15px] font-bold tracking-tight">
@@ -100,8 +99,8 @@ export default function Nav() {
                   <Link
                     to={item.href}
                     className={cn(
-                      'block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] text-ink-soft transition hover:bg-elevated hover:text-neon focus-visible:text-neon',
-                      location.pathname === item.href && 'bg-neon/10 text-neon',
+                      'block whitespace-nowrap border-b-2 border-transparent px-2.5 py-2.5 text-[13px] text-ink-soft transition hover:border-cyan hover:text-ink focus-visible:text-neon',
+                      location.pathname === item.href && 'border-neon text-neon',
                     )}
                   >
                     {item.label}
@@ -132,7 +131,7 @@ export default function Nav() {
                 type="button"
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
-                className="grid h-9 w-9 place-items-center rounded-lg border border-line text-ink-soft lg:hidden"
+                className="control-surface grid h-11 w-11 place-items-center text-ink-soft lg:hidden"
               >
                 <Menu size={16} />
               </button>
@@ -142,7 +141,7 @@ export default function Nav() {
 
         {/* scroll progress */}
         <motion.div
-          style={{ scaleX: progress }}
+          style={{ scaleX: reduceMotion ? scrollYProgress : progress }}
           className="h-0.5 origin-left bg-neon"
           aria-hidden="true"
         />
@@ -154,19 +153,20 @@ export default function Nav() {
             <Dialog.Portal forceMount>
               <Dialog.Overlay asChild>
                 <motion.div
-                  initial={{ opacity: 0 }}
+                  initial={reduceMotion ? false : { opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[60] bg-canvas/90 backdrop-blur-xl"
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.18 }}
+                  className="fixed inset-0 z-[60] bg-canvas/55 backdrop-blur-sm"
                 />
               </Dialog.Overlay>
               <Dialog.Content asChild>
                 <motion.div
-                  initial={{ x: '100%' }}
+                  initial={reduceMotion ? false : { x: '100%' }}
                   animate={{ x: 0 }}
-                  exit={{ x: '100%' }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-                  className="fixed right-0 top-0 z-[61] flex h-screen max-h-[100dvh] w-full max-w-sm flex-col overflow-hidden border-l border-line-strong bg-surface/95 p-6 shadow-lift backdrop-blur-2xl"
+                  exit={reduceMotion ? { opacity: 0 } : { x: '100%' }}
+                  transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 30 }}
+                  className="fixed right-0 top-0 z-[61] flex h-dvh max-h-[100dvh] w-full max-w-sm flex-col overflow-hidden border-l-2 border-cyan bg-surface p-5 pt-[max(1.25rem,env(safe-area-inset-top))] shadow-lift sm:p-6"
                 >
                   <div className="flex shrink-0 items-center justify-between">
                     <Dialog.Title className="font-display text-lg">Navigate</Dialog.Title>
@@ -174,7 +174,7 @@ export default function Nav() {
                       <button
                         type="button"
                         aria-label="Close menu"
-                        className="grid h-9 w-9 place-items-center rounded-lg border border-line text-ink-soft"
+                        className="control-surface grid h-11 w-11 place-items-center text-ink-soft"
                       >
                         <X size={16} />
                       </button>
@@ -189,22 +189,25 @@ export default function Nav() {
                     aria-label="Site navigation"
                     tabIndex={0}
                     data-lenis-prevent
-                    className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y"
+                    className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y pb-[max(1rem,env(safe-area-inset-bottom))]"
                   >
-                    <ul className="mt-8 space-y-1">
+                    <ul className="mt-8 border-t border-line">
                       {nav.map((item, i) => (
                         <motion.li
                           key={item.href}
-                          initial={{ opacity: 0, x: 20 }}
+                          initial={reduceMotion ? false : { opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.05 + i * 0.05 }}
+                          transition={reduceMotion ? { duration: 0 } : { delay: 0.05 + i * 0.05 }}
                         >
                           <Link
                             to={item.href}
                             onClick={() => setOpen(false)}
-                            className="block rounded-xl px-4 py-3 font-display text-2xl text-ink transition hover:bg-elevated hover:text-neon"
+                            className="flex min-h-14 items-center justify-between border-b border-line px-3 py-3 font-display text-xl text-ink transition hover:border-cyan hover:text-neon"
                           >
                             {item.label}
+                            <span className="font-mono text-sm text-muted" aria-hidden="true">
+                              ↗
+                            </span>
                           </Link>
                         </motion.li>
                       ))}

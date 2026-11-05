@@ -22,7 +22,7 @@ function MemberCard({
     : { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
-    <article className="glass-panel glass-card h-fit self-start rounded-2xl">
+    <article className="instrument-panel instrument-card h-fit self-start rounded-2xl">
       <button
         type="button"
         onClick={onToggle}

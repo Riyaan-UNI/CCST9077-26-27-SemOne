@@ -43,16 +43,19 @@ export default function MagicBoxFlip() {
   const rightShare = totalMeasurements === 0 ? 50 : (counts[1] / totalMeasurements) * 100;
 
   return (
-    <div className="glass-panel glass-card w-full max-w-md rounded-3xl p-5 sm:p-6">
-      <p className="ui-label text-neon">The magic box · a qubit in plain English</p>
+    <div className="instrument-panel instrument-card w-full max-w-md rounded-3xl p-5 sm:p-6">
+      <div className="flex items-center justify-between gap-3 border-b border-line pb-3">
+        <p className="ui-label text-neon">The magic box · a qubit in plain English</p>
+        <span className="orbit-label hidden sm:inline">MEAS / 01</span>
+      </div>
 
       {/* the box */}
-      <div className="relative mt-4 grid h-44 place-items-center rounded-2xl border border-line-strong bg-[#070b09]">
+      <div className="relative mt-4 grid h-44 place-items-center rounded-2xl border border-line-strong bg-canvas">
         <div className="crt-lines pointer-events-none absolute inset-0 rounded-2xl opacity-50" />
 
         <motion.div
           animate={shaking && !reduceMotion ? { rotate: [-2, 2, -2, 2, 0], scale: [1, 1.02, 1] } : { rotate: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.5 }}
           className="relative h-24 w-24"
           aria-hidden="true"
         >
@@ -65,10 +68,10 @@ export default function MagicBoxFlip() {
               left: landed ? (result === 0 ? '6%' : 'calc(100% - 3rem)') : 'calc(50% - 1.5rem)',
               filter: landed ? 'blur(0px)' : 'blur(6px)',
               opacity: landed ? 1 : 0.7,
-              backgroundColor: 'var(--neon)',
+              backgroundColor: result === 1 ? 'var(--cyan)' : 'var(--neon)',
             }}
             transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 220, damping: 18 }}
-            style={{ boxShadow: '0 0 18px var(--neon)' }}
+            style={{ boxShadow: `0 0 18px ${result === 1 ? 'var(--cyan)' : 'var(--neon)'}` }}
           />
         </motion.div>
 
@@ -131,7 +134,7 @@ export default function MagicBoxFlip() {
                 style={{ width: `${leftShare}%` }}
               />
               <span
-                className="h-full bg-violet transition-[width] duration-500"
+                className="h-full bg-cyan transition-[width] duration-500"
                 style={{ width: `${rightShare}%` }}
               />
             </>
@@ -139,7 +142,7 @@ export default function MagicBoxFlip() {
         </div>
         <div className="mt-2 flex justify-between text-xs text-muted">
           <span className="text-neon">|0⟩ left · {counts[0]}</span>
-          <span className="text-violet">|1⟩ right · {counts[1]}</span>
+          <span className="text-cyan">|1⟩ right · {counts[1]}</span>
         </div>
       </div>
 

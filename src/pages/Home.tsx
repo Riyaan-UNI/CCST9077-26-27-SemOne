@@ -63,24 +63,24 @@ export default function Home() {
       {/* ------------------------------------------------------------------ *
        * Hero
        * ------------------------------------------------------------------ */}
-      <header className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16 sm:pt-32 lg:py-28">
+      <header className="observatory-hero relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16 sm:pt-32 lg:py-28">
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-canvas" />
-          <div className="absolute inset-0 grid-paper opacity-25 [mask-image:radial-gradient(ellipse_at_center,black,transparent_82%)]" />
+          <div className="absolute inset-0 grid-paper opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_82%)]" />
           <ObserverField className="opacity-70" density={0.68} radius={170} />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent" />
         </div>
 
         <div className="hero-grid mx-auto w-full max-w-7xl items-center gap-10 px-5 lg:gap-16 lg:px-8">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface/70 px-3 py-1.5 ui-label text-neon backdrop-blur-xl">
-              <span className="h-1.5 w-1.5 rounded-full bg-neon shadow-[0_0_10px_var(--neon)]" />
-              {site.course} · Group project
+            <p className="orbit-label inline-flex items-center gap-3 border-l-2 border-cyan bg-surface/70 px-3 py-2 ui-label">
+              <span className="h-2 w-2 rounded-full bg-green-signal shadow-[0_0_10px_var(--green-signal)]" />
+              FIELD LOG 001 <span className="text-muted">/ {site.course}</span>
             </p>
 
             <h1 className="mt-6 max-w-[15ch] font-sans text-[clamp(3rem,5.8vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.055em]">
               What if the universe is made of{' '}
-              <span className="text-neon text-glow">information?</span>
+              <span className="text-neon">information?</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
@@ -91,14 +91,14 @@ export default function Home() {
 
             <Link
               to="/#videos"
-              className="quantum-button mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-neon px-5 py-3 text-sm font-semibold text-neon-ink"
+              className="quantum-button mt-7 inline-flex min-h-12 items-center gap-3 border border-cyan bg-cyan px-5 py-3 text-sm font-bold text-neon-ink"
             >
-              Watch the videos <ArrowRight size={16} aria-hidden="true" />
+              <span className="font-mono">01</span> Watch the videos <ArrowRight size={16} aria-hidden="true" />
             </Link>
 
             <div className="mt-8 flex items-center gap-4">
               <Qubi mood="happy" size={96} className="hidden sm:block" float />
-              <p className="rounded-full border border-line bg-surface/65 px-4 py-2 font-hand text-xl text-neon backdrop-blur-sm">
+              <p className="border-l border-line-strong bg-surface/65 px-4 py-2 font-hand text-xl text-neon">
                 “{site.mascot.catchphrase}”
               </p>
             </div>
@@ -110,10 +110,10 @@ export default function Home() {
             </p>
           </div>
 
-          <div id="magic-box" className="mx-auto w-full max-w-lg scroll-mt-24">
-            <div className="mb-3 flex items-center justify-between gap-3 px-1">
+          <div id="magic-box" className="calibration-bay mx-auto w-full max-w-lg scroll-mt-24 px-3 py-5 sm:px-6 sm:py-8">
+            <div className="mb-3 flex items-center justify-between gap-3 border-b border-line px-1 pb-2">
               <p className="ui-label text-neon">Measurement explorer</p>
-              <p className="font-mono text-sm text-muted">01 / INTERACTIVE</p>
+              <p className="font-mono text-sm text-muted">LIVE / 01</p>
             </div>
             <MagicBoxFlip />
           </div>
@@ -123,7 +123,7 @@ export default function Home() {
       {/* ------------------------------------------------------------------ *
        * Video series
        * ------------------------------------------------------------------ */}
-      <section id="videos" className="scroll-mt-24 py-20 sm:py-24">
+      <section id="videos" className="observatory-section scroll-mt-24 py-20 sm:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 lg:px-8">
           <Reveal className="max-w-3xl">
             <p className="ui-label text-neon">Watch</p>
@@ -173,7 +173,7 @@ export default function Home() {
             <Reveal key={t.href} delay={i * 0.04}>
               <Link
                 to={t.href}
-              className="glass-panel glass-card group flex h-full flex-col rounded-2xl p-5"
+              className="instrument-panel instrument-card group flex h-full flex-col rounded-2xl p-5"
               >
                 <h3 className="flex items-center gap-1 text-lg">
                   {t.title}
