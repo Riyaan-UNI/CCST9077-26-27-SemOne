@@ -113,9 +113,8 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
 
       // Update + draw particles
       for (const p of particles) {
-        p.phase += 0.014;
-
         if (!reduceMotionRef.current) {
+          p.phase += 0.014;
           p.x += p.vx + Math.cos(p.phase) * 0.06;
           p.y += p.vy + Math.sin(p.phase * 0.8) * 0.06;
         }
@@ -129,7 +128,9 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
           const d = Math.hypot(p.x - pointer.x, p.y - pointer.y);
           targetCollapse = 1 - smoothstep(d / R);
         }
-        p.collapse += (targetCollapse - p.collapse) * 0.12;
+        p.collapse = reduceMotionRef.current
+          ? targetCollapse
+          : p.collapse + (targetCollapse - p.collapse) * 0.12;
 
         const c = p.collapse;
         const color = p.hue > 0.72 ? cyan : neon;
@@ -156,7 +157,10 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
           ctx.strokeStyle = hexToRgba(color, 0.5 * c);
           ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r + 3 + Math.sin(time / 500 + p.phase) * 1.6, 0, Math.PI * 2);
+          const ringRadius = reduceMotionRef.current
+            ? p.r + 3
+            : p.r + 3 + Math.sin(time / 500 + p.phase) * 1.6;
+          ctx.arc(p.x, p.y, ringRadius, 0, Math.PI * 2);
           ctx.stroke();
         } else {
           ctx.fillStyle = hexToRgba(color, 0.35);
@@ -205,7 +209,7 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
     function loop(time: number) {
       if (!running) return;
       draw(time);
-      raf = requestAnimationFrame(loop);
+      if (!reduceMotionRef.current) raf = requestAnimationFrame(loop);
     }
 
     function onPointerMove(e: PointerEvent) {
@@ -213,11 +217,13 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
       pointer.x = e.clientX - rect.left;
       pointer.y = e.clientY - rect.top;
       pointer.active = true;
+      if (reduceMotionRef.current) draw(performance.now());
     }
     function onPointerLeave() {
       pointer.active = false;
       pointer.x = -9999;
       pointer.y = -9999;
+      if (reduceMotionRef.current) draw(performance.now());
     }
     function onVisibility() {
       if (document.hidden) {
@@ -244,6 +250,7 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
       const next = getComputedStyle(document.documentElement);
       neon = next.getPropertyValue('--neon').trim() || neon;
       cyan = next.getPropertyValue('--cyan').trim() || cyan;
+      if (reduceMotionRef.current) draw(performance.now());
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
@@ -256,7 +263,7 @@ export default function ObserverField({ className, density = 0.9, radius = 150 }
       window.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [density, radius]);
+  }, [density, radius, reduceMotion]);
 
   return (
     <canvas

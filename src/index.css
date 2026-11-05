@@ -8,24 +8,27 @@
  * ------------------------------------------------------------------ */
 :root,
 html.dark {
-  --canvas: #0a0e0c;
-  --surface: #101713;
-  --elevated: #16201a;
-  --line: rgba(57, 255, 20, 0.16);
-  --line-strong: rgba(57, 255, 20, 0.34);
-  --ink: #e9f6ec;
-  --ink-soft: #cfe0d4;
-  --muted: #8a9b91;
-  --neon: #39ff14;
-  --neon-ink: #06110a;
-  --cyan: #5be3ff;
+  --canvas: #070b12;
+  --surface: #0d1421;
+  --elevated: #141f30;
+  --line: rgba(133, 185, 230, 0.16);
+  --line-strong: rgba(78, 218, 255, 0.38);
+  --ink: #f1f6ff;
+  --ink-soft: #d1dced;
+  --muted: #9aa9bf;
+  --neon: #57ddfa;
+  --neon-ink: #04151c;
+  --cyan: #b39aff;
+  --violet: #b39aff;
+  --green-signal: #8cf0ad;
   --hku: #0F4D2E;
   --hku-green: var(--hku);
   --screen: #111111;
   --hype-amber: #FFB020;
   --error: #FF5C5C;
   --cream: #f6f1e4;
-  --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.9);
+  --shadow: 0 28px 80px -34px rgba(0, 0, 0, 0.82);
+  --shadow-accent: 0 0 0 1px rgba(87, 221, 250, 0.14), 0 18px 52px -28px rgba(67, 195, 255, 0.42);
 
   --era-codes: #ffb74d;
   --era-theory: #5be3ff;
@@ -41,24 +44,27 @@ html.dark {
 }
 
 html.light {
-  --canvas: #f6f1e4;
-  --surface: #fffdf7;
-  --elevated: #ffffff;
-  --line: rgba(15, 64, 46, 0.16);
-  --line-strong: rgba(15, 64, 46, 0.4);
-  --ink: #0d2119;
-  --ink-soft: #22392e;
-  --muted: #4d5b53;
-  --neon: #0f7a2e;
-  --neon-ink: #f2fff5;
-  --cyan: #0e7490;
+  --canvas: #f3f7fc;
+  --surface: #ffffff;
+  --elevated: #eaf1f9;
+  --line: rgba(24, 50, 83, 0.14);
+  --line-strong: rgba(7, 113, 145, 0.42);
+  --ink: #0a1b2e;
+  --ink-soft: #203952;
+  --muted: #51677f;
+  --neon: #087c9d;
+  --neon-ink: #ffffff;
+  --cyan: #6847c5;
+  --violet: #6847c5;
+  --green-signal: #187446;
   --hku: #0F4D2E;
   --hku-green: var(--hku);
   --screen: #111111;
   --hype-amber: #92400e;
   --error: #FF5C5C;
   --cream: #ffffff;
-  --shadow: 0 24px 50px -30px rgba(15, 64, 46, 0.4);
+  --shadow: 0 28px 70px -34px rgba(15, 44, 76, 0.3);
+  --shadow-accent: 0 0 0 1px rgba(8, 124, 157, 0.12), 0 18px 44px -28px rgba(8, 124, 157, 0.3);
 
   --era-codes: #b45309;
   --era-theory: #0e7490;
@@ -99,6 +105,8 @@ html.light {
   --color-neon: var(--neon);
   --color-neon-ink: var(--neon-ink);
   --color-cyan: var(--cyan);
+  --color-violet: var(--violet);
+  --color-green-signal: var(--green-signal);
   --color-hku: var(--hku);
   --color-hku-green: var(--hku-green);
   --color-screen: var(--screen);
@@ -114,6 +122,7 @@ html.light {
   --color-verdict-nuance: var(--verdict-nuance);
 
   --shadow-lift: var(--shadow);
+  --shadow-glow: var(--shadow-accent);
 
   --animate-blink: blink 1.05s step-end infinite;
   --animate-scan: scan 7s linear infinite;
@@ -190,6 +199,11 @@ html.light {
     overflow-x: hidden;
   }
 
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   h1,
   h2,
   h3,
@@ -242,7 +256,73 @@ html.light {
   background-image:
     linear-gradient(to right, var(--line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 44px 44px;
+  background-size: 56px 56px;
+}
+
+@utility glass-panel {
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055), var(--shadow-lift);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+@utility glass-card {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.glass-card:hover,
+.glass-card:focus-within {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-glow);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .glass-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.site-atmosphere {
+  background-image:
+    radial-gradient(ellipse at 14% -8%, color-mix(in srgb, var(--neon) 10%, transparent), transparent 44rem),
+    radial-gradient(ellipse at 94% 22%, color-mix(in srgb, var(--violet) 9%, transparent), transparent 42rem);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 56.25rem) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(20rem, 0.88fr);
+  }
+}
+
+@media (min-width: 80rem) {
+  .hero-grid {
+    column-gap: 4.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .quantum-button {
+    transition: transform 160ms ease, box-shadow 180ms ease, filter 180ms ease;
+  }
+
+  .quantum-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .quantum-button:active {
+    transform: translateY(0) scale(0.985);
+  }
 }
 
 @utility crt-overlay {

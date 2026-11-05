@@ -22,8 +22,8 @@ export default function Section({
   align = 'left',
 }: SectionProps) {
   return (
-    <section id={id} className={cn('scroll-mt-24 py-20 sm:py-24', className)}>
-      <div className="mx-auto w-full max-w-6xl px-5">
+    <section id={id} className={cn('scroll-mt-24 py-16 sm:py-20 lg:py-24', className)}>
+      <div className="mx-auto w-full max-w-7xl px-5 lg:px-8">
         {(eyebrow || title || lead) && (
           <Reveal className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center')}>
             {eyebrow && (

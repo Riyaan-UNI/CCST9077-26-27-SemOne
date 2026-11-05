@@ -49,7 +49,7 @@ export default function Lab() {
         <Tabs.Root value={tab} onValueChange={setTab}>
           <Tabs.List
             aria-label="Lab sections"
-            className="inline-flex flex-wrap gap-1 rounded-xl border border-line bg-surface p-1"
+            className="glass-panel inline-flex flex-wrap gap-1 rounded-xl p-1"
           >
             {TABS.map(({ id, label, icon: Icon }) => (
               <Tabs.Trigger
@@ -128,7 +128,7 @@ export default function Lab() {
       </Section>
 
       <Section className="pt-4">
-        <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+        <div className="glass-panel rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl">How the engine is verified</h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
             The simulator is a plain TypeScript module with no dependencies. Its test suite pins it to

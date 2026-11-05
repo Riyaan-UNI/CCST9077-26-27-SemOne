@@ -95,7 +95,7 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
   );
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-line bg-surface transition hover:border-line-strong">
+    <article className="glass-panel glass-card overflow-hidden rounded-2xl">
       <div className="relative aspect-video overflow-hidden bg-[#070b09]">
         {canPlay ? (
           <button

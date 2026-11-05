@@ -167,7 +167,7 @@ export default function Simulator() {
     <div className="grid gap-6 lg:grid-cols-[22rem_1fr]">
       {/* ---------------- controls ---------------- */}
       <div className="space-y-5">
-        <div className="rounded-2xl border border-line bg-surface p-5">
+        <div className="glass-panel rounded-2xl p-5">
           <p className="ui-label text-neon">Register</p>
           <div className="mt-3 flex gap-2">
             {[1, 2, 3].map((n) => (
@@ -194,7 +194,7 @@ export default function Simulator() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-line bg-surface p-5">
+        <div className="glass-panel rounded-2xl p-5">
           <p className="ui-label text-neon">Gates</p>
           <div className="mt-3 grid grid-cols-3 gap-2">
             {(['H', 'X', 'Z', 'S', 'T'] as GateName[]).map((g) => (
@@ -249,7 +249,7 @@ export default function Simulator() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-line bg-surface p-5">
+        <div className="glass-panel rounded-2xl p-5">
           <p className="ui-label text-neon">Presets</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {PRESETS.map((p) => (
@@ -307,7 +307,7 @@ export default function Simulator() {
 
       {/* ---------------- output ---------------- */}
       <div className="space-y-6">
-        <div className="rounded-2xl border border-line bg-surface p-5">
+        <div className="glass-panel rounded-2xl p-5">
           <div className="flex items-center justify-between gap-4">
             <p className="ui-label text-neon">Circuit</p>
             <p className="font-mono text-xs text-muted">{ops.length} gate{ops.length === 1 ? '' : 's'}</p>
@@ -353,7 +353,7 @@ export default function Simulator() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl border border-line bg-surface p-5">
+          <div className="glass-panel rounded-2xl p-5">
             <p className="ui-label text-neon">Amplitudes</p>
             <ul className="mt-4 space-y-2.5">
               {state.map((amp, i) => {
@@ -387,7 +387,7 @@ export default function Simulator() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-line bg-surface p-5">
+          <div className="glass-panel rounded-2xl p-5">
             <div className="flex items-center justify-between">
               <p className="ui-label text-neon">
                 Measurement statistics
@@ -444,7 +444,7 @@ export default function Simulator() {
         </div>
 
         {numQubits === 1 && bloch && (
-          <div className="rounded-2xl border border-line bg-surface p-5">
+          <div className="glass-panel rounded-2xl p-5">
             <div className="flex items-center justify-between">
               <p className="ui-label text-neon">
                 Bloch sphere

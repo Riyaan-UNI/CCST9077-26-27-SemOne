@@ -11,7 +11,7 @@ function ConceptCard({ concept, onOpen }: { concept: Concept; onOpen: () => void
     <button
       type="button"
       onClick={onOpen}
-      className="group h-full w-full rounded-2xl border border-line bg-surface p-5 text-left transition hover:-translate-y-1 hover:border-line-strong hover:shadow-lift"
+      className="glass-panel glass-card group h-full w-full rounded-2xl p-5 text-left"
     >
       <div className="flex items-start justify-between">
         <span className="grid h-11 w-11 place-items-center rounded-xl border border-line bg-elevated font-mono text-lg text-neon">

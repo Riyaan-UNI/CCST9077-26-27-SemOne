@@ -22,11 +22,12 @@ function MemberCard({
     : { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
-    <div className="rounded-2xl border border-line bg-surface">
+    <article className="glass-panel glass-card h-fit self-start rounded-2xl">
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
+        aria-controls={`member-details-${member.id}`}
         className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-elevated"
       >
         <Qubi mood={member.deliverables.includes('mascot') ? 'happy' : 'curious'} size={64} float={false} />
@@ -54,6 +55,9 @@ function MemberCard({
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
+            id={`member-details-${member.id}`}
+            role="region"
+            aria-label={`${member.name.value} contributions and fun fact`}
             initial={reduceMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
@@ -78,7 +82,7 @@ function MemberCard({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </article>
   );
 }
 
@@ -94,7 +98,7 @@ export default function Team() {
       >
         <div
           data-testid="team-member-grid"
-          className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 xl:grid-cols-4"
+          className="grid auto-rows-min grid-cols-1 content-start items-start gap-5 md:grid-cols-2 xl:grid-cols-4"
         >
           {team.map((m) => (
             <MemberCard

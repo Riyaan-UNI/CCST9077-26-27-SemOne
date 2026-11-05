@@ -67,19 +67,21 @@ export default function Nav() {
 
   return (
     <Tooltip.Provider delayDuration={250}>
-      <header className="fixed inset-x-0 top-0 z-50">
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
         <div
           className={cn(
-            'border-b transition-colors duration-300',
-            scrolled ? 'border-line bg-canvas/80 backdrop-blur-xl' : 'border-transparent bg-transparent',
+            'mx-auto max-w-7xl rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300',
+            scrolled
+              ? 'border-line-strong bg-canvas/88 shadow-lift backdrop-blur-2xl'
+              : 'border-line/80 bg-canvas/65 backdrop-blur-xl',
           )}
         >
           <nav
-            className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-5"
+            className="mx-auto flex h-16 w-full items-center gap-3 px-3 sm:px-5"
             aria-label="Primary"
           >
             <Link to="/" className="group flex items-center gap-2.5">
-              <span className="grid h-8 w-8 place-items-center rounded-lg border-2 border-line-strong bg-[#070b09] font-mono text-lg leading-none text-neon">
+              <span className="grid h-9 w-9 place-items-center rounded-xl border border-line-strong bg-elevated font-mono text-lg leading-none text-neon shadow-glow">
                 Q
               </span>
               <span className="hidden leading-tight sm:block">
@@ -98,8 +100,8 @@ export default function Nav() {
                   <Link
                     to={item.href}
                     className={cn(
-                      'block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] text-ink-soft transition hover:bg-elevated hover:text-neon',
-                      location.pathname === item.href && 'text-neon',
+                      'block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] text-ink-soft transition hover:bg-elevated hover:text-neon focus-visible:text-neon',
+                      location.pathname === item.href && 'bg-neon/10 text-neon',
                     )}
                   >
                     {item.label}
@@ -164,7 +166,7 @@ export default function Nav() {
                   animate={{ x: 0 }}
                   exit={{ x: '100%' }}
                   transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-                  className="fixed right-0 top-0 z-[61] flex h-screen max-h-[100dvh] w-full max-w-sm flex-col overflow-hidden border-l border-line bg-surface p-6"
+                  className="fixed right-0 top-0 z-[61] flex h-screen max-h-[100dvh] w-full max-w-sm flex-col overflow-hidden border-l border-line-strong bg-surface/95 p-6 shadow-lift backdrop-blur-2xl"
                 >
                   <div className="flex shrink-0 items-center justify-between">
                     <Dialog.Title className="font-display text-lg">Navigate</Dialog.Title>

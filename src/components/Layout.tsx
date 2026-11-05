@@ -65,7 +65,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <Tooltip.Provider delayDuration={200}>
-      <div className="relative min-h-screen bg-canvas">
+      <div className="site-atmosphere relative min-h-screen bg-canvas">
         <a
           href="#main"
           className="sr-only-focusable focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-neon focus:px-4 focus:py-2 focus:text-neon-ink"
