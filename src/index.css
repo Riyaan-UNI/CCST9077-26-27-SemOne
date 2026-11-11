@@ -564,8 +564,9 @@ html.light {
 @keyframes intro-flicker { 50% { opacity: .72; } }
 .quantum-intro.is-static *, .quantum-intro.is-static *::before, .quantum-intro.is-static *::after { animation: none !important; transition: none !important; }
 
-.guided-tour { position: fixed; z-index: 55; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); display: grid; width: min(34rem, calc(100vw - 2rem)); grid-template-columns: 4.25rem minmax(0, 1fr); gap: 0.85rem; border: 1px solid var(--line-strong); border-top: 3px solid var(--neon); background: var(--surface); padding: 1rem; box-shadow: 0 18px 55px rgba(0,0,0,.42); }
-.tour-qubi { align-self: start; }
+.guided-tour { position: fixed; z-index: 55; top: calc(4.75rem + 0.75rem); left: max(1rem, env(safe-area-inset-left)); display: grid; width: min(34rem, calc(100vw - 2rem)); grid-template-columns: minmax(0, 1fr); gap: 0.85rem; border: 1px solid var(--line-strong); border-top: 3px solid var(--neon); background: var(--surface); padding: 1rem; box-shadow: 0 18px 55px rgba(0,0,0,.42); }
+.tour-companion { position: fixed; z-index: 54; display: grid; width: 3.5rem; height: 3.5rem; place-items: center; pointer-events: none; filter: drop-shadow(0 4px 14px rgba(0, 0, 0, .55)); transition: left 420ms cubic-bezier(.2,.8,.2,1), top 420ms cubic-bezier(.2,.8,.2,1); }
+.guided-tour-target { position: relative; z-index: 32; outline: 3px solid var(--neon); outline-offset: 4px; box-shadow: 0 0 0 8px color-mix(in srgb, var(--neon) 18%, transparent); }
 .tour-copy { min-width: 0; }
 .tour-copy .record-kicker { flex-wrap: wrap; font-size: 0.7rem; }
 .tour-copy h2 { margin: 0.25rem 0 0; font-size: 1.1rem; }
@@ -586,8 +587,9 @@ html.light {
   .intro-content { min-height: 90dvh; }
   .intro-black-hole { top: 7%; width: 72vw; }
   .intro-content h1 { font-size: clamp(2.45rem, 12vw, 4rem); }
-  .guided-tour { right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); width: calc(100vw - 1rem); grid-template-columns: 3.15rem minmax(0,1fr); gap: .55rem; padding: .75rem; }
-  .guided-tour .tour-qubi svg { width: 50px; height: 50px; }
+  .guided-tour { top: calc(4.25rem + .75rem); right: .5rem; left: .5rem; width: auto; grid-template-columns: minmax(0,1fr); gap: .55rem; padding: .75rem; }
+  .tour-companion { width: 3rem; height: 3rem; }
+  .tour-companion svg { width: 46px; height: 46px; }
   .tour-skip { margin-left: 0; }
   .tour-copy > p:not(.record-kicker) { font-size: .82rem; }
 }

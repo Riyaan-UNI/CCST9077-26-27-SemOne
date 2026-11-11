@@ -39,6 +39,8 @@ test.describe('Public Registry and routes', () => {
     await expect(page.getByRole('heading', { name: 'Public Registry' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Quantum Lost-and-Found Bureau/i);
     await expect(page.getByRole('heading', { name: 'The video records' })).toBeVisible();
+    await expect(page.locator('#home-title')).toHaveClass(/guided-tour-target/);
+    await expect(page.locator('.tour-companion')).toBeVisible();
 
     const order = await page.evaluate(() => {
       const landing = document.querySelector('.registry-landing');
@@ -50,6 +52,7 @@ test.describe('Public Registry and routes', () => {
     await page.getByRole('button', { name: 'Next place' }).click();
     await expect(page).toHaveURL(/\/cases$/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Three limits/i);
+    await expect(page.locator('.record-register')).toHaveClass(/guided-tour-target/);
   });
 
   test('theme switch changes to light mode and back', async ({ page }) => {
