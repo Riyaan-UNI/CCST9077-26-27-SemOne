@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs';
@@ -39,7 +38,7 @@ async function setThemeAndReducedMotion(context, theme, reducedMotion) {
     localStorage.setItem(
       'qubi-preferences',
       JSON.stringify({
-        state: { theme: opts.theme === 'paper' ? 'light' : 'dark' },
+        state: { theme: opts.theme === 'paper' ? 'light' : 'dark', introComplete: true },
         version: 0,
       }),
     );
@@ -48,7 +47,7 @@ async function setThemeAndReducedMotion(context, theme, reducedMotion) {
       localStorage.setItem(
         'qubi-preferences',
         JSON.stringify({
-          state: { theme: opts.theme === 'paper' ? 'light' : 'dark' },
+          state: { theme: opts.theme === 'paper' ? 'light' : 'dark', introComplete: true },
           version: 0,
         }),
       );

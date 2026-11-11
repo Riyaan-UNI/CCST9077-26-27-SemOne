@@ -56,9 +56,9 @@ export const videos: VideoSlot[] = [
   {
     id: 'cant-copy-cant-hack',
     episode: 4,
-    title: "Can't Copy, Can't Hack",
+    title: 'No Perfect Copy',
     description:
-      'Planned episode about the no-cloning theorem and its connection to quantum communication; explanations will be reviewed before release.',
+      'Planned episode about the no-cloning theorem. The group will review its examples and science before release.',
     thumbnail: 'videos/no-cloning.png',
     youtubeId: '',
     status: 'coming-soon',

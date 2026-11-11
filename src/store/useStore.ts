@@ -31,6 +31,10 @@ interface AppState {
   sound: boolean;
   observerMode: boolean;
   reduceMotion: boolean;
+  hasHydrated: boolean;
+  introComplete: boolean;
+  tourActive: boolean;
+  tourIndex: number;
 
   /* Qubi's reaction event bus */
   reaction: QubiReaction | null;
@@ -42,6 +46,11 @@ interface AppState {
   toggleSound: () => void;
   toggleObserverMode: () => void;
   setReduceMotion: (value: boolean) => void;
+  setHasHydrated: (value: boolean) => void;
+  completeIntro: () => void;
+  startTour: () => void;
+  setTourIndex: (index: number) => void;
+  finishTour: () => void;
   react: (mood: QubiMood, text: string) => void;
   recordPrediction: (caseId: CaseId, prediction: string) => void;
   recordObservation: (caseId: CaseId, observation: string) => void;
@@ -59,6 +68,10 @@ export const useStore = create<AppState>()(
       sound: false,
       observerMode: true,
       reduceMotion: prefersReducedMotion(),
+      hasHydrated: false,
+      introComplete: false,
+      tourActive: false,
+      tourIndex: 0,
 
       reaction: null,
       reactionCount: 0,
@@ -69,6 +82,11 @@ export const useStore = create<AppState>()(
       toggleSound: () => set({ sound: !get().sound }),
       toggleObserverMode: () => set({ observerMode: !get().observerMode }),
       setReduceMotion: (reduceMotion) => set({ reduceMotion }),
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
+      completeIntro: () => set({ introComplete: true }),
+      startTour: () => set({ introComplete: true, tourActive: true, tourIndex: 0 }),
+      setTourIndex: (tourIndex) => set({ tourIndex }),
+      finishTour: () => set({ tourActive: false, tourIndex: 0 }),
 
       react: (mood, text) =>
         set((s) => ({
@@ -100,12 +118,14 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'qubi-preferences',
+      onRehydrateStorage: () => (state) => state?.setHasHydrated(true),
       // Only persist genuine preferences, never transient UI state.
       partialize: (s) => ({
         theme: s.theme,
         sound: s.sound,
         observerMode: s.observerMode,
         caseLedger: s.caseLedger,
+        introComplete: s.introComplete,
       }),
     },
   ),

@@ -23,6 +23,7 @@ This log records the choices made by the student group during planning. Update i
 | Design refinement | Make “Three linked limits on information” the landing-page throughline; keep the landing section first and videos immediately after it. | Phrase selected by the student. An AI-assisted Figma token board was mapped to the existing CSS palette; it is a design reference, not a replacement for group-authored scientific explanations. |
 | Assessment audit | Rubric Traceability Matrix | Selected by the student. A working matrix is in `docs/rubric-traceability-matrix.md`; its pending items are intentionally left for the group to complete. |
 | Prototype status | Bureau implementation | AI assistance was used to implement the prototype and draft interface copy. The implementation is not a substitute for the group's own final writing, lecture/source verification, media review, and testing. |
+| Visitor onboarding | The student asked for a dramatic, game-like first visit with Qubi guiding visitors through every page, followed by contextual video prompts and more active case tests. | Prototype now has a skippable black-hole title reveal, a metaphor-labeled Qubi measurement action, an 18-route guided tour, case outcome visualizations, and dismissible links to related videos. The group should review the tour order, the analogy language, all result explanations, and mobile presentation before submission. |
 
 ## Pending group-authored work
 

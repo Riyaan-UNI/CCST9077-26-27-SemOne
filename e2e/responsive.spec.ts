@@ -1,5 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('qubi-preferences', JSON.stringify({ state: { introComplete: true }, version: 0 }));
+  });
+});
+
 /* ------------------------------------------------------------------ *
  * Responsiveness audit — every route at every breakpoint.
  *

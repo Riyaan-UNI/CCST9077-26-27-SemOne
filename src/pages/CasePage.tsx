@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Check, FileText, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, FileText, Play, X } from 'lucide-react';
 import Page from '@/components/Page';
 import Qubi from '@/components/Qubi';
 import EvidenceLedger from '@/components/cases/EvidenceLedger';
@@ -10,20 +10,6 @@ import { useStore } from '@/store/useStore';
 import { createState, hadamard, measure, playChshQuantum } from '@/quantum/simulator';
 
 type Stage = 'prediction' | 'test' | 'finding';
-
-function runTest(caseId: string) {
-  if (caseId === 'measurement') {
-    const samples = Array.from({ length: 24 }, () => measure(hadamard(createState(1), 0)).outcome);
-    const zero = samples.filter((value) => value === 0).length;
-    return `Sample of 24 prepared trials: ${zero} read |0⟩ and ${samples.length - zero} read |1⟩. Each run is random; this one sample can vary.`;
-  }
-  if (caseId === 'entanglement') {
-    const trials = Array.from({ length: 48 }, () => playChshQuantum());
-    const wins = trials.filter((trial) => trial.win).length;
-    return `In this simulated sample, the quantum CHSH strategy won ${wins} of 48 rounds (${Math.round((wins / trials.length) * 100)}%). A game score measures correlations; it is not a message sent between the players.`;
-  }
-  return '';
-}
 
 export default function CasePage() {
   const { caseId } = useParams();
@@ -35,6 +21,9 @@ export default function CasePage() {
   const [stage, setStage] = useState<Stage>('prediction');
   const [observation, setObservation] = useState('');
   const [copyMode, setCopyMode] = useState<'known' | 'unknown'>('unknown');
+  const [videoNudgeVisible, setVideoNudgeVisible] = useState(true);
+  const [measurementOutcomes, setMeasurementOutcomes] = useState<number[]>([]);
+  const [chshRounds, setChshRounds] = useState<ReturnType<typeof playChshQuantum>[]>([]);
 
   if (!item) {
     return (
@@ -62,11 +51,22 @@ export default function CasePage() {
   };
 
   const runCaseTest = () => {
-    const result = item.id === 'no-cloning'
-      ? copyMode === 'known'
+    let result: string;
+    if (item.id === 'measurement') {
+      const outcomes = Array.from({ length: 24 }, () => measure(hadamard(createState(1), 0)).outcome);
+      setMeasurementOutcomes(outcomes);
+      const zero = outcomes.filter((value) => value === 0).length;
+      result = `Sample of 24 prepared trials: ${zero} read |0⟩ and ${outcomes.length - zero} read |1⟩. Each run is random; this one sample can vary.`;
+    } else if (item.id === 'entanglement') {
+      const rounds = Array.from({ length: 48 }, () => playChshQuantum());
+      setChshRounds(rounds);
+      const wins = rounds.filter((trial) => trial.win).length;
+      result = `In this simulated sample, the quantum CHSH strategy won ${wins} of ${rounds.length} rounds (${Math.round((wins / rounds.length) * 100)}%). A game score measures correlations; it is not a message sent between the players.`;
+    } else {
+      result = copyMode === 'known'
         ? 'When a state is known to the preparer, that preparation can be repeated to make another instance. This is not a universal copier for unknown inputs.'
-        : 'For an arbitrary unknown input state, quantum theory rules out a universal operation that makes a perfect independent copy while preserving the original.'
-      : runTest(item.id);
+        : 'For an arbitrary unknown input state, quantum theory rules out a universal operation that makes a perfect independent copy while preserving the original.';
+    }
     setObservation(result);
     recordObservation(item.id, result);
     setStage('finding');
@@ -164,7 +164,38 @@ export default function CasePage() {
             <button type="button" className="record-button mt-5" onClick={runCaseTest}>
               <Play size={15} aria-hidden="true" /> Run case test
             </button>
-            {observation && <p className="case-observation" role="status">{observation}</p>}
+            {observation && (
+              <div className="case-test-output">
+                <p className="case-observation" role="status">{observation}</p>
+                {item.id === 'measurement' && measurementOutcomes.length > 0 && (
+                  <div className="case-visualizer" role="group" aria-label="Measurement trial results">
+                    <div className="case-visualizer-head"><strong>Measurement tray</strong><span>24 runs · this sample</span></div>
+                    <ol className="measurement-sample" aria-label="The 24 trial outcomes">
+                      {measurementOutcomes.map((outcome, index) => <li key={`${index}-${outcome}`} className={outcome === 0 ? 'result-zero' : 'result-one'} aria-label={`Trial ${index + 1}: result ${outcome}`}>{outcome}</li>)}
+                    </ol>
+                    <div className="case-visualizer-legend"><span><i className="result-dot result-zero" /> |0⟩ · {measurementOutcomes.filter((value) => value === 0).length}</span><span><i className="result-dot result-one" /> |1⟩ · {measurementOutcomes.filter((value) => value === 1).length}</span></div>
+                  </div>
+                )}
+                {item.id === 'entanglement' && chshRounds.length > 0 && (
+                  <div className="case-visualizer" role="group" aria-label="CHSH game rounds">
+                    <div className="case-visualizer-head"><strong>Two-player game board</strong><span>48 independent rounds</span></div>
+                    <div className="chsh-board-head"><span>Round</span><span>Settings x, y</span><span>Answers a, b</span><span>Score</span></div>
+                    <ol className="chsh-rounds">
+                      {chshRounds.map((round, index) => <li key={index}><span>{String(index + 1).padStart(2, '0')}</span><span>{round.x}, {round.y}</span><span>{round.a}, {round.b}</span><strong className={round.win ? 'round-win' : 'round-loss'}>{round.win ? 'WIN' : 'MISS'}</strong></li>)}
+                    </ol>
+                    <p className="case-visualizer-foot">The board compares answers after each round; no message travels between the players during play.</p>
+                  </div>
+                )}
+                {item.id === 'no-cloning' && (
+                  <div className={`copy-machine ${copyMode === 'known' ? 'can-prepare' : 'unknown-input'}`} role="group" aria-label="Copy-machine comparison">
+                    <div className="copy-machine-head"><strong>{copyMode === 'known' ? 'Known preparation' : 'Arbitrary unknown input'}</strong><span>{copyMode === 'known' ? 'Can prepare again' : 'No universal perfect copier'}</span></div>
+                    <div className="copy-machine-flow"><span className="copy-state-chip">Original state</span><span className="copy-machine-gate" aria-hidden="true">{copyMode === 'known' ? 'PREPARE' : '×'}</span><span className="copy-state-chip">{copyMode === 'known' ? 'New preparation' : 'Perfect copy unavailable'}</span></div>
+                    <p>{copyMode === 'known' ? 'Recreating a known preparation is different from copying an arbitrary unknown state.' : 'The theorem limits a universal perfect operation; it does not forbid preparing another copy when the state is known.'}</p>
+                  </div>
+                )}
+                <button type="button" className="case-rerun" onClick={runCaseTest}>Run another sample <ArrowRight size={15} aria-hidden="true" /></button>
+              </div>
+            )}
           </section>
         )}
 
@@ -195,16 +226,18 @@ export default function CasePage() {
           </details>
         )}
 
-        {relatedVideos.length > 0 && (
-          <aside className="case-related mt-10" aria-labelledby="related-video-title">
-            <p className="record-kicker">Related video record</p>
-            <h2 id="related-video-title" className="mt-2">Watch with Qubi</h2>
+        {relatedVideos.some((video) => video.status === 'live') && videoNudgeVisible && (
+          <aside className="case-related case-video-nudge mt-10" aria-labelledby="related-video-title">
+            <button type="button" className="case-nudge-dismiss" onClick={() => setVideoNudgeVisible(false)} aria-label="Dismiss related video suggestion"><X size={17} aria-hidden="true" /></button>
+            <p className="record-kicker">Qubi’s watch-along</p>
+            <h2 id="related-video-title" className="mt-2">Have you watched the video version?</h2>
+            <p className="case-nudge-copy">See how the group presents this idea, then return here to compare it with the interactive test.</p>
             <ul className="related-video-list mt-3">
-              {relatedVideos.map((video) => (
+              {relatedVideos.filter((video) => video.status === 'live').map((video) => (
                 <li key={video.id}>
                   <Link to={`/videos#${video.id}`}>
-                    <span>{video.status === 'live' ? 'Episode' : 'Coming soon'} {String(video.episode).padStart(2, '0')} · {video.title}</span>
-                    {video.status === 'live' && <Play size={14} aria-hidden="true" />}
+                    <span>Episode {String(video.episode).padStart(2, '0')} · {video.title}</span>
+                    <Play size={14} aria-hidden="true" />
                   </Link>
                 </li>
               ))}

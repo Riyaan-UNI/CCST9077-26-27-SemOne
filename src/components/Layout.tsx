@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import QubiCompanion from '@/components/QubiCompanion';
+import QuantumIntro from '@/components/QuantumIntro';
+import GuidedTour from '@/components/GuidedTour';
 import { useStore } from '@/store/useStore';
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -44,6 +46,8 @@ export default function Layout({ children }: { children: ReactNode }) {
       <main id="main" tabIndex={-1} className="bureau-main">{children}</main>
       <Footer />
       <QubiCompanion />
+      <GuidedTour />
+      <QuantumIntro />
     </div>
   );
 }

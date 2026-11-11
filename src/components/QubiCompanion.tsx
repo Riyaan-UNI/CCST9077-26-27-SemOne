@@ -14,6 +14,8 @@ export default function QubiCompanion() {
   const reaction = useStore((s) => s.reaction);
   const react = useStore((s) => s.react);
   const reduceMotion = useStore((s) => s.reduceMotion);
+  const tourActive = useStore((s) => s.tourActive);
+  const startTour = useStore((s) => s.startTour);
   const [dismissedId, setDismissedId] = useState<number | null>(null);
 
   /* Auto-hide the bubble. The timeout callback — not the effect body — updates state. */
@@ -26,17 +28,17 @@ export default function QubiCompanion() {
 
   const bubble = reaction && reaction.id !== dismissedId ? reaction.text : null;
 
-  if (reduceMotion) return null;
+  if (tourActive) return null;
 
   return (
-    <div className="pointer-events-none fixed bottom-3 right-3 z-40 hidden items-end gap-3 sm:flex">
+    <div className="pointer-events-none fixed bottom-3 right-3 z-40 flex items-end gap-2">
       <AnimatePresence>
         {bubble && (
           <motion.div
             key={bubble}
-            initial={{ opacity: 0, y: 8, scale: 0.94 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 8, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.94 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.94 }}
             className="pointer-events-auto mb-3 max-w-[15rem] rounded-2xl rounded-br-sm border border-line bg-elevated px-3.5 py-2.5 text-sm text-ink shadow-lift"
           >
             {bubble}
@@ -44,17 +46,20 @@ export default function QubiCompanion() {
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => {
-          const phrases = site.mascot.catchphrases;
-          react('happy', phrases[Math.floor(Math.random() * phrases.length)]);
-        }}
-        aria-label="Ask Qubi for a catchphrase"
-        className="pointer-events-auto rounded-2xl transition hover:scale-105 active:scale-95"
-      >
-        <Qubi mood={bubble ? 'happy' : 'idle'} size={64} float={false} />
-      </button>
+      <div className="qubi-dock pointer-events-auto">
+        <button type="button" className="qubi-tour-launch" onClick={startTour}><span>Take the tour</span></button>
+        <button
+          type="button"
+          onClick={() => {
+            const phrases = site.mascot.catchphrases;
+            react('happy', phrases[Math.floor(Math.random() * phrases.length)]);
+          }}
+          aria-label="Ask Qubi for a catchphrase"
+          className="rounded-2xl transition hover:scale-105 active:scale-95"
+        >
+          <Qubi mood={bubble ? 'happy' : 'idle'} size={64} float={false} />
+        </button>
+      </div>
     </div>
   );
 }

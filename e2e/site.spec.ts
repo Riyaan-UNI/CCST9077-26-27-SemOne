@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+async function openAppPage(page: import('@playwright/test').Page, path: string) {
+  await page.addInitScript(() => {
+    localStorage.setItem('qubi-preferences', JSON.stringify({ state: { introComplete: true }, version: 0 }));
+  });
+  await page.goto(path);
+}
+
 test.describe('Public Registry and routes', () => {
   const routes: Array<[string, RegExp]> = [
     ['/', /Quantum Lost-and-Found Bureau/i],
@@ -17,15 +24,19 @@ test.describe('Public Registry and routes', () => {
 
   for (const [path, heading] of routes) {
     test(`${path} renders its primary heading`, async ({ page }) => {
-      await page.goto(path);
+      await openAppPage(page, path);
       await expect(page.getByRole('heading', { level: 1 })).toContainText(heading);
     });
   }
 
-  test('new visitors land on the Public Registry before the video records', async ({ page }) => {
-    await page.addInitScript(() => localStorage.removeItem('qubi-preferences'));
+  test('first-time visitors can measure Qubi and begin the guided route', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveClass(/dark/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+    await page.getByRole('button', { name: 'Meet Qubi' }).click();
+    await page.getByLabel('Measure Qubi').click();
+    await page.getByRole('button', { name: 'Start the guided tour' }).click();
+    await expect(page.getByRole('heading', { name: 'Public Registry' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Quantum Lost-and-Found Bureau/i);
     await expect(page.getByRole('heading', { name: 'The video records' })).toBeVisible();
 
@@ -35,11 +46,14 @@ test.describe('Public Registry and routes', () => {
       return Boolean(landing && videoSection && (landing.compareDocumentPosition(videoSection) & Node.DOCUMENT_POSITION_FOLLOWING));
     });
     expect(order).toBe(true);
+
+    await page.getByRole('button', { name: 'Next place' }).click();
+    await expect(page).toHaveURL(/\/cases$/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Three limits/i);
   });
 
   test('theme switch changes to light mode and back', async ({ page }) => {
-    await page.addInitScript(() => localStorage.removeItem('qubi-preferences'));
-    await page.goto('/');
+    await openAppPage(page, '/');
     await expect(page.locator('html')).toHaveClass(/dark/);
     await page.getByRole('button', { name: 'Switch to light mode' }).click();
     await expect(page.locator('html')).toHaveClass(/light/);
@@ -48,7 +62,7 @@ test.describe('Public Registry and routes', () => {
   });
 
   test('video thumbnail opens a click-to-load, nonmodal player', async ({ page }) => {
-    await page.goto('/videos');
+    await openAppPage(page, '/videos');
     await page.getByRole('button', { name: 'Play episode 1: The Magic Box' }).click();
 
     const player = page.getByRole('dialog', { name: 'The Magic Box' });
@@ -61,12 +75,12 @@ test.describe('Public Registry and routes', () => {
   });
 
   test('a saved prediction and test observation appear in the evidence ledger', async ({ page }) => {
-    await page.addInitScript(() => localStorage.removeItem('qubi-preferences'));
-    await page.goto('/cases/measurement');
+    await openAppPage(page, '/cases/measurement');
     await page.getByLabel('Two possible results across repeated trials').check();
     await page.getByRole('button', { name: /Save prediction/i }).click();
     await page.getByRole('button', { name: /Run case test/i }).click();
     await expect(page.getByRole('status')).toContainText(/Sample of 24 prepared trials/);
+    await expect(page.getByRole('list', { name: 'The 24 trial outcomes' }).locator('li')).toHaveCount(24);
     await expect(page.getByRole('heading', { name: 'What the case supports' })).toBeVisible();
 
     await page.getByRole('link', { name: /Add to case conference/i }).click();
@@ -75,20 +89,33 @@ test.describe('Public Registry and routes', () => {
   });
 
   test('no-cloning case distinguishes known preparation from arbitrary unknown states', async ({ page }) => {
-    await page.goto('/cases/no-cloning');
+    await openAppPage(page, '/cases/no-cloning');
+    await page.getByLabel('No universal perfect copier for arbitrary unknown states').check();
+    await page.getByRole('button', { name: /Save prediction/i }).click();
     await page.getByLabel('A state known to the preparer').check();
     await page.getByRole('button', { name: /Run case test/i }).click();
     await expect(page.getByRole('status')).toContainText(/preparation can be repeated/);
+    await expect(page.getByRole('group', { name: 'Copy-machine comparison' })).toContainText(/Known preparation/);
 
     await page.getByLabel('An arbitrary unknown input state').check();
     await page.getByRole('button', { name: /Run case test/i }).click();
     await expect(page.getByRole('status')).toContainText(/rules out a universal operation/);
+    await expect(page.getByRole('group', { name: 'Copy-machine comparison' })).toContainText(/No universal perfect copier/);
     await expect(page.getByText(/does not claim/i)).toBeVisible();
+  });
+
+  test('entanglement test exposes the settings and outcomes for each game round', async ({ page }) => {
+    await openAppPage(page, '/cases/entanglement');
+    await page.getByLabel('No, correlations do not make a controllable message channel').check();
+    await page.getByRole('button', { name: /Save prediction/i }).click();
+    await page.getByRole('button', { name: /Run case test/i }).click();
+    await expect(page.getByRole('list', { name: 'CHSH game rounds' }).locator('li')).toHaveCount(48);
+    await expect(page.getByText(/no message travels between the players/i)).toBeVisible();
   });
 
   test('short-height mobile navigation scrolls and closes after a selection', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 320 });
-    await page.goto('/');
+    await openAppPage(page, '/');
     await page.getByRole('button', { name: 'Open site menu' }).click();
     const menu = page.getByRole('dialog', { name: 'Public register' });
     await expect(menu).toBeVisible();
@@ -109,7 +136,7 @@ test.describe('Public Registry and routes', () => {
   });
 
   test('team shows four members and only the selected record expands', async ({ page }) => {
-    await page.goto('/team');
+    await openAppPage(page, '/team');
     await expect(page.getByRole('heading', { name: 'Four students. Qubi on the desk.' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Cynthia (Sun Siyan)' })).toBeVisible();
     const grid = page.getByTestId('team-member-grid');
@@ -122,7 +149,7 @@ test.describe('Public Registry and routes', () => {
   });
 
   test('the lab still measures a Bell pair as |00⟩ or |11⟩', async ({ page }) => {
-    await page.goto('/lab');
+    await openAppPage(page, '/lab');
     await page.getByRole('button', { name: 'Bell pair', exact: true }).click();
     for (let i = 0; i < 8; i++) {
       await page.getByRole('button', { name: 'Measure', exact: true }).click();
@@ -133,7 +160,7 @@ test.describe('Public Registry and routes', () => {
   });
 
   test('unknown routes recover to the Public Registry', async ({ page }) => {
-    await page.goto('/definitely-not-a-page');
+    await openAppPage(page, '/definitely-not-a-page');
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/not in the register/i);
     await page.getByRole('link', { name: /Public Registry/i }).click();
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Quantum Lost-and-Found Bureau/i);
@@ -143,7 +170,7 @@ test.describe('Public Registry and routes', () => {
 test.describe('accessibility smoke checks', () => {
   for (const path of ['/', '/cases/measurement', '/cases/entanglement', '/cases/no-cloning', '/ledger', '/videos', '/team', '/lab', '/about', '/credits']) {
     test(`${path} has no serious or critical axe violations`, async ({ page }) => {
-      await page.goto(path);
+      await openAppPage(page, path);
       await page.waitForTimeout(300);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
