@@ -61,6 +61,12 @@ test.describe('Public Registry and routes', () => {
     await expect(page.locator('html')).toHaveClass(/dark/);
   });
 
+  test('About explains the site structure and where interactive data lives', async ({ page }) => {
+    await openAppPage(page, '/about');
+    await expect(page.getByRole('heading', { name: 'How this site is made' })).toBeVisible();
+    await expect(page.getByText(/your case notes stay on this device/i)).toBeVisible();
+  });
+
   test('video thumbnail opens a click-to-load, nonmodal player', async ({ page }) => {
     await openAppPage(page, '/videos');
     await page.getByRole('button', { name: 'Play episode 1: The Magic Box' }).click();

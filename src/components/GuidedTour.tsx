@@ -21,7 +21,7 @@ const stops = [
   { path: '/gallery', name: 'Diagram Archive', hint: 'Inspect the project’s visual explainers.' },
   { path: '/glossary', name: 'Term Index', hint: 'Look up unfamiliar vocabulary as you explore.' },
   { path: '/team', name: 'Meet the Team', hint: 'See the contributors and their stated project roles.' },
-  { path: '/about', name: 'About the Bureau', hint: 'Read how the archive is meant to be explored.' },
+  { path: '/about', name: 'About the Bureau', hint: 'See how to explore the archive and how its pages, simulations, notes, and videos work.' },
   { path: '/credits', name: 'Sources and Credits', hint: 'Check the source list, asset credits, and AI-use statement.' },
 ];
 
