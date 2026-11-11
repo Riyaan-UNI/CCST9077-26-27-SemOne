@@ -39,14 +39,14 @@ export default function Credits() {
         <section className="credit-record mt-6" aria-labelledby="sources-title">
           <h2 id="sources-title"><BookOpen size={19} aria-hidden="true" /> Science sources</h2>
           <p>
-            The cases are being checked against the supplied CCST9077 lecture materials. Add the
-            specific lecture references and any additional authoritative sources used for the final
-            explanations here after the group science review.
+            The group is checking the case drafts against the supplied CCST9077 lecture materials.
+            The topic-to-lecture map below is a starting point; the group should confirm exact slides
+            and add any other sources used for the final explanations after its science review.
           </p>
           <ul className="credit-source-list">
-            <li><strong>Case 01:</strong> Lectures 1–4 · superposition and measurement · exact slide references pending group review.</li>
-            <li><strong>Case 02:</strong> Lectures 1–4 · entanglement, Bell tests, and no-signalling · exact slide references pending group review.</li>
-            <li><strong>Case 03:</strong> Lectures 1–4 · no-cloning note (course notes, p. 5) · group review pending.</li>
+            <li><strong>Case 01:</strong> Lecture 2, <em>Entering the Quantum Realm</em> · superposition and measurement · slide references pending group review.</li>
+            <li><strong>Case 02:</strong> Lecture 3, <em>Quantum Spookiness</em>, and Lecture 4, <em>Winning Games with Quantum Tricks</em> · entanglement, no-signalling, and CHSH · slide references pending group review.</li>
+            <li><strong>Case 03:</strong> Lecture 2, <em>Entering the Quantum Realm</em> · no-cloning theorem · slide references pending group review.</li>
           </ul>
         </section>
 

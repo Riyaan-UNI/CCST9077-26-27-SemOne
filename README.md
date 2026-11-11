@@ -65,4 +65,4 @@ AI supported concept and copy brainstorming, review of supplied course materials
 
 ## Sources and content review
 
-The selected cases map to CCST9077 Lectures 1–4. Specific slide references and any additional authoritative sources should be recorded on the Credits page after the group science review. Generated image studies are ideation references, not scientific sources.
+The selected cases map to CCST9077 Lectures 2–4. A working topic-to-lecture map is in [`docs/science-source-register.md`](docs/science-source-register.md); exact slide references should be added after the group science review. Generated image studies are ideation references, not scientific sources.

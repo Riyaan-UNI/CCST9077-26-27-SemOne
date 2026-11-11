@@ -33,7 +33,7 @@ export const bureauCases: BureauCase[] = [
     testLabel: 'Measure 24 prepared trials',
     finding: 'Each trial produces one definite result. Repeated measurements reveal the outcome statistics for the prepared state.',
     boundary: 'This simplified test demonstrates outcome probabilities. A qubit is not a tiny classical coin, and measurement is a physical interaction—not a conscious observer looking.',
-    lectureSource: 'CCST9077 Lectures 1–4 · group review pending',
+    lectureSource: 'CCST9077 Lecture 2: Entering the Quantum Realm · group review pending',
     videoIds: ['the-magic-box'],
   },
   {
@@ -48,7 +48,7 @@ export const bureauCases: BureauCase[] = [
     testLabel: 'Run a CHSH comparison',
     finding: 'The CHSH test compares correlations across measurement settings. Its results do not provide a way to choose and transmit a message faster than light.',
     boundary: 'The demo is a simplified local simulation of a Bell-test game. Do not interpret the visual link as a signal traveling between particles.',
-    lectureSource: 'CCST9077 Lectures 1–4 · group review pending',
+    lectureSource: 'CCST9077 Lecture 3: Quantum Spookiness; Lecture 4: Winning Games with Quantum Tricks · group review pending',
     videoIds: ['spooky-twins-no-messages', 'the-game-show-that-broke-reality'],
   },
   {
@@ -63,7 +63,7 @@ export const bureauCases: BureauCase[] = [
     testLabel: 'Compare known preparation with an unknown input',
     finding: 'A state known to the preparer can be prepared again. The no-cloning theorem rules out a universal operation that perfectly copies every arbitrary unknown quantum state.',
     boundary: 'This does not say that quantum information can never be reproduced in any circumstance. It concerns perfect copying of arbitrary unknown states.',
-    lectureSource: 'CCST9077 Lectures 1–4 · no-cloning note, p. 5 · group review pending',
+    lectureSource: 'CCST9077 Lecture 2: Entering the Quantum Realm · group review pending',
     videoIds: ['cant-copy-cant-hack'],
   },
 ];
