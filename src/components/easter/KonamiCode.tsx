@@ -16,6 +16,7 @@ const KONAMI = [
 export default function KonamiCode() {
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(false);
+  const [glitchY, setGlitchY] = useState<number[]>([]);
   const react = useStore((s) => s.react);
 
   useEffect(() => {
@@ -24,6 +25,8 @@ export default function KonamiCode() {
       if (e.key === expected) {
         const next = progress + 1;
         if (next >= KONAMI.length) {
+          // Pick the burst layout in the key event, not during React render.
+          setGlitchY(Array.from({ length: 5 }, () => -40 - Math.random() * 60));
           setActive(true);
           setProgress(0);
           react('dizzy', 'Many-Worlds mode activated! ...wait, that violates the no-cloning theorem.');
@@ -85,7 +88,7 @@ export default function KonamiCode() {
               animate={{
                 opacity: [1, 0.5, 0],
                 x: (i - 2) * 80,
-                y: -40 - Math.random() * 60,
+                y: glitchY[i] ?? -70,
                 scale: [1, 1.1, 0.8],
               }}
               transition={{
