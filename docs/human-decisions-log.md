@@ -20,6 +20,9 @@ This log records the choices made by the student group during planning. Update i
 | N — Review approach | Science Evidence Review | Selected by the student; accessibility and first-time visitor checks remain supporting reviews. |
 | O — AI documentation | Brief Statement only | Selected by the student. Final statement must describe actual brainstorming, lecture review, visual-generation, and coding assistance accurately. |
 | P — Final audit | Rubric Traceability Matrix | Selected by the student. |
+| Design refinement | Make “Three linked limits on information” the landing-page throughline; keep the landing section first and videos immediately after it. | Phrase selected by the student. An AI-assisted Figma token board was mapped to the existing CSS palette; it is a design reference, not a replacement for group-authored scientific explanations. |
+| Assessment audit | Rubric Traceability Matrix | Selected by the student. A working matrix is in `docs/rubric-traceability-matrix.md`; its pending items are intentionally left for the group to complete. |
+| Prototype status | Bureau implementation | AI assistance was used to implement the prototype and draft interface copy. The implementation is not a substitute for the group's own final writing, lecture/source verification, media review, and testing. |
 
 ## Pending group-authored work
 
@@ -28,3 +31,4 @@ This log records the choices made by the student group during planning. Update i
 - Decide what specific mascot contribution Riyaan owns alongside Damian's role as Qubi's inventor.
 - Confirm which existing assets are retained and who reviews each case, interaction, video, and accessibility behavior.
 - Record actual testing, revisions, and contributions as they happen.
+- Review the updated landing-page line and visible science-review status as a group; rewrite the explanatory copy in the team’s own voice.
