@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 /* ------------------------------------------------------------------ *
  * Responsiveness audit — every route at every breakpoint.
@@ -18,6 +18,11 @@ const VIEWPORTS = [
 
 const ROUTES = [
   { path: '/', name: 'home' },
+  { path: '/cases', name: 'cases' },
+  { path: '/cases/measurement', name: 'case-measurement' },
+  { path: '/cases/entanglement', name: 'case-entanglement' },
+  { path: '/cases/no-cloning', name: 'case-no-cloning' },
+  { path: '/ledger', name: 'ledger' },
   { path: '/lab', name: 'lab' },
   { path: '/computer', name: 'computer' },
   { path: '/timeline', name: 'timeline' },
@@ -29,16 +34,17 @@ const ROUTES = [
   { path: '/gallery', name: 'gallery' },
   { path: '/glossary', name: 'glossary' },
   { path: '/credits', name: 'credits' },
+  { path: '/about', name: 'about' },
 ] as const;
 
-async function hasHorizontalScrollbar(page: any): Promise<boolean> {
+async function hasHorizontalScrollbar(page: Page): Promise<boolean> {
   return page.evaluate(() => {
     const doc = document.documentElement;
     return doc.scrollWidth > doc.clientWidth;
   });
 }
 
-async function getOverflowElements(page: any): Promise<string[]> {
+async function getOverflowElements(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const offenders: string[] = [];
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
@@ -121,7 +127,7 @@ test.describe('mobile nav interaction', () => {
     await page.goto('/');
     await expect(page.locator('#boot')).toHaveCount(0, { timeout: 15_000 });
 
-    const menuBtn = page.locator('button[aria-label="Open menu"]');
+    const menuBtn = page.locator('button[aria-label="Open site menu"]');
     await expect(menuBtn).toBeVisible();
     await menuBtn.click();
 
@@ -129,7 +135,7 @@ test.describe('mobile nav interaction', () => {
     const panel = page.getByRole('dialog');
     await expect(panel).toBeVisible();
 
-    const scrollArea = page.getByTestId('mobile-menu-scroll');
+    const scrollArea = page.getByRole('navigation', { name: 'Site menu' });
     const { scrollHeight, clientHeight, overflowY } = await scrollArea.evaluate(
       (el: HTMLElement) => ({
         scrollHeight: el.scrollHeight,

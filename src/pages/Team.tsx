@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Check } from 'lucide-react';
 import Page from '@/components/Page';
-import Section from '@/components/Section';
 import Qubi from '@/components/Qubi';
 import { DELIVERABLES, team } from '@/content/team';
 import { useStore } from '@/store/useStore';
@@ -22,7 +21,7 @@ function MemberCard({
     : { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
-    <article className="instrument-panel instrument-card h-fit self-start rounded-2xl">
+    <article className="team-member-record h-fit self-start">
       <button
         type="button"
         onClick={onToggle}
@@ -47,7 +46,7 @@ function MemberCard({
               <span className="ml-2 text-sm font-normal text-muted">“{member.nickname.value}”</span>
             )}
           </h3>
-          <p className="font-hand text-lg text-neon">{member.title.value}</p>
+          <p className="mt-1 text-sm font-semibold text-neon">{member.title.value}</p>
         </div>
         <span className="ml-auto hidden text-sm text-muted sm:block">{open ? 'Close' : 'Open'}</span>
       </button>
@@ -74,7 +73,7 @@ function MemberCard({
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 rounded-lg border border-line bg-elevated px-4 py-3">
+              <div className="team-fun-fact mt-4 border border-line bg-elevated px-4 py-3">
                 <p className="text-xs text-muted">Fun fact</p>
                 <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.value}</p>
               </div>
@@ -91,14 +90,13 @@ export default function Team() {
 
   return (
     <Page>
-      <Section
-        eyebrow="The people"
-        title="Four humans, one robot"
-        lead="A small team that built this site. Tap a card to see what each person brought."
-      >
+      <div className="record-page mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8">
+        <p className="record-kicker">Project record / group contributions</p>
+        <h1 className="record-title mt-4 max-w-3xl">Four students. Qubi on the desk.</h1>
+        <p className="record-lead mt-5 max-w-2xl">The group’s stated roles are listed below. Open a member record for contributions and a quantum fact.</p>
         <div
           data-testid="team-member-grid"
-          className="grid auto-rows-min grid-cols-1 content-start items-start gap-5 md:grid-cols-2 xl:grid-cols-4"
+          className="team-member-grid mt-10 grid auto-rows-min grid-cols-1 content-start items-start gap-5 md:grid-cols-2 xl:grid-cols-4"
         >
           {team.map((m) => (
             <MemberCard
@@ -110,17 +108,12 @@ export default function Team() {
           ))}
         </div>
 
-        {/* Entanglement diagram: who touched what */}
-        <div className="mt-14 rounded-2xl border border-line bg-surface p-6">
-          <h3 className="text-xl">The entanglement diagram</h3>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-            Like entangled qubits, the team shares the work. Each lit cell shows who touched a
-            deliverable — the same person can touch several, just as entangled particles stay
-            correlated.
-          </p>
+        <div className="team-contribution-register mt-14">
+          <h2>Contribution register</h2>
+          <p>Marks indicate the deliverables currently recorded for each member. The group should verify the record before submission.</p>
 
-          <div className="mt-6 overflow-x-auto scrollbar-hidden">
-            <table className="w-full border-collapse text-sm" style={{ minWidth: '18rem' }}>
+          <div className="mt-6 overflow-x-auto">
+            <table className="team-register-table w-full border-collapse text-sm" style={{ minWidth: '28rem' }}>
               <caption className="sr-only">Which deliverables each team member worked on</caption>
               <thead>
                 <tr>
@@ -163,7 +156,7 @@ export default function Team() {
             </table>
           </div>
         </div>
-      </Section>
+      </div>
     </Page>
   );
 }

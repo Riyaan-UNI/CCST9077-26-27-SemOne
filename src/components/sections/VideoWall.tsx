@@ -24,19 +24,19 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
       animate={{ opacity: 1, y: 0 }}
       exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
       transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: 'easeOut' }}
-      className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-3 sm:p-6"
+      className="bureau-video-popup-shell pointer-events-none fixed inset-0 z-[100] grid place-items-center p-3 sm:p-6"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/28 backdrop-blur-[1px]" />
+      <div aria-hidden="true" className="bureau-video-popup-backdrop pointer-events-none absolute inset-0" />
       <motion.section
         role="dialog"
         aria-modal="false"
         aria-labelledby="video-popup-title"
-        className="instrument-panel pointer-events-auto relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto border-t-2 border-t-cyan bg-canvas shadow-2xl shadow-black/60"
+        className="bureau-video-popup instrument-panel pointer-events-auto relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto border-t-2 border-t-cyan bg-canvas shadow-2xl shadow-black/60"
       >
         <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 sm:px-6">
           <div className="min-w-0">
             <p className="orbit-label ui-label">EP / {String(video.episode).padStart(2, '0')}</p>
-            <h2 id="video-popup-title" className="truncate text-lg text-white sm:text-xl">
+            <h2 id="video-popup-title" className="truncate text-lg text-ink sm:text-xl">
               {video.title}
             </h2>
           </div>
@@ -105,7 +105,7 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
   );
 
   return (
-    <article className="instrument-panel instrument-card overflow-hidden rounded-2xl">
+    <article id={video.id} className="bureau-video-record instrument-panel instrument-card overflow-hidden">
       <div className="relative aspect-video overflow-hidden bg-canvas">
         {canPlay ? (
           <button
@@ -129,8 +129,8 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
         )}
       </div>
 
-      <div className="border-t border-line p-5">
-        <p className="orbit-label mb-2 text-xs">ARCHIVE / EP {String(video.episode).padStart(2, '0')}</p>
+      <div className="bureau-video-copy border-t border-line p-5">
+        <p className="orbit-label mb-2 text-xs">VIDEO RECORD / EP {String(video.episode).padStart(2, '0')}</p>
         <h3 className="text-lg">{video.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{video.description}</p>
         {video.transcript && <p className="mt-3 text-xs text-muted">{video.transcript}</p>}

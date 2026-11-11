@@ -1,194 +1,127 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, FileSearch, Rows3 } from 'lucide-react';
 import Page from '@/components/Page';
-import Section from '@/components/Section';
-import Reveal from '@/components/Reveal';
-import ObserverField from '@/components/ObserverField';
 import Qubi from '@/components/Qubi';
-import MagicBoxFlip from '@/components/MagicBoxFlip';
-import JourneyStrip, { type JourneyItem } from '@/components/JourneyStrip';
 import VideoWall from '@/components/sections/VideoWall';
-import { site } from '@/data/site';
-import { useStore } from '@/store/useStore';
+import EvidenceLedger from '@/components/cases/EvidenceLedger';
+import { bureauCases } from '@/content/cases';
 
-const JOURNEY: JourneyItem[] = [
-  {
-    href: '/lab',
-    label: 'The Quantum Lab',
-    blurb: 'Entangle photons, play the CHSH game, and watch a real simulator collapse.',
-    tag: 'Play',
-  },
-  {
-    href: '/timeline',
-    label: 'From Bits to Qubits',
-    blurb: 'A century of ideas, scroll-driven, ending on a node that is yours.',
-    tag: 'Story',
-  },
-  {
-    href: '/videos',
-    label: 'The Video Series',
-    blurb: 'Four short episodes hosted by Qubi — three ready to watch, one coming soon.',
-    tag: 'Watch',
-  },
-  {
-    href: '/team',
-    label: 'The Team',
-    blurb: 'Four students, one entangled mascot, no physics degrees required.',
-    tag: 'Meet',
-  },
-  {
-    href: '/glossary',
-    label: 'The Glossary',
-    blurb: 'Tap any bold term anywhere to get a one-line plain-English definition.',
-    tag: 'Learn',
-  },
-];
-
-const TEASERS = [
-  { href: '/lab', title: 'Quantum Lab', blurb: 'Hands-on entanglement, the CHSH game and the no-cloning theorem.' },
-  { href: '/videos', title: 'Videos', blurb: 'Four explainer episodes; three are ready to watch.' },
-  { href: '/team', title: 'Team', blurb: 'The four people (and one robot) behind this site.' },
-  { href: '/timeline', title: 'Timeline', blurb: 'From a factoring problem to a machine that can undo it.' },
-  { href: '/course-map', title: 'Course Map', blurb: 'The exact lecture order of CCST9077, week by week.' },
-  { href: '/gallery', title: 'Gallery', blurb: 'AI-generated plates for the ideas hardest to picture.' },
-  { href: '/glossary', title: 'Glossary', blurb: 'Every course term, defined in a sentence.' },
-  { href: '/credits', title: 'Credits', blurb: 'Sources, attributions and an honest AI-use disclosure.' },
+const REFERENCE_LINKS = [
+  { href: '/lab', label: 'Reference Lab', detail: 'Run the simulator and CHSH game.' },
+  { href: '/timeline', label: 'Course Timeline', detail: 'Trace the ideas across the course.' },
+  { href: '/course-map', label: 'Lecture Map', detail: 'Browse the lecture connections.' },
+  { href: '/gallery', label: 'Diagram Archive', detail: 'Inspect the project’s visual explainers.' },
+  { href: '/glossary', label: 'Term Index', detail: 'Look up quantum vocabulary.' },
+  { href: '/computer', label: 'Computer Desk', detail: 'Try the interactive quantum computer activity.' },
+  { href: '/delight', label: 'Quick Checks', detail: 'Check common claims and misconceptions.' },
+  { href: '/about', label: 'About the Bureau', detail: 'How to explore the archive and its case tests.' },
 ];
 
 export default function Home() {
-  const observerMode = useStore((s) => s.observerMode);
-
   return (
     <Page>
-      {/* ------------------------------------------------------------------ *
-       * Hero
-       * ------------------------------------------------------------------ */}
-      <header className="observatory-hero relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16 sm:pt-32 lg:py-28">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-canvas" />
-          <div className="absolute inset-0 grid-paper opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_82%)]" />
-          <ObserverField className="opacity-70" density={0.68} radius={170} />
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent" />
-        </div>
-
-        <div className="hero-grid mx-auto w-full max-w-7xl items-center gap-10 px-5 lg:gap-16 lg:px-8">
-          <div>
-            <p className="orbit-label inline-flex items-center gap-3 border-l-2 border-cyan bg-surface/70 px-3 py-2 ui-label">
-              <span className="h-2 w-2 rounded-full bg-green-signal shadow-[0_0_10px_var(--green-signal)]" />
-              FIELD LOG 001 <span className="text-muted">/ {site.course}</span>
-            </p>
-
-            <h1 className="mt-6 max-w-[15ch] font-sans text-[clamp(3rem,5.8vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.055em]">
-              What if the universe is made of{' '}
-              <span className="text-neon">information?</span>
-            </h1>
-
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-              That one question opens quantum information — the science behind the most
-              misunderstood technology of our time. We teach it with a waving robot and a magic
-              box, not equations.
-            </p>
-
-            <Link
-              to="/#videos"
-              className="quantum-button mt-7 inline-flex min-h-12 items-center gap-3 border border-cyan bg-cyan px-5 py-3 text-sm font-bold text-neon-ink"
-            >
-              <span className="font-mono">01</span> Watch the videos <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-
-            <div className="mt-8 flex items-center gap-4">
-              <Qubi mood="happy" size={96} className="hidden sm:block" float />
-              <p className="border-l border-line-strong bg-surface/65 px-4 py-2 font-hand text-xl text-neon">
-                “{site.mascot.catchphrase}”
+      <div className="record-home">
+        <section className="registry-landing" aria-labelledby="home-title">
+          <div className="record-home-inner">
+            <div className="registry-intro">
+              <p className="record-kicker"><span className="registry-mark" aria-hidden="true">Q</span> CCST9077 / Public archive</p>
+              <h1 id="home-title" className="record-title">Quantum Lost-and-Found Bureau</h1>
+              <p className="record-lead">
+                <strong>Three linked limits on information.</strong> Follow each case from a
+                prediction through a test to its working finding.
               </p>
+              <p className="record-note registry-review-status">
+                <span className="review-status-stamp">TEAM REVIEW</span>
+                Science explanations are drafts awaiting the group’s evidence review.
+              </p>
+              <div className="registry-actions mt-7">
+                <Link to="/cases/measurement" className="record-button">Open Case 01 <ArrowRight size={16} aria-hidden="true" /></Link>
+                <Link to="/ledger" className="record-text-link"><Rows3 size={16} aria-hidden="true" /> Visit the evidence ledger</Link>
+              </div>
+              <div className="qubi-desk-note mt-9">
+                <Qubi mood="curious" size={90} float={false} />
+                <p><strong>Qubi, bureau guide</strong><br />“Let’s get entangled!”</p>
+              </div>
             </div>
 
-            <p className="mt-6 text-xs text-muted">
-              {observerMode
-                ? 'Move your cursor — the field collapses where you observe.'
-                : ''}
-            </p>
-          </div>
-
-          <div id="magic-box" className="calibration-bay mx-auto w-full max-w-lg scroll-mt-24 px-3 py-5 sm:px-6 sm:py-8">
-            <div className="mb-3 flex items-center justify-between gap-3 border-b border-line px-1 pb-2">
-              <p className="ui-label text-neon">Measurement explorer</p>
-              <p className="font-mono text-sm text-muted">LIVE / 01</p>
+            <div className="registry-index" aria-labelledby="registry-title">
+              <div className="registry-index-head">
+                <div>
+                  <p className="record-kicker">Register / 001–{String(bureauCases.length).padStart(3, '0')}</p>
+                  <h2 id="registry-title">Open cases</h2>
+                </div>
+                <FileSearch size={25} aria-hidden="true" />
+              </div>
+              <ol>
+                {bureauCases.map((item) => (
+                  <li key={item.id}>
+                    <Link to={`/cases/${item.id}`} className="registry-row">
+                      <span className="record-case-number">{item.number}</span>
+                      <span className="registry-row-copy">
+                        <span className="record-topic">{item.topic}</span>
+                        <strong>{item.title}</strong>
+                      </span>
+                      <ArrowUpRight size={17} aria-hidden="true" />
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+              <Link to="/cases" className="registry-index-foot">View full case archive <ArrowRight size={15} aria-hidden="true" /></Link>
             </div>
-            <MagicBoxFlip />
           </div>
-        </div>
-      </header>
+          <p className="registry-landing-index">Public Registry / Start here / {bureauCases.length} files open</p>
+        </section>
 
-      {/* ------------------------------------------------------------------ *
-       * Video series
-       * ------------------------------------------------------------------ */}
-      <section id="videos" className="observatory-section scroll-mt-24 py-20 sm:py-24">
-        <div className="mx-auto w-full max-w-7xl px-5 lg:px-8">
-          <Reveal className="max-w-3xl">
-            <p className="ui-label text-neon">Watch</p>
-            <h2 className="mt-3 text-3xl leading-tight sm:text-4xl md:text-5xl">
-              The Quantum Revolution, in four videos
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">
-              Three episodes are ready to watch; the fourth is coming soon. Start with a video,
-              then keep exploring below.
-            </p>
-          </Reveal>
-          <div className="mt-12">
+        <section id="videos" className="record-section video-section" aria-labelledby="video-section-title">
+          <div className="record-section-inner">
+            <div className="record-section-heading">
+              <div>
+                <p className="record-kicker">Moving evidence / watch with Qubi</p>
+                <h2 id="video-section-title">The video records</h2>
+                <p className="record-lead">Three episodes are ready to play. Episode four is marked as forthcoming.</p>
+              </div>
+              <Link to="/videos" className="record-text-link">All video records <ArrowRight size={15} aria-hidden="true" /></Link>
+            </div>
             <VideoWall />
           </div>
-          <Link
-            to="/#journey"
-            className="mt-8 inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm text-ink-soft transition hover:border-line-strong hover:text-neon"
-          >
-            Continue exploring <ArrowRight size={16} aria-hidden="true" />
-          </Link>
-        </div>
-      </section>
+        </section>
 
-      {/* ------------------------------------------------------------------ *
-       * Journey strip
-       * ------------------------------------------------------------------ */}
-      <Section
-        id="journey"
-        eyebrow="Your journey"
-        title="Five stops worth your time"
-        lead="A quick preview of the labs, the timeline and the explainers. Everything is built to be tried, not just read."
-      >
-        <JourneyStrip items={JOURNEY} />
-      </Section>
+        <section className="record-section conference-section" aria-labelledby="ledger-home-title">
+          <div className="record-section-inner">
+            <div className="record-section-heading">
+              <div>
+                <p className="record-kicker">Case conference / compare findings</p>
+                <h2 id="ledger-home-title">What did each file establish?</h2>
+                <p className="record-lead">The cases share a subject—information—but ask distinct scientific questions.</p>
+              </div>
+              <Link to="/ledger" className="record-text-link">Open full ledger <ArrowRight size={15} aria-hidden="true" /></Link>
+            </div>
+            <EvidenceLedger />
+          </div>
+        </section>
 
-      {/* ------------------------------------------------------------------ *
-       * Page teasers
-       * ------------------------------------------------------------------ */}
-      <Section
-        id="explore"
-        eyebrow="Explore"
-        title="Every page, in one glance"
-        lead="Jump to whichever stop you like. There are no dead ends — every link leads somewhere you can do something."
-      >
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {TEASERS.map((t, i) => (
-            <Reveal key={t.href} delay={i * 0.04}>
-              <Link
-                to={t.href}
-              className="instrument-panel instrument-card group flex h-full flex-col rounded-2xl p-5"
-              >
-                <h3 className="flex items-center gap-1 text-lg">
-                  {t.title}
-                  <ArrowRight
-                    size={15}
-                    className="transition group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{t.blurb}</p>
+        <section className="record-section reference-section" aria-labelledby="reference-title">
+          <div className="record-section-inner">
+            <p className="record-kicker">Supporting material / browse by interest</p>
+            <h2 id="reference-title">More from the bureau</h2>
+            <div className="reference-register mt-7">
+              {REFERENCE_LINKS.map((item, index) => (
+                <Link key={item.href} to={item.href} className="reference-row">
+                  <span className="record-case-number">{String(index + 1).padStart(2, '0')}</span>
+                  <span><strong>{item.label}</strong><small>{item.detail}</small></span>
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </Link>
+              ))}
+              <Link to="/team" className="reference-row">
+                <span className="record-case-number">09</span>
+                <span><strong>Meet the team</strong><small>The people behind the project and Qubi.</small></span>
+                <ArrowUpRight size={16} aria-hidden="true" />
               </Link>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
+            </div>
+            <p className="record-note mt-6"><BookOpen size={14} aria-hidden="true" /> Site explanations are student-project drafts and are being reviewed against CCST9077 lecture material.</p>
+          </div>
+        </section>
+      </div>
     </Page>
   );
 }
