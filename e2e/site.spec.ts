@@ -40,7 +40,7 @@ test.describe('Public Registry and routes', () => {
   test('first-time visitors can measure Qubi and begin the guided route', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveClass(/dark/);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+    await expect(page.getByRole('heading', { name: 'Welcome to the Quantum Realm' })).toBeVisible();
     await page.getByRole('button', { name: 'Meet Qubi' }).click();
     await page.getByLabel('Measure Qubi').click();
     await page.getByRole('button', { name: 'Start the guided tour' }).click();
@@ -66,7 +66,7 @@ test.describe('Public Registry and routes', () => {
       [/Measurement case/, '.case-step-panel', /\/cases\/measurement$/],
       [/Entanglement case/, '.case-step-panel', /\/cases\/entanglement$/],
       [/No-cloning case/, '.case-step-panel', /\/cases\/no-cloning$/],
-      [/Video Records/, '.bureau-video-record', /\/videos$/],
+      [/Video Records/, '#the-magic-box', /\/videos$/],
       [/Evidence Ledger/, '.ledger-table', /\/ledger$/],
       [/Reference Lab/, '.lab-console', /\/lab$/],
       [/Computer Desk/, 'main h1', /\/computer$/],
@@ -96,15 +96,15 @@ test.describe('Public Registry and routes', () => {
     try {
       const firstVisit = await context.newPage();
       await firstVisit.goto('/');
-      await expect(firstVisit.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+      await expect(firstVisit.getByRole('heading', { name: 'Welcome to the Quantum Realm' })).toBeVisible();
       await firstVisit.getByRole('button', { name: 'Explore on my own' }).click();
       await firstVisit.getByRole('button', { name: 'Open site menu' }).click();
       await firstVisit.getByRole('button', { name: /Replay the opening/i }).click();
-      await expect(firstVisit.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+      await expect(firstVisit.getByRole('heading', { name: 'Welcome to the Quantum Realm' })).toBeVisible();
 
       const newVisit = await context.newPage();
       await newVisit.goto('/');
-      await expect(newVisit.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+      await expect(newVisit.getByRole('heading', { name: 'Welcome to the Quantum Realm' })).toBeVisible();
     } finally {
       await context.close();
     }
@@ -166,7 +166,7 @@ test.describe('Public Registry and routes', () => {
     await page.getByLabel(/Test one universal copier/).check();
     await page.getByRole('button', { name: 'Run copier' }).click();
     await expect(page.getByRole('status')).toContainText(/by linearity/);
-    await expect(page.getByText(/\|00⟩ \+ \|11⟩/)).toBeVisible();
+    await expect(page.getByRole('status')).toContainText(/\|00⟩ \+ \|11⟩/);
     await expect(page.getByText(/does not claim/i)).toBeVisible();
   });
 
@@ -175,11 +175,11 @@ test.describe('Public Registry and routes', () => {
     await page.getByLabel('No, correlations do not make a controllable message channel').check();
     await page.getByRole('button', { name: /Save prediction/i }).click();
     await page.getByRole('button', { name: 'Play 12 rounds' }).click();
-    await expect(page.getByRole('list', { name: 'Recent game rounds' }).locator('li')).toHaveCount(12);
-    await expect(page.getByText(/latest 12 rounds/i)).toBeVisible();
+    await expect(page.locator('.chsh-rounds li')).toHaveCount(12);
+    await expect(page.getByRole('status')).toContainText(/latest 12 rounds/i);
     await page.getByLabel(/Shared classical rule/).check();
     await page.getByRole('button', { name: 'Play one round' }).click();
-    await expect(page.getByRole('list', { name: 'Recent game rounds' }).locator('li')).toHaveCount(13);
+    await expect(page.locator('.chsh-rounds li')).toHaveCount(13);
     await expect(page.getByText(/does not send a controllable signal/i)).toBeVisible();
   });
 
@@ -232,7 +232,7 @@ test.describe('Public Registry and routes', () => {
   test('unknown routes recover to the Public Registry', async ({ page }) => {
     await openAppPage(page, '/definitely-not-a-page');
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/not in the register/i);
-    await page.getByRole('link', { name: /Public Registry/i }).click();
+    await page.getByRole('main').getByRole('link', { name: 'Public Registry', exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Quantum Lost-and-Found Bureau/i);
   });
 });
