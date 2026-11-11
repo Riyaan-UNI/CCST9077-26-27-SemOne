@@ -36,6 +36,7 @@ export default function Delight() {
               <Tabs.Trigger
                 key={id}
                 value={id}
+                aria-label={label}
                 className={cn(
                   'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink-soft transition sm:px-4',
                   'data-[state=active]:bg-neon data-[state=active]:text-neon-ink',
