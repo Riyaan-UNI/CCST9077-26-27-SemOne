@@ -16,6 +16,7 @@ export default function QubiCompanion() {
   const reduceMotion = useStore((s) => s.reduceMotion);
   const tourActive = useStore((s) => s.tourActive);
   const startTour = useStore((s) => s.startTour);
+  const replayIntro = useStore((s) => s.replayIntro);
   const [dismissedId, setDismissedId] = useState<number | null>(null);
 
   /* Auto-hide the bubble. The timeout callback — not the effect body — updates state. */
@@ -47,6 +48,7 @@ export default function QubiCompanion() {
       </AnimatePresence>
 
       <div className="qubi-dock pointer-events-auto">
+        <button type="button" className="qubi-tour-launch" onClick={replayIntro}>Replay intro</button>
         <button type="button" className="qubi-tour-launch" onClick={startTour}><span>Take the tour</span></button>
         <button
           type="button"

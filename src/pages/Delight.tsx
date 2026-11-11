@@ -19,6 +19,7 @@ export default function Delight() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="Delight"
         title="Play, test, explore"
         lead="Mini-games and interactives that reinforce the course ideas through play. No equations required."

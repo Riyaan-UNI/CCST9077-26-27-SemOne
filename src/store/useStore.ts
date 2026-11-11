@@ -48,6 +48,7 @@ interface AppState {
   setReduceMotion: (value: boolean) => void;
   setHasHydrated: (value: boolean) => void;
   completeIntro: () => void;
+  replayIntro: () => void;
   startTour: () => void;
   setTourIndex: (index: number) => void;
   finishTour: () => void;
@@ -82,9 +83,23 @@ export const useStore = create<AppState>()(
       toggleSound: () => set({ sound: !get().sound }),
       toggleObserverMode: () => set({ observerMode: !get().observerMode }),
       setReduceMotion: (reduceMotion) => set({ reduceMotion }),
-      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
-      completeIntro: () => set({ introComplete: true }),
-      startTour: () => set({ introComplete: true, tourActive: true, tourIndex: 0 }),
+      setHasHydrated: (hasHydrated) => {
+        const seenThisSession = hasHydrated && typeof window !== 'undefined' &&
+          window.sessionStorage.getItem('qubi-intro-seen') === 'true';
+        set({ hasHydrated, ...(hasHydrated ? { introComplete: seenThisSession } : {}) });
+      },
+      completeIntro: () => {
+        if (typeof window !== 'undefined') window.sessionStorage.setItem('qubi-intro-seen', 'true');
+        set({ introComplete: true });
+      },
+      replayIntro: () => {
+        if (typeof window !== 'undefined') window.sessionStorage.removeItem('qubi-intro-seen');
+        set({ introComplete: false, tourActive: false, tourIndex: 0 });
+      },
+      startTour: () => {
+        if (typeof window !== 'undefined') window.sessionStorage.setItem('qubi-intro-seen', 'true');
+        set({ introComplete: true, tourActive: true, tourIndex: 0 });
+      },
       setTourIndex: (tourIndex) => set({ tourIndex }),
       finishTour: () => set({ tourActive: false, tourIndex: 0 }),
 
@@ -125,7 +140,6 @@ export const useStore = create<AppState>()(
         sound: s.sound,
         observerMode: s.observerMode,
         caseLedger: s.caseLedger,
-        introComplete: s.introComplete,
       }),
     },
   ),

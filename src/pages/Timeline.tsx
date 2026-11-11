@@ -37,6 +37,7 @@ export default function TimelinePage() {
     return (
       <Page>
         <Section
+          headingLevel={1}
           eyebrow="The story"
           title="From Bits to Qubits"
           lead="A century of ideas, listed for easy reading."
@@ -87,6 +88,7 @@ export default function TimelinePage() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="The story"
         title="From Bits to Qubits"
         lead="A century of ideas, scroll-driven, ending on a node that is yours."

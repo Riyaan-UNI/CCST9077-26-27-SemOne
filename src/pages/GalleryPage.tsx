@@ -28,6 +28,7 @@ export default function GalleryPage() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="Gallery"
         title="Plates from the quantum world"
         lead="Some of these ideas resist language. These plates are the visual shorthand the team uses when a diagram has to do the explaining."

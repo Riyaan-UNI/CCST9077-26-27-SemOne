@@ -10,11 +10,11 @@ The Quantum Realm intro and Qubi tour are a navigation and learning scaffold. Th
 
 ## Implementation decisions
 
-- The opening reveal introduces Qubi and a single interactive metaphor before the visitor enters the archive.
-- The guided route moves through the site's real routes, scrolls to the relevant landmark, outlines it, and positions Qubi beside it. The guide controls remain separate from the highlighted page content.
-- Interactive case tests remain the place to try each idea; related videos are offered near those tests as optional supporting explanations.
-- The route is skippable and replayable. Reduced-motion preferences disable smooth scrolling and decorative movement.
+- The opening reveal introduces Qubi and one clearly labeled learning metaphor before visitors enter the archive. Sound remains opt-in, and its text and skip control sit on a high-contrast panel.
+- The guided route moves through the site's real routes, scrolls to a relevant landmark, outlines it, and positions Qubi beside it. The mobile menu exposes both the guided tour and opening replay.
+- Visitors can play each case experiment: change measurement basis and collect trials; compare the quantum and classical CHSH strategies; or test a basis-copying rule against a superposition input. The explanations stay next to the controls and show each model's limits.
+- The intro appears on a new browser tab/session and can be replayed from the site menu. The visitor can skip it, and reduced-motion preferences disable smooth scrolling and decorative movement.
 
 ## Group review
 
-Review the order and length of the 18-stop route with first-time visitors. Revise the copy and all quantum analogies in the group's own voice, and confirm that the page targets, mobile layout, keyboard flow, and reduced-motion behavior work as intended before submission.
+Review the order and length of the 18-stop route with first-time visitors. Revise the copy and all quantum analogies in the group's own voice, verify simulator assumptions against the lectures and sources, and confirm that page targets, mobile layout, keyboard flow, repeated visits, and reduced-motion behavior work as intended before submission.

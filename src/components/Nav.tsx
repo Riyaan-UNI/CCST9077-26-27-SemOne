@@ -8,6 +8,8 @@ import { useStore } from '@/store/useStore';
 
 export default function Nav() {
   const { theme, toggleTheme, reduceMotion } = useStore();
+  const startTour = useStore((state) => state.startTour);
+  const replayIntro = useStore((state) => state.replayIntro);
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
@@ -82,6 +84,10 @@ export default function Nav() {
                         </div>
                         <nav className="bureau-mobile-menu-scroll" aria-label="Site menu" tabIndex={0}>
                           <ul>{links(true)}</ul>
+                          <div className="bureau-menu-guides" aria-label="Visitor guides">
+                            <button type="button" className="bureau-mobile-link" onClick={() => { setOpen(false); startTour(); }}>Take Qubi’s guided tour <span aria-hidden="true">↗</span></button>
+                            <button type="button" className="bureau-mobile-link" onClick={() => { setOpen(false); replayIntro(); }}>Replay the opening <span aria-hidden="true">↗</span></button>
+                          </div>
                           <p className="bureau-mobile-menu-note">Qubi is keeping the files in order.</p>
                         </nav>
                       </motion.aside>

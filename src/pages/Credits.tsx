@@ -28,10 +28,11 @@ export default function Credits() {
         <section className="credit-record mt-10" aria-labelledby="ai-statement-title">
           <h2 id="ai-statement-title"><Sparkles size={19} aria-hidden="true" /> AI-use statement</h2>
           <p>
-            AI supported concept and copy brainstorming, review of supplied course materials, draft
-            visual identity studies, a Figma mapping of the interface tokens, gallery plates, video thumbnails, and React/TypeScript coding. The group
-            selected the direction and is responsible for revising draft content, verifying scientific
-            claims, and testing the site before submission.
+            AI contributed concept and copy brainstorming, review of supplied course materials,
+            visual identity studies, a Figma token map, gallery plates, video thumbnails, and a
+            substantial part of this React/TypeScript prototype. The group must substantially revise
+            and author its final submission, verify scientific claims and assets, and test the site;
+            this prototype is not a substitute for that work.
           </p>
           <p className="record-note">This statement should be updated if the group’s actual use of AI changes.</p>
         </section>

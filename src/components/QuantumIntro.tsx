@@ -48,7 +48,7 @@ export default function QuantumIntro() {
           <div className="intro-loading" aria-live="polite">
             <Dialog.Title className="sr-only">Preparing the Quantum Realm</Dialog.Title>
             <span className="intro-loading-mark" aria-hidden="true">Q</span>
-            <p className="intro-overline">Calibrating the quantum field guide…</p>
+            <p className="intro-loading-label">Preparing the Quantum Realm</p>
             <div className="intro-loading-track" aria-hidden="true"><span /></div>
             <button type="button" className="intro-skip" onClick={() => setScene('reveal')}>Skip loading</button>
           </div>

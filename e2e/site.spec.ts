@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 async function openAppPage(page: import('@playwright/test').Page, path: string) {
   await page.addInitScript(() => {
-    localStorage.setItem('qubi-preferences', JSON.stringify({ state: { introComplete: true }, version: 0 }));
+    sessionStorage.setItem('qubi-intro-seen', 'true');
   });
   await page.goto(path);
 }
@@ -18,7 +18,15 @@ test.describe('Public Registry and routes', () => {
     ['/ledger', /Compare what each case/i],
     ['/videos', /video records/i],
     ['/lab', /Run the maths yourself/i],
+    ['/computer', /Build your own quantum circuits/i],
+    ['/timeline', /From Bits to Qubits/i],
+    ['/course-map', /Course Map/i],
+    ['/universe-computer', /The Universe as a Quantum Computer/i],
+    ['/delight', /Play, test, explore/i],
+    ['/team', /Four students/i],
     ['/gallery', /Plates from the quantum world/i],
+    ['/glossary', /Glossary/i],
+    ['/credits', /Sources, tools, and authorship/i],
     ['/about', /A case archive/i],
   ];
 
@@ -53,6 +61,53 @@ test.describe('Public Registry and routes', () => {
     await expect(page).toHaveURL(/\/cases$/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Three limits/i);
     await expect(page.locator('.record-register')).toHaveClass(/guided-tour-target/);
+
+    const remainingStops: Array<[RegExp, string, RegExp]> = [
+      [/Measurement case/, '.case-step-panel', /\/cases\/measurement$/],
+      [/Entanglement case/, '.case-step-panel', /\/cases\/entanglement$/],
+      [/No-cloning case/, '.case-step-panel', /\/cases\/no-cloning$/],
+      [/Video Records/, '.bureau-video-record', /\/videos$/],
+      [/Evidence Ledger/, '.ledger-table', /\/ledger$/],
+      [/Reference Lab/, '.lab-console', /\/lab$/],
+      [/Computer Desk/, 'main h1', /\/computer$/],
+      [/Universe Computer/, 'main h1', /\/universe-computer$/],
+      [/Quick Checks/, 'main h1', /\/delight$/],
+      [/Course Timeline/, 'main h1', /\/timeline$/],
+      [/Lecture Map/, 'main h1', /\/course-map$/],
+      [/Diagram Archive/, 'main h1', /\/gallery$/],
+      [/Term Index/, 'main h1', /\/glossary$/],
+      [/Meet the Team/, 'main h1', /\/team$/],
+      [/About the Bureau/, 'main h1', /\/about$/],
+      [/Sources and Credits/, 'main h1', /\/credits$/],
+    ];
+    for (const [stop, target, route] of remainingStops) {
+      await page.getByRole('button', { name: 'Next place' }).click();
+      await expect(page).toHaveURL(route);
+      await expect(page.getByRole('heading', { name: stop })).toBeVisible();
+      await expect(page.locator(target)).toHaveClass(/guided-tour-target/);
+      await expect(page.locator('.tour-companion')).toBeVisible();
+    }
+    await page.getByRole('button', { name: 'Finish tour' }).click();
+    await expect(page.locator('.guided-tour')).toHaveCount(0);
+  });
+
+  test('welcome intro starts in a new tab and can be replayed from the mobile menu', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 640, height: 800 } });
+    try {
+      const firstVisit = await context.newPage();
+      await firstVisit.goto('/');
+      await expect(firstVisit.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+      await firstVisit.getByRole('button', { name: 'Explore on my own' }).click();
+      await firstVisit.getByRole('button', { name: 'Open site menu' }).click();
+      await firstVisit.getByRole('button', { name: /Replay the opening/i }).click();
+      await expect(firstVisit.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+
+      const newVisit = await context.newPage();
+      await newVisit.goto('/');
+      await expect(newVisit.getByRole('heading', { level: 1 })).toContainText(/Welcome to the Quantum Realm/i);
+    } finally {
+      await context.close();
+    }
   });
 
   test('theme switch changes to light mode and back', async ({ page }) => {
@@ -83,43 +138,49 @@ test.describe('Public Registry and routes', () => {
     await expect(player).not.toBeVisible();
   });
 
-  test('a saved prediction and test observation appear in the evidence ledger', async ({ page }) => {
+  test('measurement test responds to basis and repeated shots', async ({ page }) => {
     await openAppPage(page, '/cases/measurement');
     await page.getByLabel('Two possible results across repeated trials').check();
     await page.getByRole('button', { name: /Save prediction/i }).click();
-    await page.getByRole('button', { name: /Run case test/i }).click();
-    await expect(page.getByRole('status')).toContainText(/Sample of 24 prepared trials/);
-    await expect(page.getByRole('list', { name: 'The 24 trial outcomes' }).locator('li')).toHaveCount(24);
+    await page.getByRole('button', { name: 'Measure once' }).click();
+    await expect(page.getByRole('status')).toContainText(/1 total Z-basis measurements/);
+    await page.getByRole('button', { name: 'Run 12 shots' }).click();
+    await expect(page.getByRole('list', { name: '13 measurement outcomes' }).locator('li')).toHaveCount(13);
+    await page.getByLabel(/Read in X basis/).check();
+    await page.getByRole('button', { name: 'Measure once' }).click();
+    await expect(page.getByRole('status')).toContainText(/1 total X-basis measurements/);
     await expect(page.getByRole('heading', { name: 'What the case supports' })).toBeVisible();
 
     await page.getByRole('link', { name: /Add to case conference/i }).click();
     await expect(page.getByRole('table')).toContainText('Two possible results across repeated trials');
-    await expect(page.getByRole('table')).toContainText(/Sample of 24 prepared trials/);
+    await expect(page.getByRole('table')).toContainText(/1 total X-basis measurements/);
   });
 
   test('no-cloning case distinguishes known preparation from arbitrary unknown states', async ({ page }) => {
     await openAppPage(page, '/cases/no-cloning');
     await page.getByLabel('No universal perfect copier for arbitrary unknown states').check();
     await page.getByRole('button', { name: /Save prediction/i }).click();
-    await page.getByLabel('A state known to the preparer').check();
-    await page.getByRole('button', { name: /Run case test/i }).click();
-    await expect(page.getByRole('status')).toContainText(/preparation can be repeated/);
-    await expect(page.getByRole('group', { name: 'Copy-machine comparison' })).toContainText(/Known preparation/);
-
-    await page.getByLabel('An arbitrary unknown input state').check();
-    await page.getByRole('button', { name: /Run case test/i }).click();
-    await expect(page.getByRole('status')).toContainText(/rules out a universal operation/);
-    await expect(page.getByRole('group', { name: 'Copy-machine comparison' })).toContainText(/No universal perfect copier/);
+    await page.getByLabel(/Repeat a known preparation/).check();
+    await page.getByRole('button', { name: 'Run copier' }).click();
+    await expect(page.getByRole('status')).toContainText(/preparer who knows the state \|\+⟩ can prepare/);
+    await page.getByLabel(/Test one universal copier/).check();
+    await page.getByRole('button', { name: 'Run copier' }).click();
+    await expect(page.getByRole('status')).toContainText(/by linearity/);
+    await expect(page.getByText(/\|00⟩ \+ \|11⟩/)).toBeVisible();
     await expect(page.getByText(/does not claim/i)).toBeVisible();
   });
 
-  test('entanglement test exposes the settings and outcomes for each game round', async ({ page }) => {
+  test('entanglement challenge compares player strategies and individual rounds', async ({ page }) => {
     await openAppPage(page, '/cases/entanglement');
     await page.getByLabel('No, correlations do not make a controllable message channel').check();
     await page.getByRole('button', { name: /Save prediction/i }).click();
-    await page.getByRole('button', { name: /Run case test/i }).click();
-    await expect(page.getByRole('list', { name: 'CHSH game rounds' }).locator('li')).toHaveCount(48);
-    await expect(page.getByText(/no message travels between the players/i)).toBeVisible();
+    await page.getByRole('button', { name: 'Play 12 rounds' }).click();
+    await expect(page.getByRole('list', { name: 'Recent game rounds' }).locator('li')).toHaveCount(12);
+    await expect(page.getByText(/latest 12 rounds/i)).toBeVisible();
+    await page.getByLabel(/Shared classical rule/).check();
+    await page.getByRole('button', { name: 'Play one round' }).click();
+    await expect(page.getByRole('list', { name: 'Recent game rounds' }).locator('li')).toHaveCount(13);
+    await expect(page.getByText(/does not send a controllable signal/i)).toBeVisible();
   });
 
   test('short-height mobile navigation scrolls and closes after a selection', async ({ page }) => {

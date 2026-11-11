@@ -8,6 +8,7 @@ export default function CourseMap() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="The course"
         title="Course Map"
         lead="CCST9077 — The Quantum Revolution. Eleven lectures in three parts, week by week."

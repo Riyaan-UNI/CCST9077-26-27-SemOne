@@ -331,9 +331,11 @@ export function playChshQuantum(rng: Rng = Math.random): ChshTrial {
   const angleA = x === 0 ? CHSH_ANGLES.A0 : CHSH_ANGLES.A1;
   const angleB = y === 0 ? CHSH_ANGLES.B0 : CHSH_ANGLES.B1;
   const same = measurePairAtAngles(angleA, angleB, rng);
-  // "same" => a = b = 0; "different" => a = 1, b = 0 (a representative choice)
-  const a = 0;
-  const b = same ? 0 : 1;
+  // Choose a uniformly random local outcome, then correlate Bob's outcome.
+  // Fixed marginals matter: a simplistic fixed Alice output can accidentally
+  // make Bob's statistics depend on Alice's setting and imply signalling.
+  const a = rng() < 0.5 ? 0 : 1;
+  const b = same ? a : 1 - a;
   return { x, y, a, b, win: (a ^ b) === (x & y) };
 }
 
