@@ -10,7 +10,8 @@
 > particular, the selected identity is **Registrar’s Field Journal**, the site
 > has three published videos and one forthcoming slot, and the case conference
 > compares the three investigations rather than being a fourth case. The linked
-> Public Record Figma file is historical and has not been updated. Do not treat
+> the original Public Record direction in this draft was replaced by the
+> group's Registrar’s Field Journal selection. Do not treat
 > generated implementation or copy as student-authored final work. The user
 > reports the group has reviewed the current science content for accuracy.
 > Authorship and member contributions must still be represented honestly, and
@@ -25,9 +26,9 @@ content, the recorded decision and verified content take precedence.
 
 ## 1. Concept
 
-You are a new Registrar at a public archive, the Bureau of Lost Information. Four case files have arrived. Each is a video episode about information that seems to have gone missing. For each case you **predict, test, and file a finding**. The archive rewards good work with **declassification**: sealed AI artworks become visible on the Gallery Wall.
+You are a new Registrar at a public archive, the Bureau of Lost Information. Three investigations examine information that seems to have gone missing. For each case you **predict, test, and file a finding**. A separate case conference compares the three findings. The archive rewards progress with **declassification**: sealed artworks become visible on the Gallery Wall.
 
-**The main showpieces are the 4 videos and the AI-generated artworks.** The game layer exists to present them, not to compete with them.
+**The main showpieces are the three published team videos and the existing artworks.** A fourth video about no-cloning is forthcoming. The game layer exists to present them, not to compete with them.
 
 **Linked limits on information (course throughline):**
 1. Measurement and what can be known.
@@ -38,18 +39,18 @@ You are a new Registrar at a public archive, the Bureau of Lost Information. Fou
 
 | Case | Topic | Video |
 |---|---|---|
-| 01 | Superposition and measurement | Episode 1 |
-| 02 | Entanglement, Bell correlations, no-message boundary | Episode 2 |
-| 03 | No-cloning | Episode 3 |
-| 04 | Case Conference (comparing all three findings) | Episode 4 (forthcoming) |
+| 01 | Superposition and measurement | Episode 1 — *The Magic Box* |
+| 02 | Entanglement and no-signalling | Episode 2 — *Spooky Twins, No Messages* |
+| 02 | Bell correlations / CHSH | Episode 3 — *The Game Show That Broke Reality* |
+| 03 | No-cloning | Episode 4 — *No Perfect Copy* (forthcoming) |
 
-> **TEAM TO CONFIRM:** the topic and status of Episode 4, and the final episode titles.
+The case conference is a separate comparison of the three investigations, not a fourth case or episode. Current episode titles and Episode 4’s forthcoming status are recorded in `src/data/videos.ts`.
 
 ---
 
 ## 2. Aesthetic direction
 
-- **Identity:** "Public Record". Public-archive graphics, documentary dividers, case numbers, clear typography.
+- **Identity in this early draft:** "Public Record". This was superseded by the group's **Registrar’s Field Journal** direction in `docs/human-decisions-log.md`.
 - **Colour:** dark mode is the default, with a light-mode option. Signal-orange marks unfinished business. Ultramarine marks confirmed knowledge.
 - **Diegetic elements (the game feel):** stamps, folders, redaction bars, index cards, the ledger, Qubi as the counter clerk.
 - **Plain elements (never decorated):** video controls, captions, transcript, Observer Mode toggle, theme switch.
@@ -73,7 +74,7 @@ Title / Public Registry, then Welcome (skippable), then Case Board (hub), then C
 |---|---|---|
 | Title / Public Registry | Landing section, then videos right after | One main button, "Open the archive". Small link "Read without playing" enters Observer Mode |
 | Welcome | Qubi's guided tour | Skippable at every step. Test length with first-time visitors |
-| Case Board | Hub with 4 folders joined by strings | Locked folders are dimmed and readable, never hidden. Each shows a one-line reason and a "Read anyway" link |
+| Case Board | Hub with 3 investigation folders and a separate conference entry | Every case stays readable. Progress is descriptive; it never blocks access to a finding. |
 | Case File | Prediction, Test and Finding tabs plus the video | Finding can always be read directly. Test can be skipped |
 | Episode Viewer | Video, transcript and notes | Player loads only on selection. No pop-ups over the video |
 | Stamp Check | 3-4 short questions after a video | Never blocking. No penalties. Retry allowed |
@@ -201,16 +202,16 @@ Redaction bars are decorative. Screen readers announce the plate's unlock condit
 ## 8. Content and accuracy
 
 - AI may write the quiz questions. Each question records its source lecture and a review status (`needs-review` or `reviewed`).
-- The team must check every question and explanation against the original lecture PDFs before release, especially CHSH values and what no-cloning does and does not forbid.
-- Log each check (reviewer, slide number, fix) in `docs/science-source-register.md`.
-- Artworks are supplied by the team. Codex must not generate images.
+- The user reports that the team reviewed the current science content for accuracy. Recheck any future changes to explanations, questions, or simulations against course material.
+- The source register retains lecture connections and references; reviewer names and exact slide numbers were not supplied for the review just reported.
+- Preserve and credit existing artwork. Any new asset must be identified and attributed accurately.
 
 ---
 
 ## 9. Team decisions needed
 
-- [ ] Episode 4 topic, title and release status.
-- [ ] Final titles for all four episodes.
+- [x] Episode 4 is the forthcoming no-cloning video, *No Perfect Copy*; it has not been published.
+- [x] Current published episode titles are recorded in `src/data/videos.ts`.
 - [ ] List of artworks: file names, titles, alt text, and which case unlocks each.
 - [ ] Whether to include optional sound at all.
 - [ ] Whether transcripts and captions exist for every video (needed for transcript search and accessibility).

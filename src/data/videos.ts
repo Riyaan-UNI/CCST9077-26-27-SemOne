@@ -67,12 +67,12 @@ export const videos: VideoSlot[] = [
     episode: 4,
     title: 'No Perfect Copy',
     description:
-      'Planned episode about the no-cloning theorem. The group will review its examples and science before release.',
+      'Forthcoming episode about the no-cloning theorem; this video has not been published yet.',
     caseId: 'no-cloning',
     caseLabel: 'no-cloning',
     thumbnail: 'videos/no-cloning.png',
     youtubeId: '',
     status: 'coming-soon',
-    transcript: 'Captions and a transcript will appear here when this episode goes live.',
+    transcript: 'Caption and transcript availability will be listed here when known.',
   },
 ];
