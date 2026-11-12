@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { pageGroups } from '@/data/pageIndex';
 
-export default function PageDirectory() {
+export default function PageDirectory({ indexIcon }: { indexIcon?: ReactNode }) {
   let pageNumber = 0;
 
   return (
     <section id="site-index" className="record-section reference-section" aria-labelledby="site-index-title">
       <div className="record-section-inner">
-        <p className="record-kicker">Site index / find your next stop</p>
+        <p className="record-kicker">{indexIcon} Site index / find your next stop</p>
         <h2 id="site-index-title">Explore all pages</h2>
         <p className="record-lead mt-3 max-w-3xl">
           Start with a case, try an activity, look up a term, or browse the project records.
