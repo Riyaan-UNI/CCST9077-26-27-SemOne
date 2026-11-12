@@ -14,7 +14,7 @@ export default function About() {
           <p className="record-lead max-w-2xl">The Bureau is a fictional guide for exploring real ideas from CCST9077. “Lost-and-found” is a story frame; it does not mean quantum information has literally gone missing.</p>
         </div>
         <div className="about-record-list mt-10">
-          <section><span><CircleHelp size={19} aria-hidden="true" /></span><div><h2>Make a prediction</h2><p>Each case starts with a question. Choose what you think the evidence will show, or skip straight to the working finding.</p></div></section>
+          <section><span><CircleHelp size={19} aria-hidden="true" /></span><div><h2>Make a prediction</h2><p>Each case starts with a question. Choose what you think the evidence will show, or skip straight to the case finding.</p></div></section>
           <section><span><ClipboardList size={19} aria-hidden="true" /></span><div><h2>Inspect the test</h2><p>Try a small browser-based demonstration. It illustrates a selected idea and does not represent every detail of a physical experiment.</p></div></section>
           <section><span><BookOpen size={19} aria-hidden="true" /></span><div><h2>Compare the finding</h2><p>The evidence ledger keeps the cases side by side while naming their different scientific limits.</p></div></section>
           <section><span><Code2 size={19} aria-hidden="true" /></span><div><h2>How this site is made</h2><p>The pages are built with React and TypeScript. The small simulations run in your browser, your case notes stay on this device, and a video connects to YouTube when you choose to play it.</p></div></section>

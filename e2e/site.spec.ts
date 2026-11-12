@@ -140,6 +140,7 @@ test.describe('Public Registry and routes', () => {
     const player = page.getByRole('dialog', { name: 'The Magic Box' });
     await expect(player).toHaveAttribute('aria-modal', 'false');
     await expect(player.locator('iframe')).toHaveAttribute('src', /ZNNB-lHQsfI\?autoplay=1/);
+    await expect(player.getByRole('link', { name: /open directly on youtube/i })).toHaveAttribute('href', 'https://www.youtube.com/watch?v=ZNNB-lHQsfI');
     await page.getByRole('button', { name: 'Switch to light mode' }).click();
     await expect(player).toBeVisible();
     await page.getByRole('button', { name: 'Close video player' }).click();
@@ -161,6 +162,16 @@ test.describe('Public Registry and routes', () => {
     await expect(page.getByText(/3 case files$/i)).toBeVisible();
     await expect(page.getByRole('link', { name: /next: explore the measurement case/i }).first()).toHaveAttribute('href', '/cases/measurement');
     await expect(page.getByRole('link', { name: /next: explore the entanglement case/i }).first()).toHaveAttribute('href', '/cases/entanglement');
+  });
+
+  test('video jump places the section heading below the sticky navigation', async ({ page }) => {
+    await openAppPage(page, '/');
+    await page.getByRole('link', { name: /watch the video episodes/i }).click();
+    const header = await page.locator('.bureau-header').boundingBox();
+    const heading = await page.getByRole('heading', { name: 'Watch the quantum episodes' }).boundingBox();
+    expect(header).not.toBeNull();
+    expect(heading).not.toBeNull();
+    expect(heading!.y).toBeGreaterThanOrEqual(header!.height);
   });
 
   test('Observer Mode reveals gallery plates and hides progression controls', async ({ page }) => {

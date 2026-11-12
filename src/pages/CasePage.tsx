@@ -153,7 +153,7 @@ export default function CasePage() {
             <div className="case-step-heading">
               <span className="record-case-number">03</span>
               <div>
-                <p className="record-kicker">Finding / working draft</p>
+                <p className="record-kicker">Finding</p>
                 <h2 id="finding-title">What the case supports</h2>
               </div>
             </div>
@@ -174,7 +174,7 @@ export default function CasePage() {
               recordFindingRead(item.id);
             }
           }}>
-            <summary>Skip the test and read the working finding</summary>
+            <summary>Skip the test and read the case finding</summary>
             <p>{item.finding}</p>
             <p className="record-note">{item.boundary}</p>
           </details>

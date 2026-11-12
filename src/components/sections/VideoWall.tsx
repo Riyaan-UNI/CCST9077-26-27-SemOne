@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import confetti from 'canvas-confetti';
-import { ArrowRight, Play, X } from 'lucide-react';
+import { ArrowRight, ExternalLink, Play, X } from 'lucide-react';
 import Qubi from '@/components/Qubi';
 import { asset } from '@/lib/utils';
 import { videos, type VideoSlot } from '@/data/videos';
@@ -67,6 +67,17 @@ function VideoPopup({ video, onClose, returnTo }: { video: VideoSlot; onClose: (
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
+        </div>
+
+        <div className="flex justify-end border-t border-line px-4 py-2 sm:px-6">
+          <a
+            href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+            target="_blank"
+            rel="noreferrer"
+            className="record-text-link text-sm"
+          >
+            Open directly on YouTube <ExternalLink size={14} aria-hidden="true" />
+          </a>
         </div>
 
         <section className="border-t border-line px-4 py-3 sm:px-6" aria-label="Episode notes">

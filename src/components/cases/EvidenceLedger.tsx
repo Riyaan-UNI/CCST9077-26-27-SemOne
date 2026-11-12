@@ -29,7 +29,7 @@ export default function EvidenceLedger() {
           <thead>
             <tr>
               <th scope="col">Case</th>
-              <th scope="col">Working finding</th>
+              <th scope="col">Case finding</th>
               <th scope="col">Your prediction</th>
               <th scope="col">Test observation</th>
               <th scope="col" className="progression-chrome">Confidence</th>

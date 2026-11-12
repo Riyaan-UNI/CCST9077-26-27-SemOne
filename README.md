@@ -33,7 +33,7 @@ The Vite development server runs at `http://127.0.0.1:5173`.
 | `/cases/measurement` | Superposition and measurement case flow |
 | `/cases/entanglement` | Entanglement, Bell correlations, and the no-message boundary |
 | `/cases/no-cloning` | Limits on copying arbitrary unknown states |
-| `/ledger` | Side-by-side working findings and predictions stored locally in the visitor’s browser |
+| `/ledger` | Side-by-side case findings and predictions stored locally in the visitor’s browser |
 | `/videos` | Three ready YouTube episodes and one forthcoming episode |
 | `/lab` | Local quantum simulator, CHSH game, Bloch sphere, and related experiments |
 | `/timeline`, `/course-map` | Course timeline and lecture references |
@@ -43,7 +43,7 @@ The Vite development server runs at `http://127.0.0.1:5173`.
 
 ## Interaction and accessibility notes
 
-- A case follows **Prediction → Test → Finding**. Visitors can skip the test and read the working finding.
+- A case follows **Prediction → Test → Finding**. Visitors can skip the test and read the case finding.
 - Predictions and observations shown in the evidence ledger are saved in local browser storage; there is no project backend.
 - Video thumbnails load a nonmodal player only after a visitor selects a live episode. Caption and transcript availability should be checked on the published YouTube videos before submission.
 - Dark mode is the default for new visitors. A light theme switch is available.
