@@ -3,11 +3,13 @@ export interface ArtworkPlate {
   title: string;
   imagePath: string;
   altText: string;
-  unlockEpisodeId: string;
+  /** Omit to keep an editorial / concept-art plate always visible. */
+  unlockEpisodeId?: string;
 }
 
 // The user reports that the team reviewed the current project content for accuracy.
 export const artworks: ArtworkPlate[] = [
+  { id: 'unfiled-singularity', title: 'The Unfiled Singularity', imagePath: '/gallery/unfiled-singularity.svg', altText: 'An original cosmic comic-book illustration of a black hole bending starlight, an incoming astronaut stretched toward it, branching green and gold timeline strands, and a tiny Qubi-like archive terminal amid fictional redacted secrets in the dark center.' },
   { id: 'bloch', title: 'The Bloch sphere', imagePath: '/gallery/bloch-sphere.svg', altText: 'A sphere diagram representing pure qubit states, with the zero and one basis states at opposite poles.', unlockEpisodeId: 'the-magic-box' },
   { id: 'entangled', title: 'An entangled pair', imagePath: '/gallery/entangled-pair.svg', altText: 'A diagram of two qubits represented together as an entangled pair.', unlockEpisodeId: 'spooky-twins-no-messages' },
   { id: 'crt', title: 'Qubi, the qubit terminal', imagePath: '/gallery/qubi-crt.svg', altText: 'Qubi, a friendly robot designed as a retro CRT monitor.', unlockEpisodeId: 'the-magic-box' },

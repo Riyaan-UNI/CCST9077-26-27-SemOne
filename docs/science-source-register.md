@@ -44,4 +44,12 @@ The glossary wording was narrowed to avoid implying conscious observation, contr
 | Unstructured search | [Grover, “A fast quantum mechanical algorithm for database search” (1996)](https://doi.org/10.48550/arXiv.quant-ph/9605043) |
 | Bell inequality testing | [Clauser, Horne, Shimony & Holt, “Proposed Experiment to Test Local Hidden-Variable Theories,” *Physical Review Letters* (1969)](https://doi.org/10.1103/PhysRevLett.23.880) |
 
+## Black-hole concept-art grounding
+
+The Gallery’s *The Unfiled Singularity* is an original fictional concept illustration, not a fourth case or a claim that the black-hole information problem has a settled answer. Its curved starlight follows NASA’s black-hole lensing visualization; the stretched explorer represents tidal-force spaghettification. The story archive and Qubi-like glow inside the singularity are imaginative devices. The timing of tidal disruption depends on black-hole mass, so the figure is not placed at a universal event-horizon boundary.
+
+- [NASA SVS, “Isolated Black Hole Visualization”](https://svs.gsfc.nasa.gov/14620) — gravitational lensing and bent light paths.
+- [NASA Science, “What Happens When Something Gets ‘Too Close’ to a Black Hole?”](https://science.nasa.gov/universe/what-happens-when-something-gets-too-close-to-a-black-hole/) — tidal forces and spaghettification.
+- [NASA Science, “Frequently Asked Questions on Black Holes”](https://science.nasa.gov/apod/frequently-asked-questions-faqs-on-black-holes/) — current physics does not describe what happens at the singularity.
+
 If a case, quiz, simulation, or fact changes, update the corresponding lecture connection and source pointer. Exact slide citations and reviewer names can be added if the group wants a more detailed audit trail; they were not provided for this update.

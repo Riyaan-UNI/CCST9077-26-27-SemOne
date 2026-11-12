@@ -16,6 +16,15 @@ export interface GalleryItem {
  */
 export const gallery: GalleryItem[] = [
   {
+    id: 'unfiled-singularity',
+    src: asset('/gallery/unfiled-singularity.svg'),
+    width: 1200,
+    height: 900,
+    title: 'The Unfiled Singularity',
+    caption: 'A fictional archive inside a black-hole shadow, with warped starlight, an incoming explorer stretched by tidal forces, and branching timelines as an original superhero-comic homage. The “secrets” and Qubi-like monitor inside the singularity are story devices: current physics does not establish a hidden archive there. Tidal stretching can occur before or after horizon crossing depending on the black hole’s mass. The sealed record evokes the black-hole information puzzle without suggesting a settled solution. Visual science references: NASA, “Isolated Black Hole Visualization,” “What Happens When Something Gets Too Close to a Black Hole?” and “Frequently Asked Questions on Black Holes.”',
+    credit: 'Original SVG illustration · AI-assisted code and composition · no Marvel characters, logos, or official imagery',
+  },
+  {
     id: 'bloch',
     src: asset('/gallery/bloch-sphere.svg'),
     width: 1000,

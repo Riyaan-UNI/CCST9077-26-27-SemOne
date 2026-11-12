@@ -15,24 +15,27 @@ export default function GalleryPage() {
   const { progress } = useProgression();
   const navigate = useNavigate();
   const [activeId, setActiveId] = useState<string | null>(null);
-  const visibleArt = useMemo(() => artworks.filter((plate) => progress.observerMode || progress.unlockedArtworks.includes(plate.id)), [progress]);
+  const unlockableArtworks = artworks.filter((plate) => Boolean(plate.unlockEpisodeId));
+  const visibleArt = useMemo(() => artworks.filter((plate) => !plate.unlockEpisodeId || progress.observerMode || progress.unlockedArtworks.includes(plate.id)), [progress]);
   const activeIndex = visibleArt.findIndex((plate) => plate.id === activeId);
+  const declassifiedCount = unlockableArtworks.filter((plate) => progress.unlockedArtworks.includes(plate.id)).length;
 
   return (
     <Page>
       <div className="record-page mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8">
         <p className="record-kicker">Bureau / public record</p>
         <h1 className="record-title mt-4">The Gallery Wall</h1>
-        <p className="record-lead mt-5 max-w-3xl">Choose a sealed plate to watch its episode and answer the check; passing opens that file here. Every image is an educational visual, not a scientific proof.</p>
+        <p className="record-lead mt-5 max-w-3xl">Explore the featured concept art, or choose a sealed plate to watch its episode and answer the check; passing opens that file here. These images are illustrations, not scientific proof.</p>
         <div className="gallery-wall-counter progression-chrome" aria-live="polite">
-          <strong>{progress.observerMode ? artworks.length : visibleArt.length} / {artworks.length}</strong>
-          <span>{progress.observerMode ? 'Observer Mode · all plates visible' : 'plates declassified'}</span>
+          <strong>{progress.observerMode ? unlockableArtworks.length : declassifiedCount} / {unlockableArtworks.length}</strong>
+          <span>{progress.observerMode ? 'Observer Mode · all sealed plates open' : 'sealed plates declassified'}</span>
         </div>
         <div className="gallery-wall">
           {artworks.map((plate, index) => {
-            const isUnlocked = progress.observerMode || progress.unlockedArtworks.includes(plate.id);
+            const isFeatured = !plate.unlockEpisodeId;
+            const isUnlocked = isFeatured || progress.observerMode || progress.unlockedArtworks.includes(plate.id);
             const source = gallery.find((item) => item.id === plate.id);
-            const unlockVideo = videos.find((video) => video.id === plate.unlockEpisodeId);
+            const unlockVideo = plate.unlockEpisodeId ? videos.find((video) => video.id === plate.unlockEpisodeId) : undefined;
             return (
               <article id={plate.id} className={`gallery-plate${isUnlocked ? ' is-declassified' : ' is-sealed'}`} key={plate.id}>
                 <button type="button" className="gallery-plate-image" onClick={() => {
@@ -44,9 +47,10 @@ export default function GalleryPage() {
                   <span className="gallery-plate-number">PLATE / {String(index + 1).padStart(2, '0')}</span>
                 </button>
                 <div className="gallery-plate-copy">
-                  <p className="record-kicker progression-chrome">{isUnlocked ? 'Declassified' : 'Redacted'}</p>
+                  <p className="record-kicker progression-chrome">{isFeatured ? 'Featured concept art' : isUnlocked ? 'Declassified' : 'Redacted'}</p>
                   <h2>{isUnlocked ? plate.title : 'Redacted record'}</h2>
                   <p>{isUnlocked ? source?.caption ?? 'An educational visual supplied with the project.' : 'This plate’s title and image are sealed until declassification.'}</p>
+                  {isUnlocked && source?.credit && <p className="record-note mt-3">{source.credit}</p>}
                   {!isUnlocked && <span className="gallery-unlock-reason">Select to watch Episode {unlockVideo?.episode ?? ''} and answer its check. Passing opens this file.</span>}
                 </div>
               </article>
