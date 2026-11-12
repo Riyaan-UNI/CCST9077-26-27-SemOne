@@ -1,38 +1,25 @@
 /**
- * Team content for the /team page.
- *
- * Every human-authored line carries `confirm: true`. Fun facts are short,
- * general quantum explanations rather than personal claims about members.
- *
- * `devices` lists the literary devices used in each bio so the page can surface
- * them under the optional "Show the literary devices" toggle.
+ * Team names and contribution details supplied by the project group.
+ * Quantum facts are short explanatory drafts and remain pending group science review.
  */
-
 export type Deliverable = 'website' | 'videos' | 'mascot' | 'scripts';
 
-export interface Confirmed<T> {
-  value: T;
-  confirm: true;
-}
-
-export interface DeviceNote {
-  device: string;
-  example: string;
-  note: string;
+export interface DraftQuantumFact {
+  text: string;
+  reviewStatus: 'group-review-pending';
 }
 
 export interface TeamMember {
   id: string;
-  name: Confirmed<string>;
-  nickname?: Confirmed<string>;
+  name: string;
+  /** Full name is shown only when the member requested it. */
   fullName?: string;
-  location?: string;
-  title: Confirmed<string>;
-  bio: Confirmed<string>;
-  contributions: Confirmed<string>[];
-  funFact: Confirmed<string>;
+  /** Name the member goes by. */
+  nickname?: string;
+  title: string;
+  contributions: string[];
+  funFact: DraftQuantumFact;
   deliverables: Deliverable[];
-  devices: DeviceNote[];
 }
 
 export const DELIVERABLES: { id: Deliverable; label: string }[] = [
@@ -45,103 +32,54 @@ export const DELIVERABLES: { id: Deliverable; label: string }[] = [
 export const team: TeamMember[] = [
   {
     id: 'riyaan',
-    name: { value: 'Riyaan', confirm: true },
-    nickname: { value: 'Chicha', confirm: true },
-    fullName: 'Patan Mohammed Riyaan',
-    location: 'India',
-    title: { value: 'The First-Principles Tinkerer', confirm: true },
-    bio: {
-      value:
-        'Chicha doesn’t borrow answers; he rebuilds them from the ground up, like a physicist who insists on re-deriving gravity before agreeing to fall. Born in Bengaluru, India’s Silicon Valley, and now studying Computer Science at HKU, he travelled thousands of kilometres to a lecture on spooky action at a distance, proof that some distances really do not matter. On this team he is the architect: he drew the blueprint, directed the machines, and kept the site standing while the rest of us were still in superposition about lunch.',
-      confirm: true,
-    },
-    contributions: [
-      { value: 'Website', confirm: true },
-      { value: 'Video editing', confirm: true },
-      { value: 'Mascot', confirm: true },
-    ],
+    name: 'Riyaan',
+    title: 'Website · Video editing · Mascot',
+    contributions: ['Website', 'Video editing', 'Mascot'],
     funFact: {
-      value:
-        'Quantum algorithms use interference: possible paths can combine so wrong answers cancel while useful answers become more likely.',
-      confirm: true,
+      text: 'Quantum algorithms can use interference so that some possible outcomes cancel while others become more likely.',
+      reviewStatus: 'group-review-pending',
     },
     deliverables: ['website', 'videos', 'mascot'],
-    devices: [
-      { device: 'Metaphor', example: 'rebuilds them from the ground up', note: 'Describes a way of thinking by comparing it to building.' },
-      { device: 'Simile', example: 'like a physicist who insists on re-deriving gravity', note: 'A direct "like" comparison.' },
-      { device: 'Hyperbole', example: 'thousands of kilometres', note: 'Deliberate overstatement for warmth.' },
-      { device: 'Allusion', example: 'spooky action at a distance', note: 'A knowing reference to Einstein’s phrase.' },
-      { device: 'Antithesis', example: 'architect … while the rest of us were still in superposition', note: 'A contrast placed side by side.' },
-    ],
   },
   {
     id: 'damian',
-    name: { value: 'Damian', confirm: true },
+    name: 'Damian',
     fullName: 'Long Yat Damian Lau',
-    nickname: { value: 'Damian', confirm: true },
-    title: { value: 'The Voice of Qubi', confirm: true },
-    bio: {
-      value:
-        'Damian voices Qubi in the videos, leads video editing, writes scripts, and invented the Qubi mascot.',
-      confirm: true,
-    },
+    nickname: 'Damian',
+    title: 'Voice of Qubi · Chief video editor · Scriptwriter · Mascot inventor',
     contributions: [
-      { value: 'Voice of Qubi in the videos', confirm: true },
-      { value: 'Chief video editor', confirm: true },
-      { value: 'Video script-writing', confirm: true },
-      { value: 'Inventor of the Qubi mascot', confirm: true },
+      'Voice of Qubi in the videos',
+      'Chief video editor',
+      'Video script-writing',
+      'Inventor of the Qubi mascot',
     ],
     funFact: {
-      value:
-        'A single qubit’s pure state can be pictured as a point on a sphere called the Bloch sphere; its poles represent 0 and 1.',
-      confirm: true,
+      text: 'A single qubit’s pure state can be pictured as a point on a sphere called the Bloch sphere; its poles represent 0 and 1.',
+      reviewStatus: 'group-review-pending',
     },
     deliverables: ['mascot', 'videos', 'scripts'],
-    devices: [],
   },
   {
     id: 'markus',
-    name: { value: 'Markus', confirm: true },
-    fullName: 'Markus Skjerstad Dølvik',
-    location: 'Norway',
-    title: { value: 'A Speaker in the Video Series', confirm: true },
-    bio: {
-      value:
-        'Markus is a speaker in the video series.',
-      confirm: true,
-    },
-    contributions: [
-      { value: 'Speaker in the videos', confirm: true },
-      { value: 'Video script-writing', confirm: true },
-    ],
+    name: 'Markus',
+    title: 'Video speaker · Script contributor',
+    contributions: ['Speaker in the videos', 'Video script-writing'],
     funFact: {
-      value:
-        'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
-      confirm: true,
+      text: 'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
+      reviewStatus: 'group-review-pending',
     },
     deliverables: ['videos', 'scripts'],
-    devices: [],
   },
   {
     id: 'cynthia',
-    name: { value: 'Cynthia', confirm: true },
+    name: 'Cynthia',
     fullName: 'Cynthia (Sun Siyan)',
-    title: { value: 'The Scriptwriter and Video Speaker', confirm: true },
-    bio: {
-      value:
-        'Cynthia (Sun Siyan) contributes to the video series through script-writing and as a speaker.',
-      confirm: true,
-    },
-    contributions: [
-      { value: 'Video script-writing', confirm: true },
-      { value: 'Speaker in the videos', confirm: true },
-    ],
+    title: 'Video speaker · Scriptwriter',
+    contributions: ['Video script-writing', 'Speaker in the videos'],
     funFact: {
-      value:
-        'The no-cloning theorem says an unknown quantum state cannot be copied perfectly, so quantum information needs special ways to detect errors.',
-      confirm: true,
+      text: 'The no-cloning theorem rules out perfectly copying every arbitrary unknown quantum state with one universal copier.',
+      reviewStatus: 'group-review-pending',
     },
     deliverables: ['videos', 'scripts'],
-    devices: [],
   },
 ];

@@ -35,18 +35,15 @@ function MemberCard({
             {member.fullName ? (
               <>
                 {member.fullName}
-                {member.location && (
-                  <span className="ml-2 text-sm font-normal text-muted">· {member.location}</span>
-                )}
               </>
             ) : (
-              member.name.value
+              member.name
             )}
             {member.nickname && (
-              <span className="ml-2 text-sm font-normal text-muted">“{member.nickname.value}”</span>
+              <span className="ml-2 text-sm font-normal text-muted">“{member.nickname}”</span>
             )}
           </h3>
-          <p className="mt-1 text-sm font-semibold text-neon">{member.title.value}</p>
+          <p className="mt-1 text-sm font-semibold text-neon">{member.title}</p>
         </div>
         <span className="ml-auto hidden text-sm text-muted sm:block">{open ? 'Close' : 'Open'}</span>
       </button>
@@ -56,7 +53,7 @@ function MemberCard({
           <motion.div
             id={`member-details-${member.id}`}
             role="region"
-            aria-label={`${member.name.value} contributions and fun fact`}
+            aria-label={`${member.name} contributions and quantum fact`}
             initial={reduceMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
@@ -64,18 +61,18 @@ function MemberCard({
             className="overflow-hidden"
           >
             <div className="border-t border-line p-5">
-              <h4 className="ui-label text-neon">What {member.name.value} brought</h4>
+              <h4 className="ui-label text-neon">What {member.name} brought</h4>
               <ul className="mt-3 space-y-2 text-sm text-ink-soft">
-                {member.contributions.map((c) => (
-                  <li key={c.value} className="flex items-start gap-2">
+                {member.contributions.map((contribution) => (
+                  <li key={contribution} className="flex items-start gap-2">
                     <Check size={15} className="mt-0.5 shrink-0 text-neon" aria-hidden="true" />
-                    <span>{c.value}</span>
+                    <span>{contribution}</span>
                   </li>
                 ))}
               </ul>
               <div className="team-fun-fact mt-4 border border-line bg-elevated px-4 py-3">
-                <p className="text-xs text-muted">Fun fact</p>
-                <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.value}</p>
+                <p className="text-xs text-muted">Quantum fact · group review pending</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.text}</p>
               </div>
             </div>
           </motion.div>
@@ -93,7 +90,7 @@ export default function Team() {
       <div className="record-page mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8">
         <p className="record-kicker">Project record / group contributions</p>
         <h1 className="record-title mt-4 max-w-3xl">Four students. Qubi on the desk.</h1>
-        <p className="record-lead mt-5 max-w-2xl">The group’s stated roles are listed below. Open a member record for contributions and a quantum fact.</p>
+        <p className="record-lead mt-5 max-w-2xl">The roles below reflect what the group has supplied so far. Each quantum fact is a draft awaiting the group’s science review.</p>
         <div
           data-testid="team-member-grid"
           className="team-member-grid mt-10 grid auto-rows-min grid-cols-1 content-start items-start gap-5 md:grid-cols-2 xl:grid-cols-4"
@@ -131,7 +128,7 @@ export default function Team() {
                 {team.map((m) => (
                   <tr key={m.id} className="border-t border-line">
                     <th scope="row" className="py-3 pr-4 text-left font-normal text-ink-soft">
-                      {m.name.value}
+                      {m.name}
                     </th>
                     {DELIVERABLES.map((d) => {
                       const hit = m.deliverables.includes(d.id);
@@ -143,7 +140,7 @@ export default function Team() {
                                 ? 'bg-neon/15 text-neon'
                                 : 'border border-line text-muted'
                             }`}
-                            aria-label={hit ? `${m.name.value} worked on ${d.label}` : `${m.name.value} did not work on ${d.label}`}
+                            aria-label={hit ? `${m.name} worked on ${d.label}` : `${m.name} did not work on ${d.label}`}
                           >
                             {hit ? <Check size={14} aria-hidden="true" /> : '—'}
                           </span>
