@@ -13,6 +13,9 @@ export interface VideoSlot {
   episode: number;
   title: string;
   description: string;
+  /** Case that continues the idea introduced in this episode. */
+  caseId: 'measurement' | 'entanglement' | 'no-cloning';
+  caseLabel: string;
   thumbnail: string;
   youtubeId: string;
   status: 'coming-soon' | 'live';
@@ -29,6 +32,8 @@ export const videos: VideoSlot[] = [
     title: 'The Magic Box',
     description:
       'Qubi opens a magic box to introduce qubit states and measurement. The box is a teaching analogy; a qubit is not a tiny classical ball.',
+    caseId: 'measurement',
+    caseLabel: 'measurement',
     thumbnail: 'videos/the-magic-box.png',
     youtubeId: 'ZNNB-lHQsfI',
     status: 'live',
@@ -39,6 +44,8 @@ export const videos: VideoSlot[] = [
     title: 'Spooky Twins, No Messages',
     description:
       'An introduction to entanglement correlations and why they do not provide a controllable message channel.',
+    caseId: 'entanglement',
+    caseLabel: 'entanglement',
     thumbnail: 'videos/spooky-twins.png',
     youtubeId: 'vdufocF6Mjs',
     status: 'live',
@@ -49,6 +56,8 @@ export const videos: VideoSlot[] = [
     title: 'The Game Show That Broke Reality',
     description:
       'A CHSH game illustrates how quantum correlations can exceed the 75% ceiling for classical strategies in this game.',
+    caseId: 'entanglement',
+    caseLabel: 'Bell correlations',
     thumbnail: 'videos/game-show.png',
     youtubeId: '8QNQDiFKVyg',
     status: 'live',
@@ -59,6 +68,8 @@ export const videos: VideoSlot[] = [
     title: 'No Perfect Copy',
     description:
       'Planned episode about the no-cloning theorem. The group will review its examples and science before release.',
+    caseId: 'no-cloning',
+    caseLabel: 'no-cloning',
     thumbnail: 'videos/no-cloning.png',
     youtubeId: '',
     status: 'coming-soon',

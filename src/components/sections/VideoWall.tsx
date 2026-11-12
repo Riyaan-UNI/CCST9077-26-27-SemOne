@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { Play, X } from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { ArrowRight, Play, X } from 'lucide-react';
 import Qubi from '@/components/Qubi';
 import { asset } from '@/lib/utils';
 import { videos, type VideoSlot } from '@/data/videos';
@@ -12,7 +14,7 @@ import { artworks } from '@/content/artworks';
 
 const timestampNow = () => Date.now();
 
-function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void }) {
+function VideoPopup({ video, onClose, returnTo }: { video: VideoSlot; onClose: () => void; returnTo?: string }) {
   const reduceMotion = useStore((s) => s.reduceMotion);
   const { progress } = useProgression();
 
@@ -71,19 +73,21 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
           <p className="record-kicker mb-1">Episode notes</p>
           <p className="text-sm leading-relaxed text-ink-soft">{video.description}</p>
         </section>
-        {!progress.observerMode && <EpisodeStampCheck videoId={video.id} />}
+        {!progress.observerMode && <EpisodeStampCheck videoId={video.id} onClose={onClose} returnTo={returnTo} />}
       </motion.section>
     </motion.div>,
     document.body,
   );
 }
 
-function EpisodeStampCheck({ videoId }: { videoId: string }) {
+function EpisodeStampCheck({ videoId, onClose, returnTo }: { videoId: string; onClose: () => void; returnTo?: string }) {
   const { progress, dispatch } = useProgression();
+  const reduceMotion = useStore((s) => s.reduceMotion);
   const questions = getQuizForEpisode(videoId);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [checked, setChecked] = useState(false);
   const passed = progress.episodes[videoId]?.status === 'quizPassed';
+  const unlockedForEpisode = artworks.filter((plate) => plate.unlockEpisodeId === videoId);
   if (!questions.length) return null;
 
   const checkAnswers = (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,7 +95,17 @@ function EpisodeStampCheck({ videoId }: { videoId: string }) {
     setChecked(true);
     const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
     if (allCorrect) {
-      dispatch({ type: 'passQuiz', id: videoId, artworkIds: artworks.filter((plate) => plate.unlockEpisodeId === videoId).map((plate) => plate.id), at: timestampNow() });
+      dispatch({ type: 'passQuiz', id: videoId, artworkIds: unlockedForEpisode.map((plate) => plate.id), at: timestampNow() });
+      if (!reduceMotion) {
+        confetti({
+          particleCount: 72,
+          spread: 62,
+          startVelocity: 30,
+          origin: { y: 0.72 },
+          colors: ['#ff8756', '#9bacff', '#c5ed7a', '#f5f6f8'],
+          disableForReducedMotion: true,
+        });
+      }
     }
   };
   const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
@@ -99,7 +113,13 @@ function EpisodeStampCheck({ videoId }: { videoId: string }) {
   return (
     <section className="stamp-check progression-chrome" aria-labelledby="stamp-check-title">
       <div className="stamp-check-heading"><span className="record-kicker">After viewing / optional check</span><h3 id="stamp-check-title">Stamp this file</h3><p>Three questions. No penalty, and you can retry. Correct answers declassify the linked gallery plates.</p></div>
-      {passed ? <p className="stamp-success" role="status">Filed. The linked artwork is now declassified.</p> : (
+      {passed ? <div className="stamp-success" role="status">
+        <div>
+          <strong>File complete — {unlockedForEpisode.length} {unlockedForEpisode.length === 1 ? 'plate is' : 'plates are'} now open.</strong>
+          <p>Your newly declassified visuals are waiting on the Gallery Wall.</p>
+        </div>
+        <Link to={returnTo ? `/gallery#${encodeURIComponent(returnTo)}` : '/gallery'} onClick={onClose} className="record-button">{returnTo ? 'Open the file you selected' : 'See the unlocked plates'} <ArrowRight size={16} aria-hidden="true" /></Link>
+      </div> : (
         <form onSubmit={checkAnswers}>
           {questions.map((question, questionIndex) => (
             <fieldset className="stamp-question" key={question.id}>
@@ -187,16 +207,40 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
         <h3 className="text-lg">{video.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{video.description}</p>
         {video.transcript && <p className="mt-3 text-xs text-muted">{video.transcript}</p>}
+        <Link to={`/cases/${video.caseId}`} className="video-next-step mt-4 inline-flex items-center gap-2 text-sm font-semibold text-neon hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neon">
+          Next: explore the {video.caseLabel} case <ArrowRight size={15} aria-hidden="true" />
+        </Link>
       </div>
     </article>
   );
 }
 
 export default function VideoWall() {
-  const [activeVideo, setActiveVideo] = useState<VideoSlot | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoSlot | null>(null);
   const { dispatch } = useProgression();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedVideoId = searchParams.get('play');
+  const requestedReturnId = searchParams.get('returnTo');
+  const returnTo = artworks.some((plate) => plate.id === requestedReturnId) ? requestedReturnId ?? undefined : undefined;
+  const requestedVideo = videos.find((video) => video.id === requestedVideoId && video.status === 'live' && video.youtubeId);
+  const activeVideo = selectedVideo ?? requestedVideo ?? null;
   const liveCount = videos.filter((video) => video.status === 'live' && video.youtubeId).length;
   const upcomingCount = videos.length - liveCount;
+
+  useEffect(() => {
+    if (!requestedVideo) return;
+    dispatch({ type: 'markWatched', id: requestedVideo.id, at: Date.now() });
+  }, [dispatch, requestedVideo]);
+
+  const closePlayer = () => {
+    setSelectedVideo(null);
+    if (requestedVideoId) {
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete('play');
+      nextParams.delete('returnTo');
+      setSearchParams(nextParams, { replace: true });
+    }
+  };
 
   return (
     <div>
@@ -211,12 +255,12 @@ export default function VideoWall() {
         {videos.map((video) => (
           <VideoCard key={video.id} video={video} onPlay={(selected) => {
             dispatch({ type: 'markWatched', id: selected.id, at: Date.now() });
-            setActiveVideo(selected);
+            setSelectedVideo(selected);
           }} />
         ))}
       </div>
       <AnimatePresence initial={false}>
-        {activeVideo && <VideoPopup video={activeVideo} onClose={() => setActiveVideo(null)} />}
+        {activeVideo && <VideoPopup video={activeVideo} onClose={closePlayer} returnTo={returnTo} />}
       </AnimatePresence>
     </div>
   );

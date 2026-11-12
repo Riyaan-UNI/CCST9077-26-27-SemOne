@@ -1,10 +1,24 @@
 # Game Design Brief: Quantum Lost-and-Found Bureau
 
 **Project:** CCST9077 website (React + TypeScript + Vite)
-**Branch:** `concept/quantum-lost-found`
-**Status:** DRAFT. First version drafted with AI assistance (design options and benchmarking). The team must review, edit and rewrite this in its own words before it counts as the team's design. Record this in the AI-use statement.
+**Branch:** `concept/quantum-bureau-field-journal`
+**Status:** AI-assisted working draft; not final group-authored copy or science approval.
 
-> **How to use this file.** The team owns the design. AI (Codex) implements the code. Codex should build exactly what this brief says. If something is unspecified, Codex picks the simplest option and lists it in `docs/progress.md` under "Decisions for the team".
+> **Decision precedence:** This document began as an AI-assisted design draft and
+> contains outdated suggestions. Use `docs/human-decisions-log.md` and
+> `docs/copilot-project-prompt.md` for the group's recorded selections. In
+> particular, the selected identity is **Registrar’s Field Journal**, the site
+> has three published videos and one forthcoming slot, and the case conference
+> compares the three investigations rather than being a fourth case. The linked
+> Public Record Figma file is historical and has not been updated. Do not treat
+> generated implementation or copy as student-authored final work. The group
+> must make substantial creative contributions, rewrite draft content, verify
+> science against original lectures, and disclose AI assistance accurately.
+
+This draft is retained as planning history. It is not an instruction to have AI
+write the complete assessed product or implement every unreviewed suggestion
+below. When it conflicts with a recorded group decision or source-verified
+content, the recorded decision and verified content take precedence.
 
 ---
 

@@ -509,11 +509,15 @@ html.light {
 .stamp-explanation, .stamp-retry-note { margin-top: .45rem; color: var(--warning, #f0a44b); font-size: .82rem; line-height: 1.5; }
 .stamp-correct, .stamp-success { margin-top: .45rem; color: var(--cyan); font-size: .82rem; font-weight: 650; }
 .stamp-source { margin-top: .4rem; color: var(--muted); font-size: .7rem; line-height: 1.4; }
-.stamp-success { border: 1px solid var(--cyan); padding: .8rem; }
+.stamp-success { display: grid; gap: .9rem; border: 1px solid var(--cyan); border-left: 4px solid var(--cyan); padding: 1rem; background: color-mix(in srgb, var(--cyan) 8%, var(--surface)); }
+.stamp-success strong { display: block; color: var(--ink); font-size: .95rem; }
+.stamp-success p { margin-top: .25rem; color: var(--ink-soft); font-size: .82rem; line-height: 1.5; }
+.stamp-success .record-button { justify-self: start; }
 .gallery-wall-counter { display: flex; align-items: baseline; gap: .65rem; margin-top: 1.5rem; padding: .75rem 0; border-block: 1px solid var(--line-strong); color: var(--muted); font-size: .85rem; }
 .gallery-wall-counter strong { color: var(--cyan); font: 700 1.2rem/1 var(--font-mono); }
 .gallery-wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
 .gallery-plate { min-width: 0; border: 1px solid var(--line-strong); background: var(--surface); }
+.gallery-plate:target { border-color: var(--neon); box-shadow: 0 0 0 2px color-mix(in srgb, var(--neon) 45%, transparent); }
 .gallery-plate-image { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; padding: 0; border: 0; background: var(--elevated); text-align: left; cursor: pointer; }
 .gallery-plate-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .18s, transform .18s; }
 .gallery-plate-image:hover img { transform: scale(1.015); }
@@ -855,6 +859,9 @@ html.light {
 .registry-row > svg { color: var(--neon); }
 .registry-index-foot { display: flex; min-height: 3rem; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); color: var(--cyan); padding: 0.5rem 1.15rem; font-size: 0.82rem; font-weight: 650; text-decoration: none; }
 .registry-index-foot:hover { background: var(--elevated); }
+.visitor-route .registry-index-head > svg { color: var(--cyan); }
+.visitor-route .registry-index-foot { color: var(--muted); font-weight: 450; line-height: 1.5; }
+.video-next-step { text-decoration-thickness: 1px; text-underline-offset: .22em; }
 .registry-landing-index { width: min(100% - 2rem, 84rem); margin: 1.2rem auto 0; color: var(--muted); font: 0.68rem/1.4 var(--font-mono); letter-spacing: 0.05em; text-transform: uppercase; }
 
 .record-section { border-bottom: 1px solid var(--line); padding: clamp(3.2rem, 6vw, 6rem) 0; }
@@ -864,7 +871,7 @@ html.light {
 .reference-section h2 { margin: 0.6rem 0 0; font-size: clamp(1.9rem, 4vw, 3.25rem); font-weight: 780; line-height: 1.08; letter-spacing: -0.055em; }
 .record-section-heading .record-lead { margin: 0.75rem 0 0; font-size: 0.98rem; }
 .record-section-heading > .record-text-link { margin-bottom: 0.3rem; white-space: nowrap; }
-.video-section { background: var(--surface); }
+.video-section { background: var(--surface); scroll-margin-top: 6rem; }
 .conference-section { background: var(--canvas); }
 .reference-section { background: var(--elevated); }
 .reference-register { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
@@ -1460,11 +1467,15 @@ html.light {
     background-image:
       linear-gradient(90deg, transparent 0 1.2rem, var(--journal-margin) 1.2rem 1.25rem, transparent 1.25rem),
       repeating-linear-gradient(to bottom, transparent 0 2.45rem, var(--journal-rule) 2.48rem 2.52rem);
+    padding-block: 1.75rem 0.75rem;
   }
   .record-home-inner,
   .record-section-inner { width: min(100% - 2rem, 84rem); }
   .record-section-inner::before { left: -0.55rem; }
-  .registry-intro .record-title { max-width: 10ch; }
+  .registry-intro .record-title { max-width: 12ch; font-size: clamp(2.8rem, 9vw, 4.2rem); }
+  .visitor-route { display: none; }
+  .record-home-inner { gap: 1.25rem; }
+  .qubi-desk-note { margin-top: 1rem; }
   .bureau-case-folder:nth-child(n) { transform: none; }
   .bureau-case-folder a { min-height: 13rem; }
   .team-member-record { width: 100%; }
@@ -1486,6 +1497,12 @@ html.light {
   .record-section-inner { width: calc(100% - 1.25rem); }
   .record-section-inner::before { display: none; }
   .bureau-brand strong { max-width: 6.6rem; }
+}
+
+@media (max-width: 40rem) {
+  .registry-actions { align-items: center; flex-direction: row; gap: 0.65rem 0.9rem; }
+  .registry-actions .record-text-link { font-size: 0.76rem; }
+  .qubi-desk-note { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

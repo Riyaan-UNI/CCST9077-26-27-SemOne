@@ -146,6 +146,14 @@ test.describe('Public Registry and routes', () => {
     await expect(player).not.toBeVisible();
   });
 
+  test('homepage makes the video-first visitor path clear and links each episode to its case', async ({ page }) => {
+    await openAppPage(page, '/');
+    await expect(page.getByRole('link', { name: /watch the video episodes/i })).toHaveAttribute('href', '#videos');
+    await expect(page.getByRole('heading', { name: /watch the quantum episodes/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /next: explore the measurement case/i }).first()).toHaveAttribute('href', '/cases/measurement');
+    await expect(page.getByRole('link', { name: /next: explore the entanglement case/i }).first()).toHaveAttribute('href', '/cases/entanglement');
+  });
+
   test('Observer Mode reveals gallery plates and hides progression controls', async ({ page }) => {
     await openAppPage(page, '/gallery');
     await expect(page.getByText('0 / 6')).toBeVisible();
@@ -165,10 +173,30 @@ test.describe('Public Registry and routes', () => {
     await player.getByLabel('A quantum state that can show interference', { exact: true }).check();
     await player.getByRole('button', { name: 'Check answers' }).click();
     await expect(player.getByRole('status')).toContainText(/declassified/i);
-    await player.getByRole('button', { name: 'Close video player' }).click();
-    await page.goto('/gallery');
+    await expect(player.getByRole('status')).toContainText(/3 plates are now open/i);
+    await expect(player.getByRole('link', { name: /see the unlocked plates/i })).toBeVisible();
+    await player.getByRole('link', { name: /see the unlocked plates/i }).click();
+    await expect(page).toHaveURL(/\/gallery$/);
     await expect(page.locator('.gallery-plate.is-declassified')).toHaveCount(3);
     await expect(page.getByText('3 / 6')).toBeVisible();
+  });
+
+  test('a sealed gallery plate opens its episode and returns to that file after the check', async ({ page }) => {
+    await openAppPage(page, '/gallery');
+    await page.getByRole('button', { name: /sealed artwork 02.*episode 2/i }).click();
+    await expect(page).toHaveURL(/\/videos\?play=spooky-twins-no-messages&returnTo=entangled/);
+
+    const player = page.getByRole('dialog', { name: 'Spooky Twins, No Messages' });
+    await expect(player).toBeVisible();
+    await player.getByLabel('A joint quantum state', { exact: true }).check();
+    await player.getByLabel('No, local results do not provide a controllable message channel', { exact: true }).check();
+    await player.getByLabel('After they compare records using ordinary communication', { exact: true }).check();
+    await player.getByRole('button', { name: 'Check answers' }).click();
+    await player.getByRole('link', { name: /open the file you selected/i }).click();
+
+    await expect(page).toHaveURL(/\/gallery#entangled$/);
+    await expect(page.locator('#entangled')).toHaveClass(/is-declassified/);
+    await expect(page.locator('#entangled')).toBeInViewport();
   });
 
   test('case board responds at requested widths without page overflow', async ({ page }) => {

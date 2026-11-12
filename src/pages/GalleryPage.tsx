@@ -3,6 +3,7 @@ import Lightbox from 'yet-another-react-lightbox';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/captions.css';
+import { useNavigate } from 'react-router-dom';
 import Page from '@/components/Page';
 import { artworks } from '@/content/artworks';
 import { gallery } from '@/data/gallery';
@@ -12,18 +13,17 @@ import { asset } from '@/lib/utils';
 
 export default function GalleryPage() {
   const { progress } = useProgression();
+  const navigate = useNavigate();
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [sealedId, setSealedId] = useState<string | null>(null);
   const visibleArt = useMemo(() => artworks.filter((plate) => progress.observerMode || progress.unlockedArtworks.includes(plate.id)), [progress]);
   const activeIndex = visibleArt.findIndex((plate) => plate.id === activeId);
-  const sealed = artworks.find((plate) => plate.id === sealedId);
 
   return (
     <Page>
       <div className="record-page mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8">
         <p className="record-kicker">Bureau / public record</p>
         <h1 className="record-title mt-4">The Gallery Wall</h1>
-        <p className="record-lead mt-5 max-w-3xl">Team-supplied plates are declassified as you file episode checks. Every image is an educational visual, not a scientific proof.</p>
+        <p className="record-lead mt-5 max-w-3xl">Choose a sealed plate to watch its episode and answer the check; passing opens that file here. Every image is an educational visual, not a scientific proof.</p>
         <div className="gallery-wall-counter progression-chrome" aria-live="polite">
           <strong>{progress.observerMode ? artworks.length : visibleArt.length} / {artworks.length}</strong>
           <span>{progress.observerMode ? 'Observer Mode · all plates visible' : 'plates declassified'}</span>
@@ -34,8 +34,11 @@ export default function GalleryPage() {
             const source = gallery.find((item) => item.id === plate.id);
             const unlockVideo = videos.find((video) => video.id === plate.unlockEpisodeId);
             return (
-              <article className={`gallery-plate${isUnlocked ? ' is-declassified' : ' is-sealed'}`} key={plate.id}>
-                <button type="button" className="gallery-plate-image" onClick={() => isUnlocked ? setActiveId(plate.id) : setSealedId(plate.id)} aria-label={isUnlocked ? `View artwork: ${plate.title}` : `Sealed artwork ${String(index + 1).padStart(2, '0')}. Unlock by passing the quiz for ${unlockVideo ? `Episode ${unlockVideo.episode}` : 'its episode'}.`}>
+              <article id={plate.id} className={`gallery-plate${isUnlocked ? ' is-declassified' : ' is-sealed'}`} key={plate.id}>
+                <button type="button" className="gallery-plate-image" onClick={() => {
+                  if (isUnlocked) setActiveId(plate.id);
+                  else if (unlockVideo?.status === 'live') navigate(`/videos?play=${encodeURIComponent(unlockVideo.id)}&returnTo=${encodeURIComponent(plate.id)}`);
+                }} aria-label={isUnlocked ? `View artwork: ${plate.title}` : `Sealed artwork ${String(index + 1).padStart(2, '0')}. Watch Episode ${unlockVideo?.episode ?? ''} and pass its check to open this file.`}>
                   <img src={asset(plate.imagePath)} alt={isUnlocked ? plate.altText : ''} aria-hidden={!isUnlocked} loading="lazy" />
                   {!isUnlocked && <span className="gallery-redaction" aria-hidden="true"><i /><i /><i /><b>SEALED</b></span>}
                   <span className="gallery-plate-number">PLATE / {String(index + 1).padStart(2, '0')}</span>
@@ -50,10 +53,6 @@ export default function GalleryPage() {
             );
           })}
         </div>
-        {sealed && <aside className="gallery-sealed-note" role="status">
-          <strong>This plate is still sealed.</strong> Pass the associated episode’s three-question check to declassify it.
-          <button type="button" onClick={() => setSealedId(null)} aria-label="Dismiss artwork unlock details">Close</button>
-        </aside>}
         <Lightbox
           open={activeIndex >= 0}
           index={activeIndex}
