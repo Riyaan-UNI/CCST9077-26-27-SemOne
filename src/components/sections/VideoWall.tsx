@@ -112,7 +112,7 @@ function EpisodeStampCheck({ videoId, onClose, returnTo }: { videoId: string; on
 
   return (
     <section className="stamp-check progression-chrome" aria-labelledby="stamp-check-title">
-      <div className="stamp-check-heading"><span className="record-kicker">After viewing / optional check</span><h3 id="stamp-check-title">Stamp this file</h3><p>Three questions. No penalty, and you can retry. Correct answers declassify the linked gallery plates.</p></div>
+      <div className="stamp-check-heading"><span className="record-kicker">Gallery unlock check</span><h3 id="stamp-check-title">Stamp this file</h3><p>Answer these three questions to open the linked sealed plates. No penalty; you can retry.</p></div>
       {passed ? <div className="stamp-success" role="status">
         <div>
           <strong>File complete — {unlockedForEpisode.length} {unlockedForEpisode.length === 1 ? 'plate is' : 'plates are'} now open.</strong>

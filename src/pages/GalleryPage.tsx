@@ -47,7 +47,7 @@ export default function GalleryPage() {
                   <p className="record-kicker progression-chrome">{isUnlocked ? 'Declassified' : 'Redacted'}</p>
                   <h2>{isUnlocked ? plate.title : 'Redacted record'}</h2>
                   <p>{isUnlocked ? source?.caption ?? 'An educational visual supplied with the project.' : 'This plate’s title and image are sealed until declassification.'}</p>
-                  {!isUnlocked && <span className="gallery-unlock-reason">Unlock condition: pass the related episode check</span>}
+                  {!isUnlocked && <span className="gallery-unlock-reason">Select to watch Episode {unlockVideo?.episode ?? ''} and answer its check. Passing opens this file.</span>}
                 </div>
               </article>
             );

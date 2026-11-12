@@ -63,7 +63,7 @@ export default function Home() {
               <p className="registry-index-foot">Read in order—or follow whichever idea interests you.</p>
             </div>
           </div>
-          <p className="registry-landing-index">Public Registry / Start here / {bureauCases.length} files open</p>
+          <p className="registry-landing-index">Public Registry / Start here / {bureauCases.length} case files</p>
         </section>
 
         <section id="videos" className="record-section video-section" aria-labelledby="video-section-title">

@@ -46,7 +46,7 @@ test.describe('Public Registry and routes', () => {
     await page.getByRole('button', { name: 'Start the guided tour' }).click();
     await expect(page.getByRole('heading', { name: 'Public Registry' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/Quantum Lost-and-Found Bureau/i);
-    await expect(page.getByRole('heading', { name: 'The video records' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Watch the quantum episodes' })).toBeVisible();
     await expect(page.locator('#home-title')).toHaveClass(/guided-tour-target/);
     await expect(page.locator('.tour-companion')).toBeVisible();
 
@@ -121,7 +121,7 @@ test.describe('Public Registry and routes', () => {
 
   test('home offers a plain reading route into the archive', async ({ page }) => {
     await openAppPage(page, '/');
-    await expect(page.getByRole('link', { name: 'Open the archive' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Or explore the cases/i })).toBeVisible();
     await page.getByRole('link', { name: 'Read without playing' }).click();
     await expect(page).toHaveURL(/\/cases$/);
     await expect(page.getByRole('button', { name: 'Turn Observer Mode off' })).toHaveAttribute('aria-pressed', 'true');
@@ -146,10 +146,19 @@ test.describe('Public Registry and routes', () => {
     await expect(player).not.toBeVisible();
   });
 
+  test('case watch-along opens its related video directly', async ({ page }) => {
+    await openAppPage(page, '/cases/measurement');
+    await page.getByRole('link', { name: /Episode 01 · The Magic Box/i }).click();
+    await expect(page).toHaveURL(/\/videos\?play=the-magic-box$/);
+    await expect(page.getByRole('dialog', { name: 'The Magic Box' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Close video player' })).toBeVisible();
+  });
+
   test('homepage makes the video-first visitor path clear and links each episode to its case', async ({ page }) => {
     await openAppPage(page, '/');
     await expect(page.getByRole('link', { name: /watch the video episodes/i })).toHaveAttribute('href', '#videos');
     await expect(page.getByRole('heading', { name: /watch the quantum episodes/i })).toBeVisible();
+    await expect(page.getByText(/3 case files$/i)).toBeVisible();
     await expect(page.getByRole('link', { name: /next: explore the measurement case/i }).first()).toHaveAttribute('href', '/cases/measurement');
     await expect(page.getByRole('link', { name: /next: explore the entanglement case/i }).first()).toHaveAttribute('href', '/cases/entanglement');
   });
@@ -183,6 +192,7 @@ test.describe('Public Registry and routes', () => {
 
   test('a sealed gallery plate opens its episode and returns to that file after the check', async ({ page }) => {
     await openAppPage(page, '/gallery');
+    await expect(page.locator('#entangled').getByText(/Select to watch Episode 2 and answer its check\. Passing opens this file\./)).toBeVisible();
     await page.getByRole('button', { name: /sealed artwork 02.*episode 2/i }).click();
     await expect(page).toHaveURL(/\/videos\?play=spooky-twins-no-messages&returnTo=entangled/);
 

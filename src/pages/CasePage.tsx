@@ -189,7 +189,7 @@ export default function CasePage() {
             <ul className="related-video-list mt-3">
               {relatedVideos.filter((video) => video.status === 'live').map((video) => (
                 <li key={video.id}>
-                  <Link to={`/videos#${video.id}`}>
+                  <Link to={`/videos?play=${encodeURIComponent(video.id)}`}>
                     <span>Episode {String(video.episode).padStart(2, '0')} · {video.title}</span>
                     <Play size={14} aria-hidden="true" />
                   </Link>
