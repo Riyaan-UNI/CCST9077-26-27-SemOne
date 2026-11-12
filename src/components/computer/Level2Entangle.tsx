@@ -139,7 +139,7 @@ export default function Level2Entangle() {
       {entangled && (
         <div className="flex items-center justify-center gap-2 text-sm text-neon">
           <Link2 size={16} aria-hidden="true" />
-          <span>The two qubits are linked. Measuring one instantly tells you about the other.</span>
+          <span>For this Bell pair, measurements match. Each local result is random, so this cannot send a chosen message.</span>
         </div>
       )}
 
@@ -223,9 +223,9 @@ export default function Level2Entangle() {
         <div className="rounded-xl border border-line bg-surface p-4">
           <p className="ui-label text-neon">What entanglement does</p>
           <p className="mt-2 text-sm text-ink-soft">
-            When you entangle two qubits, they become a single system. Measuring one qubit
-            immediately collapses the other to match — even if they were on opposite sides of the
-            galaxy.
+            The pair shares a quantum state. In this simulation, measuring both in the same basis
+            gives matching results. Each result is random, so neither side can choose one to send a
+            message.
           </p>
         </div>
         <div className="rounded-xl border border-line bg-surface p-4">

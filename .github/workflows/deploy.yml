@@ -1,11 +1,10 @@
 name: Deploy to GitHub Pages
 
-# Builds the site and publishes it to GitHub Pages on every push to main or the observatory redesign branch,
-# so committing is all it takes to update the live site.
+# Builds the site and publishes it to GitHub Pages on every push to a deployment branch.
 
 on:
   push:
-    branches: [main, feature/quantum-observatory-reskin]
+    branches: [main, feature/quantum-observatory-reskin, concept/quantum-lost-found]
   # Lets you re-run a deploy by hand from the Actions tab.
   workflow_dispatch:
 

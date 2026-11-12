@@ -7,6 +7,7 @@ import Home from '@/pages/Home';
 import CaseArchive from '@/pages/CaseArchive';
 import CasePage from '@/pages/CasePage';
 import EvidenceLedgerPage from '@/pages/EvidenceLedgerPage';
+import { ProgressionProvider } from '@/features/progression/ProgressionProvider';
 
 /* Route-level code splitting keeps the first paint small. */
 const Lab = lazy(() => import('@/pages/Lab'));
@@ -27,6 +28,7 @@ export default function App() {
   const location = useLocation();
 
   return (
+    <ProgressionProvider>
     <Layout>
       <AnimatePresence mode="wait" initial={false}>
         <Suspense fallback={<RouteFallback />}>
@@ -52,5 +54,6 @@ export default function App() {
         </Suspense>
       </AnimatePresence>
     </Layout>
+    </ProgressionProvider>
   );
 }

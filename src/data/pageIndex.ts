@@ -1,5 +1,3 @@
-export const SITE_INDEX_HREF = '/#site-index';
-
 export const pageGroups = [
   {
     title: 'Start exploring',

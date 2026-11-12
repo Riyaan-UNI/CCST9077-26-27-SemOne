@@ -17,9 +17,11 @@ export default function CasePage() {
   const entries = useStore((state) => state.caseLedger);
   const recordPrediction = useStore((state) => state.recordPrediction);
   const recordObservation = useStore((state) => state.recordObservation);
+  const recordFindingRead = useStore((state) => state.recordFindingRead);
   const [prediction, setPrediction] = useState('');
   const [stage, setStage] = useState<Stage>('prediction');
   const [observation, setObservation] = useState('');
+  const [confidence, setConfidence] = useState(() => item ? entries[item.id]?.confidence ?? 3 : 3);
   const [videoNudgeVisible, setVideoNudgeVisible] = useState(true);
 
   if (!item) {
@@ -42,7 +44,7 @@ export default function CasePage() {
 
   const savePrediction = () => {
     if (!initialPrediction) return;
-    recordPrediction(item.id, initialPrediction);
+    recordPrediction(item.id, initialPrediction, confidence);
     setPrediction(initialPrediction);
     setStage('test');
   };
@@ -50,6 +52,7 @@ export default function CasePage() {
   const recordTestRun = (result: string) => {
     setObservation(result);
     recordObservation(item.id, result);
+    recordFindingRead(item.id);
     setStage('finding');
   };
 
@@ -73,7 +76,7 @@ export default function CasePage() {
           </div>
         </header>
 
-        <ol className="case-progress mt-12" aria-label="Case steps">
+        <ol className="case-progress progression-chrome mt-12" aria-label="Case steps">
           {(['prediction', 'test', 'finding'] as Stage[]).map((step, index) => {
             const active = step === stage;
             const complete = (['prediction', 'test', 'finding'] as Stage[]).indexOf(stage) > index;
@@ -110,6 +113,14 @@ export default function CasePage() {
                 <span>{choice}</span>
               </label>
             ))}
+          </fieldset>
+          <fieldset className="confidence-picker progression-chrome mt-5">
+            <legend>How confident are you? <span className="record-muted">1 = guessing · 5 = very sure</span></legend>
+            <div role="group" aria-label="Prediction confidence from 1 to 5">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button key={value} type="button" className={confidence === value ? 'is-selected' : ''} aria-pressed={confidence === value} onClick={() => setConfidence(value)}>{value}</button>
+              ))}
+            </div>
           </fieldset>
           {savedEntry?.prediction && !prediction && <p className="record-note">Your earlier prediction is saved on this device.</p>}
           <button type="button" className="record-button mt-5" disabled={!initialPrediction} onClick={savePrediction}>
@@ -157,7 +168,12 @@ export default function CasePage() {
         )}
 
         {stage === 'prediction' && (
-          <details className="case-reader-path mt-5">
+          <details className="case-reader-path mt-5" onToggle={(event) => {
+            if (event.currentTarget.open) {
+              recordObservation(item.id, 'Read finding without running test.');
+              recordFindingRead(item.id);
+            }
+          }}>
             <summary>Skip the test and read the working finding</summary>
             <p>{item.finding}</p>
             <p className="record-note">{item.boundary}</p>

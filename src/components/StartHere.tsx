@@ -14,28 +14,28 @@ interface TourStep {
 const STEPS: TourStep[] = [
   {
     title: 'Bits first',
-    body: 'Everything here is built on the bit: a switch that is 0 or 1, on or off. Quantum adds one weird twist on top of that.',
-    go: { label: 'Open the box', href: '/#magic-box' },
+    body: 'A classical bit stores either 0 or 1. A qubit is a quantum system whose state can produce different outcomes when measured.',
+    go: { label: 'Open the box', href: '/computer#level1' },
   },
   {
     title: 'The magic box',
-    body: 'A qubit is like a box with a ball that is spinning. Open it and the ball suddenly picks left (|0⟩) or right (|1⟩). Until then it is neither.',
-    go: { label: 'Try the box', href: '/#magic-box' },
+    body: 'In this model, a qubit is prepared in a superposition. Measuring it in the 0/1 basis returns one definite result; repeated trials show the probabilities. The glowing marker is only a diagram, not a picture of a tiny ball.',
+    go: { label: 'Try the box', href: '/computer#level1' },
   },
   {
     title: 'Entanglement',
-    body: 'Two boxes can be linked so that opening one instantly tells you about the other — with no message sent between them. Spooky, and real.',
+    body: 'Entangled qubits can produce strong correlations, but each local result is random. Those correlations cannot be controlled to send a message between distant people.',
     go: { label: 'See the lab', href: '/lab' },
   },
   {
     title: 'The game show',
-    body: 'Alice and Bob play a game no classical team can win more than 75% of the time. Entanglement lifts that to about 85.4%.',
+    body: 'In the CHSH game, a shared entangled state lets Alice and Bob win more often than any classical strategy. Individual rounds can still be lost.',
     go: { label: 'Play it later', href: '/lab' },
   },
   {
     title: 'Hype check',
     body: 'Quantum is genuine science but surrounded by hype. Use the hype checker to grade real claims from A to F.',
-    go: { label: 'Visit the checker', href: '/videos' },
+    go: { label: 'Visit the checker', href: '/delight' },
   },
 ];
 

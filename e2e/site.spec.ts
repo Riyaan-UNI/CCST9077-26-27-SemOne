@@ -24,7 +24,7 @@ test.describe('Public Registry and routes', () => {
     ['/universe-computer', /The Universe as a Quantum Computer/i],
     ['/delight', /Play, test, explore/i],
     ['/team', /Four students/i],
-    ['/gallery', /Plates from the quantum world/i],
+    ['/gallery', /The Gallery Wall/i],
     ['/glossary', /Glossary/i],
     ['/credits', /Sources, tools, and authorship/i],
     ['/about', /A case archive/i],
@@ -119,6 +119,14 @@ test.describe('Public Registry and routes', () => {
     await expect(page.locator('html')).toHaveClass(/dark/);
   });
 
+  test('home offers a plain reading route into the archive', async ({ page }) => {
+    await openAppPage(page, '/');
+    await expect(page.getByRole('link', { name: 'Open the archive' })).toBeVisible();
+    await page.getByRole('link', { name: 'Read without playing' }).click();
+    await expect(page).toHaveURL(/\/cases$/);
+    await expect(page.getByRole('button', { name: 'Turn Observer Mode off' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
   test('About explains the site structure and where interactive data lives', async ({ page }) => {
     await openAppPage(page, '/about');
     await expect(page.getByRole('heading', { name: 'How this site is made' })).toBeVisible();
@@ -138,6 +146,55 @@ test.describe('Public Registry and routes', () => {
     await expect(player).not.toBeVisible();
   });
 
+  test('Observer Mode reveals gallery plates and hides progression controls', async ({ page }) => {
+    await openAppPage(page, '/gallery');
+    await expect(page.getByText('0 / 6')).toBeVisible();
+    await expect(page.locator('.gallery-plate.is-sealed')).toHaveCount(6);
+    await page.getByRole('button', { name: 'Turn Observer Mode on' }).click();
+    await expect(page.locator('.gallery-plate.is-sealed')).toHaveCount(0);
+    await expect(page.locator('.gallery-wall-counter')).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Turn Observer Mode off' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  test('a fully correct episode check declassifies its supplied plates', async ({ page }) => {
+    await openAppPage(page, '/videos');
+    await page.getByRole('button', { name: 'Play episode 1: The Magic Box' }).click();
+    const player = page.getByRole('dialog', { name: 'The Magic Box' });
+    await player.getByLabel('One definite outcome', { exact: true }).check();
+    await player.getByLabel('Statistics of outcomes for the prepared state', { exact: true }).check();
+    await player.getByLabel('A quantum state that can show interference', { exact: true }).check();
+    await player.getByRole('button', { name: 'Check answers' }).click();
+    await expect(player.getByRole('status')).toContainText(/declassified/i);
+    await player.getByRole('button', { name: 'Close video player' }).click();
+    await page.goto('/gallery');
+    await expect(page.locator('.gallery-plate.is-declassified')).toHaveCount(3);
+    await expect(page.getByText('3 / 6')).toBeVisible();
+  });
+
+  test('case board responds at requested widths without page overflow', async ({ page }) => {
+    await openAppPage(page, '/cases');
+    for (const width of [320, 375, 414, 768, 1280, 1440]) {
+      await page.setViewportSize({ width, height: 800 });
+      const dimensions = await page.evaluate(() => ({
+        pageWidth: document.documentElement.scrollWidth,
+        viewport: window.innerWidth,
+        columns: getComputedStyle(document.querySelector('.bureau-case-board')!).gridTemplateColumns.split(' ').length,
+      }));
+      expect(dimensions.pageWidth).toBeLessThanOrEqual(dimensions.viewport);
+      if (width < 768) expect(dimensions.columns).toBe(1);
+      else expect(dimensions.columns).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  test('reduced-motion preference applies to the archive interactions', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await openAppPage(page, '/cases');
+    await expect(page.locator('.bureau-case-folder').first()).toBeVisible();
+    await page.getByRole('link', { name: /Superposition and measurement/i }).click();
+    await expect(page).toHaveURL(/\/cases\/measurement$/);
+    expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
+  });
+
   test('measurement test responds to basis and repeated shots', async ({ page }) => {
     await openAppPage(page, '/cases/measurement');
     await page.getByLabel('Two possible results across repeated trials').check();
@@ -152,6 +209,8 @@ test.describe('Public Registry and routes', () => {
     await expect(page.getByRole('heading', { name: 'What the case supports' })).toBeVisible();
 
     await page.getByRole('link', { name: /Add to case conference/i }).click();
+    await expect(page.getByRole('heading', { name: /Read all three findings/i })).toBeVisible();
+    await page.getByRole('button', { name: /Read the comparison anyway/i }).click();
     await expect(page.getByRole('table')).toContainText('Two possible results across repeated trials');
     await expect(page.getByRole('table')).toContainText(/1 total X-basis measurements/);
   });

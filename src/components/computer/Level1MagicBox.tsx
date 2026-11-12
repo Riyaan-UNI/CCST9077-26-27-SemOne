@@ -25,7 +25,7 @@ export default function Level1MagicBox() {
     setState((s) => hadamard(s, 0));
     setMeasured(null);
     setHistory((h) => [...h, 'Shake']);
-    react('curious', 'Shake! The ball is now spinning — neither left nor right.');
+    react('curious', 'The qubit is in an equal superposition. Measure to see one outcome.');
   };
 
   const flip = () => {
@@ -42,7 +42,7 @@ export default function Level1MagicBox() {
     setHistory((h) => [...h, `Measure → |${result.outcome}⟩`]);
     react(
       result.outcome === 0 ? 'happy' : 'excited',
-      `Collapsed to |${result.outcome}⟩!`,
+      `Measurement returned |${result.outcome}⟩.`,
     );
   };
 
@@ -62,7 +62,7 @@ export default function Level1MagicBox() {
             <div className="crt-lines pointer-events-none absolute inset-0 rounded-2xl opacity-50" />
             {/* track */}
             <div className="absolute inset-x-8 top-1/2 h-1 -translate-y-1/2 rounded-full bg-line" />
-            {/* ball */}
+            {/* Diagram marker: its position is a visual cue, not a literal qubit picture. */}
             <motion.div
               className="absolute top-1/2 h-14 w-14 -translate-y-1/2 rounded-full"
               animate={{
@@ -116,8 +116,8 @@ export default function Level1MagicBox() {
             </div>
             <p className="text-xs text-muted">
               {measured !== null
-                ? 'The ball has collapsed to one side. Shake to put it back in superposition.'
-                : 'The ball is in superposition: it holds both possibilities at once until you measure.'}
+                ? `Measurement returned |${measured}⟩. Shake to prepare an equal superposition again.`
+                : 'The bars show the probabilities of each measurement outcome. The glowing marker is a visual cue, not a picture of a qubit.'}
             </p>
           </div>
         </div>
@@ -172,20 +172,19 @@ export default function Level1MagicBox() {
         <div className="rounded-xl border border-line bg-surface p-4">
           <p className="ui-label text-neon">Shake</p>
           <p className="mt-2 text-sm text-ink-soft">
-            A Hadamard gate. Puts the ball in superposition — equal chance of left or right.
+            A Hadamard gate prepares an equal superposition. Measuring in this basis gives 0 or 1 with equal probability.
           </p>
         </div>
         <div className="rounded-xl border border-line bg-surface p-4">
           <p className="ui-label text-neon">Flip</p>
           <p className="mt-2 text-sm text-ink-soft">
-            A Pauli-X gate. Swaps left and right. If the ball was spinning, it stays spinning but
-            mirrored.
+            A Pauli-X gate swaps |0⟩ and |1⟩, including their probabilities in a superposition.
           </p>
         </div>
         <div className="rounded-xl border border-line bg-surface p-4">
           <p className="ui-label text-neon">Measure</p>
           <p className="mt-2 text-sm text-ink-soft">
-            Opens the box. The spinning ball collapses to either left (|0⟩) or right (|1⟩).
+            Measurement returns one outcome, |0⟩ or |1⟩, and updates the state to match that result.
           </p>
         </div>
       </div>

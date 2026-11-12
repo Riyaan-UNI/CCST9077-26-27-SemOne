@@ -13,7 +13,7 @@ const stops = [
   { path: '/videos', target: '.bureau-video-record', name: 'Video Records', hint: 'Watch the group’s episodes. Captions and transcripts belong alongside each release.' },
   { path: '/ledger', target: '.ledger-table', name: 'Evidence Ledger', hint: 'Review predictions and observations saved in this browser.' },
   { path: '/lab', target: '.lab-console', name: 'Reference Lab', hint: 'Try the course-linked simulators and change their controls.' },
-  { path: '/computer', target: 'main h1', name: 'Computer Desk', hint: 'Follow the interactive computer activity at your own pace.' },
+  { path: '/computer', target: '#level1', name: 'The Magic Box', hint: 'Try the single-qubit model. The glowing marker is a teaching diagram, not a tiny ball inside the qubit.' },
   { path: '/universe-computer', target: 'main h1', name: 'Universe Computer', hint: 'Explore the project’s larger interactive computer experience.' },
   { path: '/delight', target: 'main h1', name: 'Quick Checks', hint: 'Check familiar quantum claims and discuss their limits.' },
   { path: '/timeline', target: 'main h1', name: 'Course Timeline', hint: 'Trace selected ideas across the course timeline.' },

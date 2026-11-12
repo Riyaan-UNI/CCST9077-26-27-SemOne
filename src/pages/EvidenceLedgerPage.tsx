@@ -9,7 +9,7 @@ export default function EvidenceLedgerPage() {
         <h1 className="record-title mt-4 max-w-3xl">Compare what each case can tell us.</h1>
         <p className="record-lead mt-5 max-w-2xl">
           The shared word “information” points to different questions in each file. Read the
-          findings side by side, then compare them with the prediction and test observation you saved.
+          findings side by side, then compare them with the prediction, confidence and test observation you saved.
         </p>
         <div className="mt-10"><EvidenceLedger /></div>
       </div>

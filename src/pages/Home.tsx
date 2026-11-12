@@ -6,19 +6,10 @@ import Qubi from '@/components/Qubi';
 import VideoWall from '@/components/sections/VideoWall';
 import EvidenceLedger from '@/components/cases/EvidenceLedger';
 import { bureauCases } from '@/content/cases';
-
-const REFERENCE_LINKS = [
-  { href: '/lab', label: 'Reference Lab', detail: 'Run the simulator and CHSH game.' },
-  { href: '/timeline', label: 'Course Timeline', detail: 'Trace the ideas across the course.' },
-  { href: '/course-map', label: 'Lecture Map', detail: 'Browse the lecture connections.' },
-  { href: '/gallery', label: 'Diagram Archive', detail: 'Inspect the project’s visual explainers.' },
-  { href: '/glossary', label: 'Term Index', detail: 'Look up quantum vocabulary.' },
-  { href: '/computer', label: 'Computer Desk', detail: 'Try the interactive quantum computer activity.' },
-  { href: '/delight', label: 'Quick Checks', detail: 'Check common claims and misconceptions.' },
-  { href: '/about', label: 'About the Bureau', detail: 'How to explore the archive and its case tests.' },
-];
+import { useProgression } from '@/features/progression/ProgressionProvider';
 
 export default function Home() {
+  const { dispatch } = useProgression();
   return (
     <Page>
       <div className="record-home">
@@ -36,8 +27,9 @@ export default function Home() {
                 Science explanations are drafts awaiting the group’s evidence review.
               </p>
               <div className="registry-actions mt-7">
-                <Link to="/cases/measurement" className="record-button">Open Case 01 <ArrowRight size={16} aria-hidden="true" /></Link>
-                <Link to="/ledger" className="record-text-link"><Rows3 size={16} aria-hidden="true" /> Visit the evidence ledger</Link>
+                <Link to="/cases" className="record-button">Open the archive <ArrowRight size={16} aria-hidden="true" /></Link>
+                <Link to="/computer#level1" className="record-button">Try the Magic Box interactive <ArrowRight size={16} aria-hidden="true" /></Link>
+                <Link to="/cases" className="record-text-link" onClick={() => dispatch({ type: 'setObserverMode', value: true })}><Rows3 size={16} aria-hidden="true" /> Read without playing</Link>
               </div>
               <div className="qubi-desk-note mt-9">
                 <Qubi mood="curious" size={90} float={false} />
@@ -103,27 +95,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="record-section reference-section" aria-labelledby="reference-title">
-          <div className="record-section-inner">
-            <p className="record-kicker">Supporting material / browse by interest</p>
-            <h2 id="reference-title">More from the bureau</h2>
-            <div className="reference-register mt-7">
-              {REFERENCE_LINKS.map((item, index) => (
-                <Link key={item.href} to={item.href} className="reference-row">
-                  <span className="record-case-number">{String(index + 1).padStart(2, '0')}</span>
-                  <span><strong>{item.label}</strong><small>{item.detail}</small></span>
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </Link>
-              ))}
-              <Link to="/team" className="reference-row">
-                <span className="record-case-number">09</span>
-                <span><strong>Meet the team</strong><small>The people behind the project and Qubi.</small></span>
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </Link>
-            </div>
-            <p className="record-note mt-6"><BookOpen size={14} aria-hidden="true" /> Site explanations are student-project drafts and are being reviewed against CCST9077 lecture material.</p>
-          </div>
-        </section>
       </div>
     </Page>
   );

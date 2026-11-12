@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Menu, Moon, Sun, X } from 'lucide-react';
+import { Eye, EyeOff, Menu, Moon, Sun, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { nav, site } from '@/data/site';
 import { useStore } from '@/store/useStore';
+import { useProgression } from '@/features/progression/ProgressionProvider';
 
 export default function Nav() {
   const { theme, toggleTheme, reduceMotion } = useStore();
   const startTour = useStore((state) => state.startTour);
   const replayIntro = useStore((state) => state.replayIntro);
   const location = useLocation();
+  const { progress, dispatch } = useProgression();
   const [open, setOpen] = useState(false);
 
   const isCurrent = (href: string) => href === '/'
@@ -43,6 +45,17 @@ export default function Nav() {
           <ul className="bureau-nav-links">{links()}</ul>
 
           <div className="bureau-nav-controls">
+            <button
+              type="button"
+              className="bureau-icon-button observer-toggle"
+              aria-pressed={progress.observerMode}
+              aria-label={progress.observerMode ? 'Turn Observer Mode off' : 'Turn Observer Mode on'}
+              title="Observer Mode: read without game progression"
+              onClick={() => dispatch({ type: 'setObserverMode', value: !progress.observerMode })}
+            >
+              {progress.observerMode ? <Eye size={18} aria-hidden="true" /> : <EyeOff size={18} aria-hidden="true" />}
+              <span className="observer-toggle-label">Observer</span>
+            </button>
             <button
               type="button"
               className="bureau-icon-button"

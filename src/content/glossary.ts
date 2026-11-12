@@ -36,7 +36,7 @@ export const glossary: GlossaryEntry[] = [
     id: 'qubit',
     term: 'qubit',
     plain:
-      'A quantum bit. Unlike a coin that is heads or tails, a qubit can be a blend of both until you look — then it snaps to one.',
+      'A quantum bit. Its state sets the probabilities for measurement outcomes, and suitable operations can reveal interference between those possibilities.',
     source: {
       source: 'Course CCST9077 · L2 Quantum Information',
       sourceUrl: 'https://en.wikipedia.org/wiki/Qubit',
@@ -47,7 +47,7 @@ export const glossary: GlossaryEntry[] = [
     id: 'superposition',
     term: 'superposition',
     plain:
-      'A qubit’s in-between state: it holds many possibilities at once, like a spinning coin that is neither heads nor tails until it lands.',
+      'A quantum state whose possible outcomes can interfere. This can produce measurement statistics that ordinary uncertainty about a fixed 0 or 1 cannot explain.',
     source: {
       source: 'Course CCST9077 · L2 Quantum Information',
       sourceUrl: 'https://en.wikipedia.org/wiki/Quantum_superposition',
@@ -58,7 +58,7 @@ export const glossary: GlossaryEntry[] = [
     id: 'measurement',
     term: 'measurement',
     plain:
-      'Looking at a qubit. The act of observing forces the blur to collapse into a single definite answer, 0 or 1.',
+      'An interaction that returns one outcome, such as 0 or 1 in a chosen basis. Repeating the same preparation can reveal the outcome probabilities.',
     source: {
       source: 'Course CCST9077 · L2 Quantum Information',
       sourceUrl: 'https://en.wikipedia.org/wiki/Measurement_in_quantum_mechanics',
@@ -69,7 +69,7 @@ export const glossary: GlossaryEntry[] = [
     id: 'entanglement',
     term: 'entanglement',
     plain:
-      'Two qubits can be linked so that measuring one instantly tells you about the other, no matter how far apart — yet no message is sent.',
+      'A shared quantum state can produce correlations stronger than any local classical model. Each side’s result is still random, so the correlations cannot carry a controllable message.',
     source: {
       source: 'Course CCST9077 · L3 Quantum Entanglement · 2022 Nobel Prize',
       sourceUrl: 'https://www.nobelprize.org/prizes/physics/2022/summary/',

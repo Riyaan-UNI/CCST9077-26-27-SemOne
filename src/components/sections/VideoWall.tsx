@@ -6,9 +6,15 @@ import Qubi from '@/components/Qubi';
 import { asset } from '@/lib/utils';
 import { videos, type VideoSlot } from '@/data/videos';
 import { useStore } from '@/store/useStore';
+import { useProgression } from '@/features/progression/ProgressionProvider';
+import { getQuizForEpisode } from '@/content/episodeQuizzes';
+import { artworks } from '@/content/artworks';
+
+const timestampNow = () => Date.now();
 
 function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void }) {
   const reduceMotion = useStore((s) => s.reduceMotion);
+  const { progress } = useProgression();
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -61,12 +67,59 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
           />
         </div>
 
-        <p className="border-t border-line px-4 py-3 text-sm leading-relaxed text-ink-soft sm:px-6">
-          {video.description}
-        </p>
+        <section className="border-t border-line px-4 py-3 sm:px-6" aria-label="Episode notes">
+          <p className="record-kicker mb-1">Episode notes</p>
+          <p className="text-sm leading-relaxed text-ink-soft">{video.description}</p>
+        </section>
+        {!progress.observerMode && <EpisodeStampCheck videoId={video.id} />}
       </motion.section>
     </motion.div>,
     document.body,
+  );
+}
+
+function EpisodeStampCheck({ videoId }: { videoId: string }) {
+  const { progress, dispatch } = useProgression();
+  const questions = getQuizForEpisode(videoId);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [checked, setChecked] = useState(false);
+  const passed = progress.episodes[videoId]?.status === 'quizPassed';
+  if (!questions.length) return null;
+
+  const checkAnswers = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setChecked(true);
+    const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
+    if (allCorrect) {
+      dispatch({ type: 'passQuiz', id: videoId, artworkIds: artworks.filter((plate) => plate.unlockEpisodeId === videoId).map((plate) => plate.id), at: timestampNow() });
+    }
+  };
+  const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
+
+  return (
+    <section className="stamp-check progression-chrome" aria-labelledby="stamp-check-title">
+      <div className="stamp-check-heading"><span className="record-kicker">After viewing / optional check</span><h3 id="stamp-check-title">Stamp this file</h3><p>Three questions. No penalty, and you can retry. Correct answers declassify the linked gallery plates.</p></div>
+      {passed ? <p className="stamp-success" role="status">Filed. The linked artwork is now declassified.</p> : (
+        <form onSubmit={checkAnswers}>
+          {questions.map((question, questionIndex) => (
+            <fieldset className="stamp-question" key={question.id}>
+              <legend><span>0{questionIndex + 1}</span>{question.prompt}</legend>
+              {question.options.map((option, optionIndex) => (
+                <label key={option} className="stamp-option">
+                  <input type="radio" name={question.id} checked={answers[question.id] === optionIndex} onChange={() => setAnswers((current) => ({ ...current, [question.id]: optionIndex }))} />
+                  {option}
+                </label>
+              ))}
+              {checked && answers[question.id] !== question.correctIndex && <p className="stamp-explanation">Review: {question.explanation}</p>}
+              {checked && answers[question.id] === question.correctIndex && <p className="stamp-correct">Correct</p>}
+              <p className="stamp-source">{question.sourceLecture} · {question.reviewStatus === 'needs-review' ? 'Needs human review' : 'Reviewed'}</p>
+            </fieldset>
+          ))}
+          {checked && !allCorrect && <p className="stamp-retry-note" role="status">Some answers need another look. Nothing was lost; adjust your choices and try again.</p>}
+          <button type="submit" className="record-button mt-4" disabled={questions.some((question) => answers[question.id] === undefined)}>{checked ? 'Check again' : 'Check answers'}</button>
+        </form>
+      )}
+    </section>
   );
 }
 
@@ -141,6 +194,7 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
 
 export default function VideoWall() {
   const [activeVideo, setActiveVideo] = useState<VideoSlot | null>(null);
+  const { dispatch } = useProgression();
   const liveCount = videos.filter((video) => video.status === 'live' && video.youtubeId).length;
   const upcomingCount = videos.length - liveCount;
 
@@ -155,7 +209,10 @@ export default function VideoWall() {
       )}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} onPlay={setActiveVideo} />
+          <VideoCard key={video.id} video={video} onPlay={(selected) => {
+            dispatch({ type: 'markWatched', id: selected.id, at: Date.now() });
+            setActiveVideo(selected);
+          }} />
         ))}
       </div>
       <AnimatePresence initial={false}>

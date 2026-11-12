@@ -6,12 +6,14 @@ import QubiCompanion from '@/components/QubiCompanion';
 import QuantumIntro from '@/components/QuantumIntro';
 import GuidedTour from '@/components/GuidedTour';
 import { useStore } from '@/store/useStore';
+import { useProgression } from '@/features/progression/ProgressionProvider';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const theme = useStore((state) => state.theme);
   const reduceMotion = useStore((state) => state.reduceMotion);
   const setReduceMotion = useStore((state) => state.setReduceMotion);
   const location = useLocation();
+  const { progress } = useProgression();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -43,7 +45,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <div className="site-atmosphere bureau-site min-h-screen bg-canvas text-ink">
       <a href="#main" className="bureau-skip-link">Skip to main content</a>
       <Nav />
-      <main id="main" tabIndex={-1} className="bureau-main">{children}</main>
+      <main id="main" tabIndex={-1} className={`bureau-main${progress.observerMode ? ' observer-mode' : ''}`}>{children}</main>
       <Footer />
       <QubiCompanion />
       <GuidedTour />

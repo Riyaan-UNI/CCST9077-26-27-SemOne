@@ -4,8 +4,6 @@ import type { ReactNode } from 'react';
 import { pageGroups } from '@/data/pageIndex';
 
 export default function PageDirectory({ indexIcon }: { indexIcon?: ReactNode }) {
-  let pageNumber = 0;
-
   return (
     <section id="site-index" className="record-section reference-section" aria-labelledby="site-index-title">
       <div className="record-section-inner">
@@ -21,8 +19,10 @@ export default function PageDirectory({ indexIcon }: { indexIcon?: ReactNode }) 
                 {group.title}
               </h3>
               <div className="reference-register">
-                {group.pages.map((page) => {
-                  pageNumber += 1;
+                {group.pages.map((page, pageIndex) => {
+                  const pageNumber = pageGroups
+                    .slice(0, groupIndex)
+                    .reduce((total, earlierGroup) => total + earlierGroup.pages.length, 0) + pageIndex + 1;
                   return (
                     <Link key={page.href} to={page.href} className="reference-row">
                       <span className="record-case-number">{String(pageNumber).padStart(2, '0')}</span>
