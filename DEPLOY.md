@@ -1,18 +1,21 @@
 # Deployment
 
-The site is a static build (`dist/`) with client-side routing, so it runs on any static host. **GitHub Pages is already wired up** — push to `main` and the live site updates.
+The site is a static build (`dist/`) with client-side routing, so it runs on any static host. GitHub Pages deploys on pushes to `main`, `feature/quantum-observatory-reskin`, and `concept/quantum-bureau-field-journal` when the `github-pages` environment permits that branch.
 
 ---
 
 ## Recommended: GitHub Pages (free, no extra account)
 
-The workflow lives at `.github/workflows/deploy.yml`. It runs on every push to `main`, installs with `npm ci`, runs the unit tests, builds with the correct base path, and publishes to Pages.
+The workflow lives at `.github/workflows/deploy.yml`. It installs with `npm ci`, runs the unit tests, builds with the correct base path, and publishes to Pages.
 
-### One-time setup (about 30 seconds)
+### Allow a branch to publish
 
-1. Open **https://github.com/Riyaan-UNI/CCST9077-26-27-SemOne/settings/pages**
-2. Under **Build and deployment → Source**, choose **GitHub Actions** (not "Deploy from a branch").
-3. That's it. The next push to `main` deploys.
+1. Open **Settings → Environments → github-pages** in the repository.
+2. Under **Deployment branches and tags**, choose **Selected branches and tags**.
+3. Add `concept/quantum-bureau-field-journal` to the allowed branches. The earlier Observatory branch rule does not include this Bureau branch.
+4. Confirm **Settings → Pages → Build and deployment → Source** is set to **GitHub Actions**.
+
+After the branch is allowed, push a new commit or rerun the `Deploy to GitHub Pages` workflow from the Actions tab.
 
 You can also trigger a deploy by hand: **Actions → Deploy to GitHub Pages → Run workflow**.
 

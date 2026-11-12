@@ -62,7 +62,7 @@ export default function EntanglementLab() {
     <div className="space-y-6">
       {/* angle selectors */}
       <div className="grid gap-5 md:grid-cols-2">
-        <div className="rounded-2xl border border-line bg-surface p-5">
+        <div className="instrument-panel rounded-2xl p-5">
           <p className="ui-label text-neon">Alice · measurement angle</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {ANGLES.map((a) => (
@@ -94,7 +94,7 @@ export default function EntanglementLab() {
           <p className="mt-2 font-mono text-sm text-muted">{aliceDeg}°</p>
         </div>
 
-        <div className="rounded-2xl border border-line bg-surface p-5">
+        <div className="instrument-panel rounded-2xl p-5">
           <p className="ui-label text-neon">Bob · measurement angle</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {ANGLES.map((a) => (
@@ -128,7 +128,7 @@ export default function EntanglementLab() {
       </div>
 
       {/* correlation meter */}
-      <div className="rounded-2xl border border-line bg-surface p-5">
+      <div className="instrument-panel rounded-2xl p-5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="ui-label text-neon">Correlation</p>
@@ -209,7 +209,7 @@ export default function EntanglementLab() {
       )}
 
       {/* try to send a message */}
-      <div className="rounded-2xl border border-line bg-surface p-5">
+      <div className="instrument-panel rounded-2xl p-5">
         <div className="flex items-center gap-3">
           <Send size={18} className="text-hype-amber" aria-hidden="true" />
           <h3 className="text-lg">Try to send a message</h3>

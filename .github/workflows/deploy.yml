@@ -1,11 +1,11 @@
 name: Deploy to GitHub Pages
 
-# Builds the site and publishes it to GitHub Pages on every push to main,
-# so committing is all it takes to update the live site.
+# Builds the site and publishes it to GitHub Pages on main or either active
+# redesign branch. The github-pages environment must allow the selected branch.
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/quantum-observatory-reskin, concept/quantum-bureau-field-journal]
   # Lets you re-run a deploy by hand from the Actions tab.
   workflow_dispatch:
 

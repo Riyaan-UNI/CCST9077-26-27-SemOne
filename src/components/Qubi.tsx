@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { isHkuBrand } from '@/config';
-import type { QubiMood } from '@/store/useStore';
+import { useStore, type QubiMood } from '@/store/useStore';
 
 export type { QubiMood };
 
@@ -23,7 +23,7 @@ interface QubiProps {
  * ------------------------------------------------------------------ */
 
 function Eyes({ mood }: { mood: QubiMood }) {
-  const neon = 'var(--neon)';
+  const neon = 'var(--green-signal)';
   const common = { fill: neon, filter: 'url(#qubiGlow)' } as const;
 
   switch (mood) {
@@ -74,7 +74,7 @@ function Eyes({ mood }: { mood: QubiMood }) {
 }
 
 function Mouth({ mood }: { mood: QubiMood }) {
-  const neon = 'var(--neon)';
+  const neon = 'var(--green-signal)';
   const stroke = { stroke: neon, strokeWidth: 5, fill: 'none', strokeLinecap: 'round' } as const;
 
   switch (mood) {
@@ -103,6 +103,7 @@ export default function Qubi({
   float = true,
   label = 'Qubi, the qubit terminal mascot',
 }: QubiProps) {
+  const reduceMotion = useStore((s) => s.reduceMotion);
   const activeMood = expression ?? mood;
   const screenText = message ?? (activeMood === 'idle' ? 'HI' : '');
 
@@ -110,8 +111,8 @@ export default function Qubi({
     <motion.div
       className={cn('relative select-none', className)}
       style={{ width: size }}
-      animate={float ? { y: [0, -10, 0] } : undefined}
-      transition={float ? { duration: 6, repeat: Infinity, ease: 'easeInOut' } : undefined}
+      animate={float && !reduceMotion ? { y: [0, -10, 0] } : undefined}
+      transition={float && !reduceMotion ? { duration: 6, repeat: Infinity, ease: 'easeInOut' } : undefined}
       role="img"
       aria-label={label}
     >
@@ -137,9 +138,9 @@ export default function Qubi({
 
         {/* antenna */}
         <line x1="100" y1="24" x2="100" y2="8" stroke="var(--ink)" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="100" cy="7" r="5.5" fill="var(--neon)" filter="url(#qubiGlow)" />
+        <circle cx="100" cy="7" r="5.5" fill="var(--green-signal)" filter="url(#qubiGlow)" />
         {float && (
-          <circle cx="100" cy="7" r="5.5" fill="none" stroke="var(--neon)" strokeWidth="2" className="animate-pulse-ring" />
+          <circle cx="100" cy="7" r="5.5" fill="none" stroke="var(--green-signal)" strokeWidth="2" className="animate-pulse-ring" />
         )}
 
         {/* arms */}
@@ -170,7 +171,7 @@ export default function Qubi({
           <rect x="46" y="36" width="108" height="90" fill="#070b09" />
           <rect x="46" y="36" width="108" height="90" className="crt-lines" opacity="0.5" />
           {/* ambient green wash */}
-          <ellipse cx="100" cy="120" rx="70" ry="40" fill="var(--neon)" opacity="0.08" />
+          <ellipse cx="100" cy="120" rx="70" ry="40" fill="var(--green-signal)" opacity="0.08" />
 
           {screenText ? (
             <text
@@ -179,7 +180,7 @@ export default function Qubi({
               textAnchor="middle"
               fontFamily="var(--font-mono)"
               fontSize="34"
-              fill="var(--neon)"
+              fill="var(--green-signal)"
               filter="url(#qubiGlow)"
               letterSpacing="2"
             >

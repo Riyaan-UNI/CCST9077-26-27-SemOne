@@ -58,7 +58,7 @@ export default function StartHere() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-4 left-4 z-40 hidden items-center gap-2 rounded-full border border-line-strong bg-elevated px-4 py-2.5 text-sm font-semibold text-ink shadow-lift transition hover:border-neon hover:text-neon sm:flex"
+        className="control-surface fixed bottom-4 left-4 z-40 hidden min-h-11 items-center gap-2 border-l-2 border-l-cyan bg-elevated px-4 py-2.5 text-sm font-semibold text-ink shadow-lift transition hover:border-neon hover:text-neon sm:flex"
       >
         <Compass size={16} aria-hidden="true" />
         Start here
@@ -73,7 +73,7 @@ export default function StartHere() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[70] bg-canvas/85 backdrop-blur-xl"
+                  className="fixed inset-0 z-[70] bg-black/48 backdrop-blur-sm"
                 />
               </Dialog.Overlay>
               <Dialog.Content asChild>
@@ -82,7 +82,8 @@ export default function StartHere() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.98 }}
                   transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="fixed left-1/2 top-1/2 z-[71] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-line-strong bg-surface p-6 shadow-lift"
+                  className="instrument-panel fixed left-1/2 top-1/2 z-[71] max-h-[calc(100dvh-1.5rem)] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain border-t-2 border-t-cyan bg-surface p-5 shadow-lift sm:p-6"
+                  data-lenis-prevent
                 >
                   <div className="flex items-start justify-between">
                     <span className="ui-label text-neon">Start here · {step + 1}/{STEPS.length}</span>

@@ -36,7 +36,7 @@ export default function HypeCheck() {
       particleCount: 70,
       spread: 62,
       origin: { y: 0.7 },
-      colors: ['#39FF14', '#5BE3FF', '#F6F1E4', '#0F402E'],
+      colors: ['#c9f27a', '#c3a5ff', '#ffb070', '#f3f0ff'],
       disableForReducedMotion: true,
     });
   }
@@ -52,12 +52,12 @@ export default function HypeCheck() {
               initial={reduceMotion ? undefined : { opacity: 0, x: direction * 60, rotate: direction * 2 }}
               animate={reduceMotion ? undefined : { opacity: 1, x: 0, rotate: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, x: direction * -60, rotate: direction * -2 }}
-              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
               drag={reduceMotion ? false : 'x'}
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.16}
               onDragEnd={onDragEnd}
-              className="cursor-grab rounded-2xl border border-line bg-surface p-6 shadow-lift active:cursor-grabbing sm:p-8"
+              className="instrument-panel cursor-grab touch-pan-y rounded-2xl p-6 shadow-lift active:cursor-grabbing sm:p-8"
             >
               <div className="flex items-center justify-between gap-4">
                 <span
@@ -124,7 +124,7 @@ export default function HypeCheck() {
         </div>
       </div>
 
-      <aside className="rounded-2xl border border-line bg-surface p-6">
+      <aside className="instrument-panel rounded-2xl p-6">
         <Qubi mood={card.verdict === 'myth' ? 'surprised' : 'thinking'} size={132} className="mx-auto" />
         <p className="mt-4 text-center ui-label text-neon">
           Hype check

@@ -1,222 +1,118 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
-import * as Tooltip from '@radix-ui/react-tooltip';
-import { Eye, EyeOff, Menu, Moon, Sun, Volume2, VolumeX, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Eye, EyeOff, Menu, Moon, Sun, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import { nav, site } from '@/data/site';
-import { isHkuBrand } from '@/config';
 import { useStore } from '@/store/useStore';
-
-function IconButton({
-  label,
-  onClick,
-  active,
-  children,
-}: {
-  label: string;
-  onClick: () => void;
-  active?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <Tooltip.Root>
-      <Tooltip.Trigger asChild>
-        <button
-          type="button"
-          onClick={onClick}
-          aria-label={label}
-          aria-pressed={active}
-          className={cn(
-            'grid h-9 w-9 place-items-center rounded-lg border border-line text-ink-soft transition',
-            'hover:border-line-strong hover:text-neon',
-            active && 'border-line-strong text-neon',
-          )}
-        >
-          {children}
-        </button>
-      </Tooltip.Trigger>
-      <Tooltip.Portal>
-        <Tooltip.Content
-          sideOffset={8}
-          className="z-50 rounded-md border border-line bg-elevated px-3 py-1.5 text-sm text-ink shadow-lift"
-        >
-          {label}
-          <Tooltip.Arrow className="fill-[var(--elevated)]" />
-        </Tooltip.Content>
-      </Tooltip.Portal>
-    </Tooltip.Root>
-  );
-}
+import { useProgression } from '@/features/progression/ProgressionProvider';
 
 export default function Nav() {
-  const { theme, sound, observerMode, toggleTheme, toggleSound, toggleObserverMode } = useStore();
+  const { theme, toggleTheme, reduceMotion } = useStore();
+  const startTour = useStore((state) => state.startTour);
+  const replayIntro = useStore((state) => state.replayIntro);
   const location = useLocation();
+  const { progress, dispatch } = useProgression();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.3 });
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const isCurrent = (href: string) => href === '/'
+    ? location.pathname === '/'
+    : location.pathname === href || (href === '/cases' && location.pathname.startsWith('/cases/'));
+
+  const links = (mobile = false) => nav.map((item) => (
+    <li key={item.href}>
+      <Link
+        to={item.href}
+        onClick={() => mobile && setOpen(false)}
+        aria-current={isCurrent(item.href) ? 'page' : undefined}
+        className={mobile ? 'bureau-mobile-link' : `bureau-nav-link${isCurrent(item.href) ? ' is-current' : ''}`}
+      >
+        {item.label}
+        {mobile && <span aria-hidden="true">↗</span>}
+      </Link>
+    </li>
+  ));
 
   return (
-    <Tooltip.Provider delayDuration={250}>
-      <header className="fixed inset-x-0 top-0 z-50">
-        <div
-          className={cn(
-            'border-b transition-colors duration-300',
-            scrolled ? 'border-line bg-canvas/80 backdrop-blur-xl' : 'border-transparent bg-transparent',
-          )}
-        >
-          <nav
-            className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-5"
-            aria-label="Primary"
-          >
-            <Link to="/" className="group flex items-center gap-2.5">
-              <span className="grid h-8 w-8 place-items-center rounded-lg border-2 border-line-strong bg-[#070b09] font-mono text-lg leading-none text-neon">
-                Q
-              </span>
-              <span className="hidden leading-tight sm:block">
-                <span className="block font-display text-[15px] font-bold tracking-tight">
-                  Qubi's Quantum Playground
-                </span>
-                <span className="block text-xs text-muted">
-                  {isHkuBrand ? `${site.course} · ${site.institution}` : site.course}
-                </span>
-              </span>
-            </Link>
+    <>
+      <header className="bureau-header">
+        <nav className="bureau-nav" aria-label="Primary">
+          <Link to="/" className="bureau-brand" aria-label={`${site.title} — Public Registry`}>
+            <span className="bureau-seal" aria-hidden="true">Q</span>
+            <span><strong>Quantum Lost-and-Found Bureau</strong><small>CCST9077 / field journal</small></span>
+          </Link>
 
-            <ul className="ml-auto hidden items-center gap-0.5 overflow-x-auto scrollbar-hidden lg:flex">
-              {nav.map((item) => (
-                <li key={item.href} className="shrink-0">
-                  <Link
-                    to={item.href}
-                    className={cn(
-                      'block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] text-ink-soft transition hover:bg-elevated hover:text-neon',
-                      location.pathname === item.href && 'text-neon',
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <ul className="bureau-nav-links">{links()}</ul>
 
-            <div className="ml-auto flex items-center gap-2 lg:ml-3">
-              <IconButton
-                label={observerMode ? 'Observer mode on — the field collapses' : 'Observer mode off'}
-                onClick={toggleObserverMode}
-                active={observerMode}
-              >
-                {observerMode ? <Eye size={16} /> : <EyeOff size={16} />}
-              </IconButton>
-              <IconButton label={sound ? 'Sound on' : 'Sound off'} onClick={toggleSound} active={sound}>
-                {sound ? <Volume2 size={16} /> : <VolumeX size={16} />}
-              </IconButton>
-              <IconButton
-                label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-                onClick={toggleTheme}
-              >
-                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-              </IconButton>
-
-              <button
-                type="button"
-                onClick={() => setOpen(true)}
-                aria-label="Open menu"
-                className="grid h-9 w-9 place-items-center rounded-lg border border-line text-ink-soft lg:hidden"
-              >
-                <Menu size={16} />
-              </button>
-            </div>
-          </nav>
-        </div>
-
-        {/* scroll progress */}
-        <motion.div
-          style={{ scaleX: progress }}
-          className="h-0.5 origin-left bg-neon"
-          aria-hidden="true"
-        />
-      </header>
-
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        <AnimatePresence>
-          {open && (
-            <Dialog.Portal forceMount>
-              <Dialog.Overlay asChild>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[60] bg-canvas/90 backdrop-blur-xl"
-                />
-              </Dialog.Overlay>
-              <Dialog.Content asChild>
-                <motion.div
-                  initial={{ x: '100%' }}
-                  animate={{ x: 0 }}
-                  exit={{ x: '100%' }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-                  className="fixed right-0 top-0 z-[61] flex h-screen max-h-[100dvh] w-full max-w-sm flex-col overflow-hidden border-l border-line bg-surface p-6"
-                >
-                  <div className="flex shrink-0 items-center justify-between">
-                    <Dialog.Title className="font-display text-lg">Navigate</Dialog.Title>
-                    <Dialog.Close asChild>
-                      <button
-                        type="button"
-                        aria-label="Close menu"
-                        className="grid h-9 w-9 place-items-center rounded-lg border border-line text-ink-soft"
+          <div className="bureau-nav-controls">
+            <button
+              type="button"
+              className="bureau-icon-button observer-toggle"
+              aria-pressed={progress.observerMode}
+              aria-label={progress.observerMode ? 'Turn Observer Mode off' : 'Turn Observer Mode on'}
+              title="Observer Mode: read without game progression"
+              onClick={() => dispatch({ type: 'setObserverMode', value: !progress.observerMode })}
+            >
+              {progress.observerMode ? <Eye size={18} aria-hidden="true" /> : <EyeOff size={18} aria-hidden="true" />}
+              <span className="observer-toggle-label">Observer</span>
+            </button>
+            <button
+              type="button"
+              className="bureau-icon-button"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+            </button>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger asChild>
+                <button type="button" className="bureau-icon-button bureau-menu-trigger" aria-label="Open site menu">
+                  <Menu size={20} aria-hidden="true" />
+                </button>
+              </Dialog.Trigger>
+              <AnimatePresence>
+                {open && (
+                  <Dialog.Portal forceMount>
+                    <Dialog.Overlay asChild>
+                      <motion.div
+                        className="bureau-menu-overlay"
+                        initial={reduceMotion ? false : { opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: reduceMotion ? 0 : 0.16 }}
+                      />
+                    </Dialog.Overlay>
+                    <Dialog.Content asChild>
+                      <motion.aside
+                        className="bureau-mobile-menu"
+                        initial={reduceMotion ? false : { x: '100%' }}
+                        animate={{ x: 0 }}
+                        exit={reduceMotion ? { opacity: 0 } : { x: '100%' }}
+                        transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 280, damping: 30 }}
                       >
-                        <X size={16} />
-                      </button>
-                    </Dialog.Close>
-                  </div>
-                  <Dialog.Description className="sr-only">
-                    Site navigation links
-                  </Dialog.Description>
-                  <div
-                    data-testid="mobile-menu-scroll"
-                    role="region"
-                    aria-label="Site navigation"
-                    tabIndex={0}
-                    data-lenis-prevent
-                    className="min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y"
-                  >
-                    <ul className="mt-8 space-y-1">
-                      {nav.map((item, i) => (
-                        <motion.li
-                          key={item.href}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.05 + i * 0.05 }}
-                        >
-                          <Link
-                            to={item.href}
-                            onClick={() => setOpen(false)}
-                            className="block rounded-xl px-4 py-3 font-display text-2xl text-ink transition hover:bg-elevated hover:text-neon"
-                          >
-                            {item.label}
-                          </Link>
-                        </motion.li>
-                      ))}
-                    </ul>
-                    <p className="mt-10 pb-2 font-hand text-xl text-muted">
-                      “{site.mascot.catchphrase}”
-                    </p>
-                  </div>
-                </motion.div>
-              </Dialog.Content>
-            </Dialog.Portal>
-          )}
-        </AnimatePresence>
-      </Dialog.Root>
-    </Tooltip.Provider>
+                        <div className="bureau-mobile-menu-head">
+                          <div><Dialog.Title>Public register</Dialog.Title><Dialog.Description>Choose a bureau file or reference section.</Dialog.Description></div>
+                          <Dialog.Close asChild><button type="button" className="bureau-icon-button" aria-label="Close site menu"><X size={19} aria-hidden="true" /></button></Dialog.Close>
+                        </div>
+                        <nav className="bureau-mobile-menu-scroll" aria-label="Site menu" tabIndex={0}>
+                          <ul>{links(true)}</ul>
+                          <div className="bureau-menu-guides" aria-label="Visitor guides">
+                            <button type="button" className="bureau-mobile-link" onClick={() => { setOpen(false); startTour(); }}>Take Qubi’s guided tour <span aria-hidden="true">↗</span></button>
+                            <button type="button" className="bureau-mobile-link" onClick={() => { setOpen(false); replayIntro(); }}>Replay the opening <span aria-hidden="true">↗</span></button>
+                          </div>
+                          <p className="bureau-mobile-menu-note">Qubi is keeping the files in order.</p>
+                        </nav>
+                      </motion.aside>
+                    </Dialog.Content>
+                  </Dialog.Portal>
+                )}
+              </AnimatePresence>
+            </Dialog.Root>
+          </div>
+        </nav>
+        <div className="bureau-header-rule" aria-hidden="true"><span /></div>
+      </header>
+    </>
   );
 }

@@ -134,7 +134,7 @@ function GameOfLife() {
       />
       <div className="flex flex-wrap items-center gap-6">
         {/* Play / Pause cluster */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setRunning((r) => !r)}
@@ -153,7 +153,7 @@ function GameOfLife() {
           </button>
         </div>
         {/* Preset cluster */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => reset('random')}
@@ -207,6 +207,7 @@ export default function UniverseComputer() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="L11"
         title="The Universe as a Quantum Computer"
         lead="From clockwork to computation. If the universe is made of information, what is its clock speed?"

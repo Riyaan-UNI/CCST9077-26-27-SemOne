@@ -14,7 +14,7 @@ const STATS = [
 
 export default function Hero() {
   const reduceMotion = useStore((s) => s.reduceMotion);
-  const observerMode = useStore((s) => s.observerMode);
+  const observerMode = useStore((s) => s.observerFieldEnabled);
 
   return (
     <header className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-24 pb-16">

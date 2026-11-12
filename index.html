@@ -6,111 +6,22 @@
     <meta name="color-scheme" content="dark light" />
     <meta
       name="description"
-      content="The Quantum Revolution - an interactive journey from secret codes to quantum computers, hosted by Qubi. A CCST9077 group project."
+      content="The Quantum Lost-and-Found Bureau: an open case archive for first-time quantum explorers, guided by Qubi."
     />
-    <meta name="theme-color" content="#0b0f0d" />
-    <title>The Quantum Revolution · From Secret Codes to Quantum Computers</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <style>
-      html {
-        background: #0b0f0d;
-      }
-      #boot {
-        position: fixed;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        background: #0b0f0d;
-        color: #39ff14;
-        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-        font-size: 14px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        z-index: 9999;
-        transition: opacity 0.35s ease;
-      }
-      /* Added by main.tsx once React has mounted. */
-      #boot.boot--done {
-        opacity: 0;
-        pointer-events: none;
-      }
-      #boot .bar {
-        margin-top: 14px;
-        width: 180px;
-        height: 6px;
-        box-sizing: border-box;
-        overflow: hidden; /* keep the sliding bar inside the frame */
-        border: 1px solid rgba(57, 255, 20, 0.4);
-      }
-      #boot .bar i {
-        display: block;
-        height: 100%;
-        width: 40%;
-        background: #39ff14;
-        animation: bootslide 1.1s ease-in-out infinite;
-      }
-      @keyframes bootslide {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(250%); }
-      }
-      #boot .inner {
-        max-width: 22rem;
-        text-align: center;
-      }
-      #boot-error p {
-        margin: 0 0 0.5rem;
-        letter-spacing: 0.04em;
-        text-transform: none;
-      }
-      #boot-error .muted {
-        color: rgba(233, 246, 236, 0.6);
-        font-size: 12px;
-        line-height: 1.6;
-      }
-      #boot-error button {
-        margin-top: 0.75rem;
-        padding: 0.5rem 1rem;
-        font: inherit;
-        letter-spacing: 0.12em;
-        color: #06110a;
-        background: #39ff14;
-        border: 0;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-    </style>
+    <meta name="theme-color" content="#14171c" />
+    <title>Quantum Lost-and-Found Bureau · CCST9077</title>
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
   </head>
   <body>
-    <div id="boot">
-      <div class="inner">
-        <div id="boot-status">initialising qubit&hellip;</div>
-        <div class="bar" id="boot-bar"><i></i></div>
-        <div id="boot-error" hidden>
-          <p>Could not start the app.</p>
-          <p class="muted">
-            The script bundle did not load. On a fresh deploy this can take a minute &mdash;
-            otherwise check the browser console.
-          </p>
-          <button type="button" onclick="location.reload()">Reload</button>
-        </div>
-      </div>
-    </div>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Safety net. If the app has not taken over within 8 seconds the bundle
-      // failed to load (wrong base path, failed deploy, blocked asset). Say so
-      // instead of leaving the viewer on a blank screen with no explanation.
-      setTimeout(function () {
-        var boot = document.getElementById('boot');
-        if (!boot || boot.classList.contains('boot--done')) return; // React is in charge
-        var status = document.getElementById('boot-status');
-        var bar = document.getElementById('boot-bar');
-        var err = document.getElementById('boot-error');
-        if (status) status.textContent = 'startup failed';
-        if (bar) bar.style.display = 'none';
-        if (err) err.hidden = false;
-      }, 8000);
+      if (window.location.hash.includes('figmacapture=')) {
+        const captureScript = document.createElement('script');
+        captureScript.src = 'https://mcp.figma.com/mcp/html-to-design/capture.js';
+        captureScript.async = true;
+        document.head.appendChild(captureScript);
+      }
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

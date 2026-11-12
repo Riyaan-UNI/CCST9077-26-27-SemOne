@@ -38,7 +38,7 @@ export default function JourneyStrip({ items }: { items: JourneyItem[] }) {
           >
             <Link
               to={item.href}
-              className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-5 transition hover:border-line-strong hover:bg-elevated"
+              className="instrument-panel instrument-card group flex h-full flex-col rounded-2xl p-5"
             >
               <span className="ui-label text-neon">{item.tag}</span>
               <h3 className="mt-2 flex items-center gap-1 text-lg">

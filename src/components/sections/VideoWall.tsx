@@ -1,11 +1,23 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Play, X } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
+import confetti from 'canvas-confetti';
+import { ArrowRight, ExternalLink, Play, X } from 'lucide-react';
 import Qubi from '@/components/Qubi';
 import { asset } from '@/lib/utils';
 import { videos, type VideoSlot } from '@/data/videos';
+import { useStore } from '@/store/useStore';
+import { useProgression } from '@/features/progression/ProgressionProvider';
+import { getQuizForEpisode } from '@/content/episodeQuizzes';
+import { artworks } from '@/content/artworks';
 
-function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void }) {
+const timestampNow = () => Date.now();
+
+function VideoPopup({ video, onClose, returnTo }: { video: VideoSlot; onClose: () => void; returnTo?: string }) {
+  const reduceMotion = useStore((s) => s.reduceMotion);
+  const { progress } = useProgression();
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
@@ -15,18 +27,24 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
   }, [onClose]);
 
   return createPortal(
-    <div className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-4 sm:p-8">
-      <div aria-hidden="true" className="absolute inset-0 bg-black/45 backdrop-blur-[2px]" />
-      <section
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: 'easeOut' }}
+      className="bureau-video-popup-shell pointer-events-none fixed inset-0 z-[100] grid place-items-center p-3 sm:p-6"
+    >
+      <div aria-hidden="true" className="bureau-video-popup-backdrop pointer-events-none absolute inset-0" />
+      <motion.section
         role="dialog"
         aria-modal="false"
         aria-labelledby="video-popup-title"
-        className="pointer-events-auto relative max-h-[calc(100dvh-2rem)] w-full max-w-5xl overflow-y-auto rounded-2xl border border-white/15 bg-[#080c0a] shadow-2xl shadow-black/60"
+        className="bureau-video-popup instrument-panel pointer-events-auto relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto border-t-2 border-t-cyan bg-canvas shadow-2xl shadow-black/60"
       >
-        <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 sm:px-6">
           <div className="min-w-0">
-            <p className="ui-label text-neon">Episode {video.episode}</p>
-            <h2 id="video-popup-title" className="truncate text-lg text-white sm:text-xl">
+            <p className="orbit-label ui-label">EP / {String(video.episode).padStart(2, '0')}</p>
+            <h2 id="video-popup-title" className="truncate text-lg text-ink sm:text-xl">
               {video.title}
             </h2>
           </div>
@@ -34,7 +52,7 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
             type="button"
             onClick={onClose}
             aria-label="Close video player"
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-white/20 text-white transition hover:border-neon hover:text-neon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon"
+            className="control-surface grid h-11 w-11 shrink-0 place-items-center text-ink-soft transition hover:text-neon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon"
           >
             <X size={18} aria-hidden="true" />
           </button>
@@ -51,12 +69,88 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
           />
         </div>
 
-        <p className="px-4 py-3 text-sm leading-relaxed text-white/70 sm:px-6">
-          {video.description}
-        </p>
-      </section>
-    </div>,
+        <div className="flex justify-end border-t border-line px-4 py-2 sm:px-6">
+          <a
+            href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+            target="_blank"
+            rel="noreferrer"
+            className="record-text-link text-sm"
+          >
+            Open directly on YouTube <ExternalLink size={14} aria-hidden="true" />
+          </a>
+        </div>
+
+        <section className="border-t border-line px-4 py-3 sm:px-6" aria-label="Episode notes">
+          <p className="record-kicker mb-1">Episode notes</p>
+          <p className="text-sm leading-relaxed text-ink-soft">{video.description}</p>
+        </section>
+        {!progress.observerMode && <EpisodeStampCheck videoId={video.id} onClose={onClose} returnTo={returnTo} />}
+      </motion.section>
+    </motion.div>,
     document.body,
+  );
+}
+
+function EpisodeStampCheck({ videoId, onClose, returnTo }: { videoId: string; onClose: () => void; returnTo?: string }) {
+  const { progress, dispatch } = useProgression();
+  const reduceMotion = useStore((s) => s.reduceMotion);
+  const questions = getQuizForEpisode(videoId);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [checked, setChecked] = useState(false);
+  const passed = progress.episodes[videoId]?.status === 'quizPassed';
+  const unlockedForEpisode = artworks.filter((plate) => plate.unlockEpisodeId === videoId);
+  if (!questions.length) return null;
+
+  const checkAnswers = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setChecked(true);
+    const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
+    if (allCorrect) {
+      dispatch({ type: 'passQuiz', id: videoId, artworkIds: unlockedForEpisode.map((plate) => plate.id), at: timestampNow() });
+      if (!reduceMotion) {
+        confetti({
+          particleCount: 72,
+          spread: 62,
+          startVelocity: 30,
+          origin: { y: 0.72 },
+          colors: ['#ff8756', '#9bacff', '#c5ed7a', '#f5f6f8'],
+          disableForReducedMotion: true,
+        });
+      }
+    }
+  };
+  const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
+
+  return (
+    <section className="stamp-check progression-chrome" aria-labelledby="stamp-check-title">
+      <div className="stamp-check-heading"><span className="record-kicker">Gallery unlock check</span><h3 id="stamp-check-title">Stamp this file</h3><p>Answer these three questions to open the linked sealed plates. No penalty; you can retry.</p></div>
+      {passed ? <div className="stamp-success" role="status">
+        <div>
+          <strong>File complete — {unlockedForEpisode.length} {unlockedForEpisode.length === 1 ? 'plate is' : 'plates are'} now open.</strong>
+          <p>Your newly declassified visuals are waiting on the Gallery Wall.</p>
+        </div>
+        <Link to={returnTo ? `/gallery#${encodeURIComponent(returnTo)}` : '/gallery'} onClick={onClose} className="record-button">{returnTo ? 'Open the file you selected' : 'See the unlocked plates'} <ArrowRight size={16} aria-hidden="true" /></Link>
+      </div> : (
+        <form onSubmit={checkAnswers}>
+          {questions.map((question, questionIndex) => (
+            <fieldset className="stamp-question" key={question.id}>
+              <legend><span>0{questionIndex + 1}</span>{question.prompt}</legend>
+              {question.options.map((option, optionIndex) => (
+                <label key={option} className="stamp-option">
+                  <input type="radio" name={question.id} checked={answers[question.id] === optionIndex} onChange={() => setAnswers((current) => ({ ...current, [question.id]: optionIndex }))} />
+                  {option}
+                </label>
+              ))}
+              {checked && answers[question.id] !== question.correctIndex && <p className="stamp-explanation">Review: {question.explanation}</p>}
+              {checked && answers[question.id] === question.correctIndex && <p className="stamp-correct">Correct</p>}
+              <p className="stamp-source">{question.sourceLecture} · {question.reviewStatus === 'needs-review' ? 'Needs human review' : 'Reviewed'}</p>
+            </fieldset>
+          ))}
+          {checked && !allCorrect && <p className="stamp-retry-note" role="status">Some answers need another look. Nothing was lost; adjust your choices and try again.</p>}
+          <button type="submit" className="record-button mt-4" disabled={questions.some((question) => answers[question.id] === undefined)}>{checked ? 'Check again' : 'Check answers'}</button>
+        </form>
+      )}
+    </section>
   );
 }
 
@@ -95,8 +189,8 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
   );
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-line bg-surface transition hover:border-line-strong">
-      <div className="relative aspect-video overflow-hidden bg-[#070b09]">
+    <article id={video.id} className="bureau-video-record instrument-panel instrument-card overflow-hidden">
+      <div className="relative aspect-video overflow-hidden bg-canvas">
         {canPlay ? (
           <button
             type="button"
@@ -119,19 +213,45 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
         )}
       </div>
 
-      <div className="p-5">
+      <div className="bureau-video-copy border-t border-line p-5">
+        <p className="orbit-label mb-2 text-xs">VIDEO RECORD / EP {String(video.episode).padStart(2, '0')}</p>
         <h3 className="text-lg">{video.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{video.description}</p>
         {video.transcript && <p className="mt-3 text-xs text-muted">{video.transcript}</p>}
+        <Link to={`/cases/${video.caseId}`} className="video-next-step mt-4 inline-flex items-center gap-2 text-sm font-semibold text-neon hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neon">
+          Next: explore the {video.caseLabel} case <ArrowRight size={15} aria-hidden="true" />
+        </Link>
       </div>
     </article>
   );
 }
 
 export default function VideoWall() {
-  const [activeVideo, setActiveVideo] = useState<VideoSlot | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoSlot | null>(null);
+  const { dispatch } = useProgression();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedVideoId = searchParams.get('play');
+  const requestedReturnId = searchParams.get('returnTo');
+  const returnTo = artworks.some((plate) => plate.id === requestedReturnId) ? requestedReturnId ?? undefined : undefined;
+  const requestedVideo = videos.find((video) => video.id === requestedVideoId && video.status === 'live' && video.youtubeId);
+  const activeVideo = selectedVideo ?? requestedVideo ?? null;
   const liveCount = videos.filter((video) => video.status === 'live' && video.youtubeId).length;
   const upcomingCount = videos.length - liveCount;
+
+  useEffect(() => {
+    if (!requestedVideo) return;
+    dispatch({ type: 'markWatched', id: requestedVideo.id, at: Date.now() });
+  }, [dispatch, requestedVideo]);
+
+  const closePlayer = () => {
+    setSelectedVideo(null);
+    if (requestedVideoId) {
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete('play');
+      nextParams.delete('returnTo');
+      setSearchParams(nextParams, { replace: true });
+    }
+  };
 
   return (
     <div>
@@ -144,10 +264,15 @@ export default function VideoWall() {
       )}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} onPlay={setActiveVideo} />
+          <VideoCard key={video.id} video={video} onPlay={(selected) => {
+            dispatch({ type: 'markWatched', id: selected.id, at: Date.now() });
+            setSelectedVideo(selected);
+          }} />
         ))}
       </div>
-      {activeVideo && <VideoPopup video={activeVideo} onClose={() => setActiveVideo(null)} />}
+      <AnimatePresence initial={false}>
+        {activeVideo && <VideoPopup video={activeVideo} onClose={closePlayer} returnTo={returnTo} />}
+      </AnimatePresence>
     </div>
   );
 }

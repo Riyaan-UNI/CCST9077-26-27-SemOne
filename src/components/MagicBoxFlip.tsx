@@ -38,18 +38,24 @@ export default function MagicBoxFlip() {
   };
 
   const landed = result !== null;
+  const totalMeasurements = counts[0] + counts[1];
+  const leftShare = totalMeasurements === 0 ? 50 : (counts[0] / totalMeasurements) * 100;
+  const rightShare = totalMeasurements === 0 ? 50 : (counts[1] / totalMeasurements) * 100;
 
   return (
-    <div className="w-full max-w-md rounded-3xl border border-line bg-surface/70 p-6 backdrop-blur-md">
-      <p className="ui-label text-neon">The magic box · a qubit in plain English</p>
+    <div className="instrument-panel instrument-card w-full max-w-md rounded-3xl p-5 sm:p-6">
+      <div className="flex items-center justify-between gap-3 border-b border-line pb-3">
+        <p className="ui-label text-neon">The magic box · a qubit in plain English</p>
+        <span className="orbit-label hidden sm:inline">MEAS / 01</span>
+      </div>
 
       {/* the box */}
-      <div className="relative mt-4 grid h-44 place-items-center rounded-2xl border border-line-strong bg-[#070b09]">
+      <div className="relative mt-4 grid h-44 place-items-center rounded-2xl border border-line-strong bg-canvas">
         <div className="crt-lines pointer-events-none absolute inset-0 rounded-2xl opacity-50" />
 
         <motion.div
           animate={shaking && !reduceMotion ? { rotate: [-2, 2, -2, 2, 0], scale: [1, 1.02, 1] } : { rotate: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.5 }}
           className="relative h-24 w-24"
           aria-hidden="true"
         >
@@ -62,10 +68,10 @@ export default function MagicBoxFlip() {
               left: landed ? (result === 0 ? '6%' : 'calc(100% - 3rem)') : 'calc(50% - 1.5rem)',
               filter: landed ? 'blur(0px)' : 'blur(6px)',
               opacity: landed ? 1 : 0.7,
-              backgroundColor: 'var(--neon)',
+              backgroundColor: result === 1 ? 'var(--cyan)' : 'var(--neon)',
             }}
             transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 220, damping: 18 }}
-            style={{ boxShadow: '0 0 18px var(--neon)' }}
+            style={{ boxShadow: `0 0 18px ${result === 1 ? 'var(--cyan)' : 'var(--neon)'}` }}
           />
         </motion.div>
 
@@ -81,14 +87,14 @@ export default function MagicBoxFlip() {
           type="button"
           onClick={openBox}
           disabled={shaking}
-          className="inline-flex items-center gap-2 rounded-xl bg-neon px-5 py-3 font-semibold text-neon-ink transition hover:brightness-110 disabled:opacity-60"
+          className="quantum-button inline-flex min-h-12 items-center gap-2 rounded-xl bg-neon px-5 py-3 font-semibold text-neon-ink disabled:opacity-60"
         >
           {landed ? 'Open again' : 'Open the box'}
         </button>
         <button
           type="button"
           onClick={reset}
-          className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-3 text-sm text-ink-soft transition hover:border-line-strong"
+          className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-line-strong bg-surface/50 px-4 py-3 text-sm text-ink-soft transition hover:bg-elevated hover:text-ink"
         >
           <RotateCcw size={15} aria-hidden="true" />
           Reset tally
@@ -106,6 +112,39 @@ export default function MagicBoxFlip() {
           <dd className="mt-1 font-mono text-2xl text-neon">{counts[1]}</dd>
         </div>
       </dl>
+
+      <div className="mt-4 rounded-xl border border-line bg-elevated/70 p-4">
+        <div className="flex items-center justify-between gap-3">
+          <p className="ui-label text-muted">Measurement trace</p>
+          <p className="font-mono text-sm text-ink-soft">{totalMeasurements} sample{totalMeasurements === 1 ? '' : 's'}</p>
+        </div>
+        <div
+          role="img"
+          aria-label={
+            totalMeasurements === 0
+              ? 'No measurement outcomes recorded yet.'
+              : `${counts[0]} left outcomes and ${counts[1]} right outcomes across ${totalMeasurements} measurements.`
+          }
+          className="mt-3 flex h-2.5 overflow-hidden rounded-full bg-canvas"
+        >
+          {totalMeasurements > 0 && (
+            <>
+              <span
+                className="h-full bg-neon transition-[width] duration-500"
+                style={{ width: `${leftShare}%` }}
+              />
+              <span
+                className="h-full bg-cyan transition-[width] duration-500"
+                style={{ width: `${rightShare}%` }}
+              />
+            </>
+          )}
+        </div>
+        <div className="mt-2 flex justify-between text-xs text-muted">
+          <span className="text-neon">|0⟩ left · {counts[0]}</span>
+          <span className="text-cyan">|1⟩ right · {counts[1]}</span>
+        </div>
+      </div>
 
       <p className="mt-4 text-sm leading-relaxed text-ink-soft">
         <strong className="text-ink">What just happened?</strong>{' '}

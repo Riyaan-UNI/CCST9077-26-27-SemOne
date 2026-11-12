@@ -7,6 +7,7 @@ export default function Glossary() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="The words"
         title="Glossary"
         lead="Every course term, defined in one plain-English sentence. Tap any bold term anywhere on the site to summon these in place."

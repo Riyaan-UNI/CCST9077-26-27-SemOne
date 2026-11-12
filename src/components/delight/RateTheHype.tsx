@@ -128,7 +128,7 @@ export default function RateTheHype() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
-          transition={{ duration: 0.28 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.28 }}
           className="rounded-2xl border border-line bg-surface p-6 sm:p-8"
         >
           <div className="flex items-center justify-between">

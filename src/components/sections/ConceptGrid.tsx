@@ -11,7 +11,7 @@ function ConceptCard({ concept, onOpen }: { concept: Concept; onOpen: () => void
     <button
       type="button"
       onClick={onOpen}
-      className="group h-full w-full rounded-2xl border border-line bg-surface p-5 text-left transition hover:-translate-y-1 hover:border-line-strong hover:shadow-lift"
+      className="instrument-panel instrument-card group h-full w-full rounded-2xl p-5 text-left"
     >
       <div className="flex items-start justify-between">
         <span className="grid h-11 w-11 place-items-center rounded-xl border border-line bg-elevated font-mono text-lg text-neon">
@@ -53,8 +53,11 @@ export default function ConceptGrid() {
 
       <Dialog.Root open={active !== null} onOpenChange={(o) => !o && setOpenId(null)}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-[70] bg-canvas/80 backdrop-blur-md data-[state=open]:animate-in" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-[71] w-[min(92vw,44rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-line bg-surface p-6 shadow-lift sm:p-8">
+          <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/48 backdrop-blur-sm data-[state=open]:animate-in" />
+          <Dialog.Content
+            data-lenis-prevent
+            className="instrument-panel fixed left-1/2 top-1/2 z-[71] max-h-[calc(100dvh-1.5rem)] w-[min(92vw,44rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain border-t-2 border-t-cyan bg-surface p-5 shadow-lift sm:p-8"
+          >
             {active && (
               <>
                 <div className="flex items-start gap-4">
