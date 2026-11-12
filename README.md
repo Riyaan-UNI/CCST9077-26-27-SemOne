@@ -57,9 +57,9 @@ The Bureau work is on `concept/quantum-bureau-field-journal`, branched from `fea
 
 GitHub Pages deployment for this new branch has not been configured. The existing Pages workflow currently runs for `main` and `feature/quantum-observatory-reskin`; the GitHub Pages environment’s allowed deployment branches must also include this branch before it can publish.
 
-## Figma design reference
+## Design guide and previews
 
-The current Field Journal Figma file is linked from [`docs/figma-design-system.md`](docs/figma-design-system.md). It contains editable dark/light color and spacing variables; its composed screens are still pending because the currently connected account has view-only access. The separate Public Record file is historical.
+The implemented Field Journal system and responsive screenshots are documented in [`docs/design-system.md`](docs/design-system.md) and [`docs/design-previews/`](docs/design-previews/).
 
 ## AI use
 

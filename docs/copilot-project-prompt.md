@@ -150,8 +150,8 @@ Before submission, our group still needs to:
 - confirm team contribution wording and the episode-four plan;
 - confirm captions/transcripts and media credits;
 - run and record a first-time visitor review plus accessibility review;
-- make sure the Figma file, if used, reflects the selected Field Journal
-  direction rather than the historical Public Record design;
+- keep the repo-native Field Journal design guide and responsive screenshots
+  aligned with the implemented CSS and current UI;
 - update the rubric matrix and AI statement using evidence from the final work.
 
 Do not describe these pending tasks as complete. Begin by stating the specific
@@ -160,13 +160,9 @@ and report verification and any remaining group decision.
 
 ---
 
-## Current Figma handoff
+## Current design handoff
 
-The historical Public Record file is at
-<https://www.figma.com/design/0kLNzROig2GZrb6JUeICNo>; the connected account
-could not edit it. A new Field Journal file is at
-<https://www.figma.com/design/pcsTmtB0tfrjqnZfOT10r5> and currently contains
-theme and spacing variables only. The currently connected Figma account has
-view-only access to this file. Its composed frames are still pending. Do not
-claim that Figma matches the implemented screens until editor access is
-available and those frames are built and reviewed.
+The repo-native design guide is `docs/design-system.md`; responsive captures
+are in `docs/design-previews/`. Keep them aligned with `src/index.css` and the
+implemented page flow. The screenshots are review evidence, not student-made
+artwork or a substitute for the group’s own design review.

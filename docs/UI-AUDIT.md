@@ -36,6 +36,6 @@ The previous version of this file described the Observatory / Quantum Playground
 3. Check keyboard-only navigation, screen-reader labels, reduced motion, light-mode contrast, and the video captions or transcripts with the group.
 4. Re-run the browser suite after future UI changes. The current suite passes, but the group should still check keyboard-only use, theme contrast, captions/transcripts, and the quality of the science explanations.
 
-The connected Figma account was unable to edit the historical Public Record file. A new Field Journal Figma file now contains the matching dark/light theme colors and spacing tokens. Its homepage frame and visual validation remain pending.
+The repo-native design handoff is in `docs/design-system.md`, with Home captures in `docs/design-previews/`. The captures are limited visual evidence; the group should still review case states, captions, and theme contrast.
 
 This review does not approve scientific explanations, replace the group's science review, or claim a user test has occurred.
