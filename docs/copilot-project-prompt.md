@@ -162,8 +162,11 @@ and report verification and any remaining group decision.
 
 ## Current Figma handoff
 
-The repository links to the historical Public Record Figma file at
-<https://www.figma.com/design/0kLNzROig2GZrb6JUeICNo>. The connected Figma
-account currently lacks edit access to that file. Do not claim that its design
-system was updated. The group must grant edit access or choose a new destination
-before synchronizing the Field Journal design.
+The historical Public Record file is at
+<https://www.figma.com/design/0kLNzROig2GZrb6JUeICNo>; the connected account
+could not edit it. A new Field Journal file is at
+<https://www.figma.com/design/pcsTmtB0tfrjqnZfOT10r5> and currently contains
+theme and spacing variables only. The currently connected Figma account has
+view-only access to this file. Its composed frames are still pending. Do not
+claim that Figma matches the implemented screens until editor access is
+available and those frames are built and reviewed.

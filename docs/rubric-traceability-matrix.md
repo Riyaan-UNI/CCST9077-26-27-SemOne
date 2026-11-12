@@ -15,9 +15,10 @@ This is a working audit aid based on the CCST9077 project brief. It does not pre
 
 ## Current checks
 
+- 2026-11-12: latest `npm run test:e2e` passed all 177 tests. This includes the 18-route responsive overflow matrix at 320, 375, 414, 768, 1280, and 1440 CSS pixels; 18 screenshot captures across Home, Lab, and Delight; the sealed-plate video → quiz → return flow; case watch-along player launch; the guided tour; and axe checks on 10 routes.
+- 2026-11-12: `npm test` passed (30 tests); `npm run lint` passed; `npm run build` passed with the existing large Three.js chunk warning. `git diff --check` passed.
+- 2026-11-12: Home screenshot spot checks at 320, 768, and 1440 CSS pixels were inspected from `.pw-out/responsive/`. These screenshots are local ignored test artifacts, not part of the committed source package.
 - 2026-11-12: `npm run lint` passed; `npm test` passed (21 tests); `npm run build` passed. Vite reported the existing large Three.js chunk warning.
-- 2026-11-12: `npm run test:e2e` was attempted but produced no test results before it was stopped. This run is **unverified**, not a pass; the earlier 169-test result below remains the last completed browser-suite run.
-- 2026-11-12: A local browser preview could not be opened from this environment (the browser timed out and shell socket access was denied), so no fresh screenshots or hands-on visual checks were captured.
 - `npm test`: 21 tests passed across 2 files on 2026-11-11.
 - `npm run build`: passed on 2026-11-11. Vite reported large-chunk warnings for the 3D and chart bundles.
 - `npm run lint`: passed on 2026-11-11.

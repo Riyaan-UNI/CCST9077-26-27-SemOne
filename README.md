@@ -53,13 +53,13 @@ The Vite development server runs at `http://127.0.0.1:5173`.
 
 ## Git and deployment
 
-The Bureau work is on `concept/quantum-lost-found`, branched from `feature/quantum-observatory-reskin`. The prior branch and `main` remain unchanged. Commits should describe real work as it happens; do not invent or rewrite history.
+The Bureau work is on `concept/quantum-bureau-field-journal`, branched from `feature/quantum-observatory-reskin`. The prior branch and `main` remain unchanged. Commits should describe real work as it happens; do not invent or rewrite history.
 
 GitHub Pages deployment for this new branch has not been configured. The existing Pages workflow currently runs for `main` and `feature/quantum-observatory-reskin`; the GitHub Pages environment’s allowed deployment branches must also include this branch before it can publish.
 
 ## Figma design reference
 
-The Figma file linked from [`docs/figma-design-system.md`](docs/figma-design-system.md) documents the earlier Public Record direction. The current Field Journal design is implemented in CSS and was not applied to that Figma file.
+The current Field Journal Figma file is linked from [`docs/figma-design-system.md`](docs/figma-design-system.md). It contains editable dark/light color and spacing variables; its composed screens are still pending because the currently connected account has view-only access. The separate Public Record file is historical.
 
 ## AI use
 
