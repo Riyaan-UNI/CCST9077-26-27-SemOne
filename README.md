@@ -2,6 +2,10 @@
 
 An interactive popular-science project for **CCST9077 · The Quantum Revolution**. The Bureau is a fictional archive frame for exploring three distinct topics in quantum information: measurement, entanglement correlations, and the no-cloning theorem. Qubi remains the guide.
 
+**Published site:** [Open the Quantum Lost-and-Found Bureau](https://riyaan-uni.github.io/CCST9077-26-27-SemOne/)
+
+For assessment, use the `concept/quantum-bureau-field-journal` branch. It contains the current Field Journal experience and the complete project history from `main` onward.
+
 The site uses the **Registrar’s Field Journal** visual identity: a dark, ruled notebook with margin marks, specimen tabs, handwritten notes, and warm signal-orange and mineral-teal accents. Dark mode is the default, with an optional light theme.
 
 The group reports reviewing the current science explanations for accuracy against the supplied course material. AI assistance and source pointers are documented in Credits and the science source register.
@@ -53,7 +57,25 @@ The Vite development server runs at `http://127.0.0.1:5173`.
 
 ## Git and deployment
 
-The Bureau work is on `concept/quantum-bureau-field-journal`, branched from `feature/quantum-observatory-reskin`. The prior branch and `main` remain unchanged. Commits should describe real work as it happens; do not invent or rewrite history.
+### How the project reached the Bureau
+
+The commit history shows the project’s actual progression. The Bureau was developed as a continuation of the existing site, so the earlier work and decisions remain visible rather than being replaced:
+
+```text
+main
+└─ feature/quantum-scifi-ui-overhaul
+   └─ feature/quantum-observatory-reskin
+      └─ concept/quantum-bureau-field-journal  ← current assessment version
+```
+
+| Stage | Starting point | What changed |
+|---|---|---|
+| `main` · `6914cf0` | Project baseline | Preserved the working quantum site and fixed team cards so expanding one card does not stretch its neighbors. |
+| `feature/quantum-scifi-ui-overhaul` · `a2ae792` | `main` | Introduced the first substantial science-fiction interface redesign while carrying forward the site’s existing content and features. |
+| `feature/quantum-observatory-reskin` · `136fcd9` | Sci-fi redesign | Refined the visual system into the Quantum Observatory and set up the branch’s Pages deployment. |
+| `concept/quantum-bureau-field-journal` · `49be66c` → current `eed57dc` | Observatory reskin | Reframed the site as the Quantum Lost-and-Found Bureau: a guided Field Journal with linked investigations, evidence-ledger interactions, video wayfinding, and clearer explanations. Subsequent commits document review, deployment, and refinements. |
+
+This timeline is derived from the branch ancestry and commit history. Branches were kept so a grader can inspect how the interface evolved from `main` to the current version. `main` and the two earlier design branches remain available for comparison. Commits describe the work as it happened; history has not been rewritten.
 
 The Pages workflow runs for `main`, `feature/quantum-observatory-reskin`, and this branch. The repository’s `github-pages` environment must also allow `concept/quantum-bureau-field-journal`; see [`DEPLOY.md`](DEPLOY.md).
 
