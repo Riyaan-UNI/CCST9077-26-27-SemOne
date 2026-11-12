@@ -1,7 +1,6 @@
 /**
- * Content validation: every public factual claim must carry a source.
- * This test fails the build if any entry in the content layer is malformed
- * or missing a required citation.
+ * Validate the sourced glossary and the structure and review status of team content.
+ * Team quantum facts remain draft until the group checks their sources and wording.
  */
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
@@ -22,20 +21,22 @@ const glossarySchema = z.object({
   source: sourceSchema,
 });
 
-const confirmedSchema = z.object({
-  value: z.string().min(1),
-  confirm: z.literal(true),
-});
-
 const teamMemberSchema = z.object({
   id: z.string().min(1),
-  name: confirmedSchema,
-  title: confirmedSchema,
-  bio: confirmedSchema,
-  contributions: z.array(confirmedSchema).min(1),
-  funFact: confirmedSchema,
+  name: z.string().min(1),
+  fullName: z.string().min(1).optional(),
+  nickname: z.string().min(1).optional(),
+  title: z.string().min(1),
+  contributions: z.array(z.string().min(1)).min(1),
+  funFact: z.object({
+    text: z.string().min(1),
+    reviewStatus: z.literal('group-review-pending'),
+    reference: z.object({
+      label: z.string().min(1),
+      url: z.string().url().refine((url) => url.startsWith('https://')),
+    }),
+  }),
   deliverables: z.array(z.string()),
-  devices: z.array(z.object({ device: z.string(), example: z.string(), note: z.string() })),
 });
 
 const videoSlotSchema = z.object({
@@ -69,8 +70,8 @@ describe('team members', () => {
     expect(new Set(team.map((member) => member.id)).size).toBe(4);
 
     for (const member of team) {
-      expect(member.funFact.value).not.toMatch(/\[(?:Add|MEMBER_)/i);
-      expect(member.funFact.value.trim().length).toBeGreaterThan(0);
+      expect(member.funFact.text).not.toMatch(/\[(?:Add|MEMBER_)/i);
+      expect(member.funFact.text.trim().length).toBeGreaterThan(0);
     }
   });
 
@@ -79,15 +80,10 @@ describe('team members', () => {
       expect(() => teamMemberSchema.parse(m)).not.toThrow();
     }
   });
-  it('every confirmed field is marked confirm:true', () => {
+  it('keeps science facts marked for group review and omits unapproved bios', () => {
     for (const m of team) {
-      expect(m.name.confirm).toBe(true);
-      expect(m.title.confirm).toBe(true);
-      expect(m.bio.confirm).toBe(true);
-      expect(m.funFact.confirm).toBe(true);
-      for (const c of m.contributions) {
-        expect(c.confirm).toBe(true);
-      }
+      expect(m.funFact.reviewStatus).toBe('group-review-pending');
+      expect(m).not.toHaveProperty('bio');
     }
   });
 });
@@ -103,7 +99,7 @@ describe('video slots', () => {
     expect(videos.slice(0, 3).every((video) => video.status === 'live' && video.youtubeId)).toBe(true);
     expect(videos[3].status).toBe('coming-soon');
   });
-  it('episode numbers are 1..5 in order', () => {
+  it('episode numbers are 1..4 in order', () => {
     for (let i = 0; i < videos.length; i++) {
       expect(videos[i].episode).toBe(i + 1);
     }

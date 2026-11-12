@@ -28,7 +28,7 @@ export const videos: VideoSlot[] = [
     episode: 1,
     title: 'The Magic Box',
     description:
-      'Qubi opens the box and shows why a qubit is not just a 0 or a 1 — it is a ball that is spinning until you look.',
+      'Qubi opens a magic box to introduce qubit states and measurement. The box is a teaching analogy; a qubit is not a tiny classical ball.',
     thumbnail: 'videos/the-magic-box.png',
     youtubeId: 'ZNNB-lHQsfI',
     status: 'live',
@@ -38,7 +38,7 @@ export const videos: VideoSlot[] = [
     episode: 2,
     title: 'Spooky Twins, No Messages',
     description:
-      'Two entangled photons, one rule that breaks classical intuition — and why neither twin can send the other a text.',
+      'An introduction to entanglement correlations and why they do not provide a controllable message channel.',
     thumbnail: 'videos/spooky-twins.png',
     youtubeId: 'vdufocF6Mjs',
     status: 'live',
@@ -48,7 +48,7 @@ export const videos: VideoSlot[] = [
     episode: 3,
     title: 'The Game Show That Broke Reality',
     description:
-      'Alice, Bob, a referee and a game no classical team can win more than 75% of the time. Entanglement changes the odds.',
+      'A CHSH game illustrates how quantum correlations can exceed the 75% ceiling for classical strategies in this game.',
     thumbnail: 'videos/game-show.png',
     youtubeId: '8QNQDiFKVyg',
     status: 'live',
@@ -56,9 +56,9 @@ export const videos: VideoSlot[] = [
   {
     id: 'cant-copy-cant-hack',
     episode: 4,
-    title: "Can't Copy, Can't Hack",
+    title: 'No Perfect Copy',
     description:
-      'The no-cloning theorem, quantum money, and why an eavesdropper always leaves footprints in the quantum world.',
+      'Planned episode about the no-cloning theorem. The group will review its examples and science before release.',
     thumbnail: 'videos/no-cloning.png',
     youtubeId: '',
     status: 'coming-soon',

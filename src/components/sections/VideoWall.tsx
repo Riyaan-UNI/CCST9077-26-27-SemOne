@@ -6,9 +6,15 @@ import Qubi from '@/components/Qubi';
 import { asset } from '@/lib/utils';
 import { videos, type VideoSlot } from '@/data/videos';
 import { useStore } from '@/store/useStore';
+import { useProgression } from '@/features/progression/ProgressionProvider';
+import { getQuizForEpisode } from '@/content/episodeQuizzes';
+import { artworks } from '@/content/artworks';
+
+const timestampNow = () => Date.now();
 
 function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void }) {
   const reduceMotion = useStore((s) => s.reduceMotion);
+  const { progress } = useProgression();
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -24,19 +30,19 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
       animate={{ opacity: 1, y: 0 }}
       exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
       transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: 'easeOut' }}
-      className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-3 sm:p-6"
+      className="bureau-video-popup-shell pointer-events-none fixed inset-0 z-[100] grid place-items-center p-3 sm:p-6"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/28 backdrop-blur-[1px]" />
+      <div aria-hidden="true" className="bureau-video-popup-backdrop pointer-events-none absolute inset-0" />
       <motion.section
         role="dialog"
         aria-modal="false"
         aria-labelledby="video-popup-title"
-        className="instrument-panel pointer-events-auto relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto border-t-2 border-t-cyan bg-canvas shadow-2xl shadow-black/60"
+        className="bureau-video-popup instrument-panel pointer-events-auto relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto border-t-2 border-t-cyan bg-canvas shadow-2xl shadow-black/60"
       >
         <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 sm:px-6">
           <div className="min-w-0">
             <p className="orbit-label ui-label">EP / {String(video.episode).padStart(2, '0')}</p>
-            <h2 id="video-popup-title" className="truncate text-lg text-white sm:text-xl">
+            <h2 id="video-popup-title" className="truncate text-lg text-ink sm:text-xl">
               {video.title}
             </h2>
           </div>
@@ -61,12 +67,59 @@ function VideoPopup({ video, onClose }: { video: VideoSlot; onClose: () => void 
           />
         </div>
 
-        <p className="border-t border-line px-4 py-3 text-sm leading-relaxed text-ink-soft sm:px-6">
-          {video.description}
-        </p>
+        <section className="border-t border-line px-4 py-3 sm:px-6" aria-label="Episode notes">
+          <p className="record-kicker mb-1">Episode notes</p>
+          <p className="text-sm leading-relaxed text-ink-soft">{video.description}</p>
+        </section>
+        {!progress.observerMode && <EpisodeStampCheck videoId={video.id} />}
       </motion.section>
     </motion.div>,
     document.body,
+  );
+}
+
+function EpisodeStampCheck({ videoId }: { videoId: string }) {
+  const { progress, dispatch } = useProgression();
+  const questions = getQuizForEpisode(videoId);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [checked, setChecked] = useState(false);
+  const passed = progress.episodes[videoId]?.status === 'quizPassed';
+  if (!questions.length) return null;
+
+  const checkAnswers = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setChecked(true);
+    const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
+    if (allCorrect) {
+      dispatch({ type: 'passQuiz', id: videoId, artworkIds: artworks.filter((plate) => plate.unlockEpisodeId === videoId).map((plate) => plate.id), at: timestampNow() });
+    }
+  };
+  const allCorrect = questions.every((question) => answers[question.id] === question.correctIndex);
+
+  return (
+    <section className="stamp-check progression-chrome" aria-labelledby="stamp-check-title">
+      <div className="stamp-check-heading"><span className="record-kicker">After viewing / optional check</span><h3 id="stamp-check-title">Stamp this file</h3><p>Three questions. No penalty, and you can retry. Correct answers declassify the linked gallery plates.</p></div>
+      {passed ? <p className="stamp-success" role="status">Filed. The linked artwork is now declassified.</p> : (
+        <form onSubmit={checkAnswers}>
+          {questions.map((question, questionIndex) => (
+            <fieldset className="stamp-question" key={question.id}>
+              <legend><span>0{questionIndex + 1}</span>{question.prompt}</legend>
+              {question.options.map((option, optionIndex) => (
+                <label key={option} className="stamp-option">
+                  <input type="radio" name={question.id} checked={answers[question.id] === optionIndex} onChange={() => setAnswers((current) => ({ ...current, [question.id]: optionIndex }))} />
+                  {option}
+                </label>
+              ))}
+              {checked && answers[question.id] !== question.correctIndex && <p className="stamp-explanation">Review: {question.explanation}</p>}
+              {checked && answers[question.id] === question.correctIndex && <p className="stamp-correct">Correct</p>}
+              <p className="stamp-source">{question.sourceLecture} · {question.reviewStatus === 'needs-review' ? 'Needs human review' : 'Reviewed'}</p>
+            </fieldset>
+          ))}
+          {checked && !allCorrect && <p className="stamp-retry-note" role="status">Some answers need another look. Nothing was lost; adjust your choices and try again.</p>}
+          <button type="submit" className="record-button mt-4" disabled={questions.some((question) => answers[question.id] === undefined)}>{checked ? 'Check again' : 'Check answers'}</button>
+        </form>
+      )}
+    </section>
   );
 }
 
@@ -105,7 +158,7 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
   );
 
   return (
-    <article className="instrument-panel instrument-card overflow-hidden rounded-2xl">
+    <article id={video.id} className="bureau-video-record instrument-panel instrument-card overflow-hidden">
       <div className="relative aspect-video overflow-hidden bg-canvas">
         {canPlay ? (
           <button
@@ -129,8 +182,8 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
         )}
       </div>
 
-      <div className="border-t border-line p-5">
-        <p className="orbit-label mb-2 text-xs">ARCHIVE / EP {String(video.episode).padStart(2, '0')}</p>
+      <div className="bureau-video-copy border-t border-line p-5">
+        <p className="orbit-label mb-2 text-xs">VIDEO RECORD / EP {String(video.episode).padStart(2, '0')}</p>
         <h3 className="text-lg">{video.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{video.description}</p>
         {video.transcript && <p className="mt-3 text-xs text-muted">{video.transcript}</p>}
@@ -141,6 +194,7 @@ function VideoCard({ video, onPlay }: { video: VideoSlot; onPlay: (video: VideoS
 
 export default function VideoWall() {
   const [activeVideo, setActiveVideo] = useState<VideoSlot | null>(null);
+  const { dispatch } = useProgression();
   const liveCount = videos.filter((video) => video.status === 'live' && video.youtubeId).length;
   const upcomingCount = videos.length - liveCount;
 
@@ -155,7 +209,10 @@ export default function VideoWall() {
       )}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} onPlay={setActiveVideo} />
+          <VideoCard key={video.id} video={video} onPlay={(selected) => {
+            dispatch({ type: 'markWatched', id: selected.id, at: Date.now() });
+            setActiveVideo(selected);
+          }} />
         ))}
       </div>
       <AnimatePresence initial={false}>

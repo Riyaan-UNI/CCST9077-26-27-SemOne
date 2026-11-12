@@ -32,11 +32,3 @@ createRoot(root).render(
     </BrowserRouter>
   </StrictMode>,
 );
-
-/* Hand off from the static splash in index.html to the React app.
-   Without this the splash sits on top of everything forever. */
-const boot = document.getElementById('boot');
-if (boot) {
-  boot.classList.add('boot--done');
-  window.setTimeout(() => boot.remove(), 400);
-}

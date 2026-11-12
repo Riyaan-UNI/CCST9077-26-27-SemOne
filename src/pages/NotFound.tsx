@@ -1,29 +1,19 @@
 import { Link } from 'react-router-dom';
-import { Home as HomeIcon } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Page from '@/components/Page';
 import Qubi from '@/components/Qubi';
 
 export default function NotFound() {
   return (
     <Page>
-      <section className="relative grid min-h-[80svh] place-items-center overflow-hidden px-5 pt-24">
-        <div className="absolute inset-0 grid-paper opacity-40" />
-        <div className="relative text-center">
-          <Qubi mood="dizzy" size={190} className="mx-auto" />
-          <p className="mt-8 font-mono text-6xl text-neon text-glow">404</p>
-          <h1 className="mt-4 text-3xl">This state does not exist</h1>
-          <p className="mx-auto mt-3 max-w-md leading-relaxed text-muted">
-            Qubi measured the address and it collapsed to nothing. The probability amplitude here is
-            zero.
-          </p>
-          <Link
-            to="/"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-neon px-5 py-3 font-semibold text-neon-ink transition hover:brightness-110"
-          >
-            <HomeIcon size={17} aria-hidden="true" />
-            Back to the homepage
-          </Link>
+      <section className="record-page mx-auto grid min-h-[70svh] max-w-5xl items-center gap-8 px-5 pb-20 pt-28 sm:grid-cols-[1fr_auto] sm:px-8" aria-labelledby="missing-title">
+        <div>
+          <p className="record-kicker">Archive lookup / no matching file</p>
+          <h1 id="missing-title" className="record-title mt-4">This record is not in the register.</h1>
+          <p className="record-lead mt-5 max-w-xl">The address may be outdated, or the file may not exist. Return to the Public Registry to continue exploring.</p>
+          <Link to="/" className="record-button mt-7"><ArrowLeft size={16} aria-hidden="true" /> Public Registry</Link>
         </div>
+        <Qubi mood="thinking" size={150} float={false} />
       </section>
     </Page>
   );

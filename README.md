@@ -1,151 +1,70 @@
-# The Quantum Revolution — interactive microsite
+# Quantum Lost-and-Found Bureau
 
-An interactive, scroll-driven website for the **CCST9077 · The Quantum Revolution: From Secret Codes to Quantum Computers** group project (HKU Common Core), hosted by the mascot **Qubi**.
+An interactive popular-science project for **CCST9077 · The Quantum Revolution**. The Bureau is a fictional archive frame for exploring three distinct topics in quantum information: measurement, entanglement correlations, and the no-cloning theorem. Qubi remains the guide.
 
-Everything on the page runs locally in the browser. There is no backend, no analytics, and no third-party request until you click a video.
+The site uses the **Registrar’s Field Journal** visual identity: a dark, ruled notebook with margin marks, specimen tabs, handwritten notes, and warm signal-orange and mineral-teal accents. Dark mode is the default, with an optional light theme.
 
----
+The public-facing text and diagrams in the case files are working drafts. The student group must review and revise them against the course material before submission.
 
-## Quick start
+## Run locally
 
 ```bash
 npm install
-npm run dev        # http://127.0.0.1:5173
+npm run dev
 ```
 
-| Script | What it does |
+The Vite development server runs at `http://127.0.0.1:5173`.
+
+| Script | Purpose |
 |---|---|
-| `npm run dev` | Vite dev server with HMR |
-| `npm run build` | Typecheck (`tsc --noEmit`) then production build into `dist/` |
-| `npm run preview` | Serve the built output locally |
-| `npm run typecheck` | TypeScript only |
-| `npm test` | Vitest suite for the quantum engine |
-| `npm run test:e2e` | Playwright end-to-end + axe-core accessibility checks |
-| `npm run lint` | ESLint (see `eslint.config.js`) |
+| `npm run dev` | Local development server |
+| `npm run typecheck` | TypeScript checks |
+| `npm run build` | Typecheck and production build |
+| `npm test` | Quantum simulator and content validation tests |
+| `npm run test:e2e` | Browser interactions, responsive checks, and axe accessibility scans |
+| `npm run lint` | ESLint |
 
-## Deploying
+## Archive map
 
-**GitHub Pages is already configured** — pushing to `main` publishes the site automatically via `.github/workflows/deploy.yml`. Enable it once under **Settings → Pages → Source: GitHub Actions**, then just `git push`.
-
-Live URL: `https://riyaan-uni.github.io/CCST9077-26-27-SemOne/`
-
-See **[DEPLOY.md](./DEPLOY.md)** for the full walkthrough, Vercel/Netlify/Cloudflare alternatives, custom domains, and troubleshooting.
-
-> Working on a file under `public/`? Reference it with the `asset()` helper from `src/lib/utils.ts`, not a literal `/path`. Literal paths work locally but 404 on a GitHub Pages sub-path.
-
----
-
-## What is on the site
-
-| Route | Contents |
+| Route | Content |
 |---|---|
-| `/` | Observer Field hero, the timeline from RSA to below-threshold error correction, ten concept cards, the swipeable **hype check**, gallery, video wall, and a five-question quiz |
-| `/lab` | The **quantum circuit simulator** (1–3 qubits, H/X/Z/S/T/CNOT, live amplitudes, measurement histogram, lazy Bloch sphere) and the **CHSH game** |
-| `/gallery` | Full masonry gallery with a lightbox |
-| `/about` | The Qubi concept, the technology stack, and credits |
+| `/` | Public Registry landing page, followed by the video records and an evidence-ledger preview |
+| `/cases` | Index of the three cases |
+| `/cases/measurement` | Superposition and measurement case flow |
+| `/cases/entanglement` | Entanglement, Bell correlations, and the no-message boundary |
+| `/cases/no-cloning` | Limits on copying arbitrary unknown states |
+| `/ledger` | Side-by-side working findings and predictions stored locally in the visitor’s browser |
+| `/videos` | Three ready YouTube episodes and one forthcoming episode |
+| `/lab` | Local quantum simulator, CHSH game, Bloch sphere, and related experiments |
+| `/timeline`, `/course-map` | Course timeline and lecture references |
+| `/computer`, `/universe-computer`, `/delight` | Supporting interactive activities and quick checks |
+| `/gallery`, `/glossary` | Visual and vocabulary references |
+| `/team`, `/about`, `/credits` | Group contribution record, archive guide, sources, and AI-use statement |
 
-### Signature interactions
+## Interaction and accessibility notes
 
-- **Observer Field** — a custom canvas effect (~200 lines, no particle library). Particles drift as diffuse superpositions and *collapse* into sharp points near the cursor; collapsed neighbours light up as entangled links. Toggle it with the eye icon in the top bar. Disabled under `prefers-reduced-motion`.
-- **Scroll-linked timeline** — the progress beam is driven by `useScroll` + `useSpring`.
-- **Swipeable hype-check cards** — drag with Motion, or use the arrow buttons; a `canvas-confetti` burst when you reset.
-- **Live quantum simulation** — every amplitude, phase and probability you see is computed by `src/quantum/simulator.ts`.
+- A case follows **Prediction → Test → Finding**. Visitors can skip the test and read the working finding.
+- Predictions and observations shown in the evidence ledger are saved in local browser storage; there is no project backend.
+- Video thumbnails load a nonmodal player only after a visitor selects a live episode. YouTube captions/transcript availability still needs group review.
+- Dark mode is the default for new visitors. A light theme switch is available.
+- Site navigation, predictions, case tests, and video controls are keyboard reachable. The short-height mobile menu scrolls internally.
+- The interface respects `prefers-reduced-motion`; explanatory content does not depend on animation or color alone.
+- Responsive browser checks cover 320, 375, 414, 768, 1280, and 1440 CSS-pixel widths.
 
----
+## Git and deployment
 
-## Project structure
+The Bureau work is on `concept/quantum-lost-found`, branched from `feature/quantum-observatory-reskin`. The prior branch and `main` remain unchanged. Commits should describe real work as it happens; do not invent or rewrite history.
 
-```
-src/
-  quantum/
-    simulator.ts          # typed statevector engine (no dependencies)
-    simulator.test.ts     # Vitest suite pinned to closed-form physics
-  data/                   # all copy lives here — edit without touching components
-    timeline.ts  concepts.ts  hypeCheck.ts  videos.ts  gallery.ts  quiz.ts  site.ts
-  store/useStore.ts       # Zustand: theme, sound, observer mode, Qubi's reaction bus
-  components/
-    Layout.tsx  Nav.tsx  Footer.tsx  LoadingScreen.tsx  RouteFallback.tsx
-    ObserverField.tsx  Qubi.tsx  QubiCompanion.tsx  Reveal.tsx  Section.tsx  Page.tsx  Skeleton.tsx
-    sections/             # Hero, Timeline, ConceptGrid, HypeCheck, VideoWall, Quiz, GalleryGrid
-    lab/                  # Simulator, ChshGame, BlochSphere (lazy)
-  pages/                  # Home, Lab, GalleryPage, About, NotFound
-public/gallery/           # procedural SVG plates
-scripts/make_gallery.py   # regenerates those plates
-e2e/site.spec.ts          # Playwright: boot hand-off, routes, lab, axe a11y
-.github/workflows/deploy.yml  # build + publish to GitHub Pages on push
-```
+GitHub Pages deployment for this new branch has not been configured. The existing Pages workflow currently runs for `main` and `feature/quantum-observatory-reskin`; the GitHub Pages environment’s allowed deployment branches must also include this branch before it can publish.
 
----
+## Figma design reference
 
-## The quantum engine
+The Figma file linked from [`docs/figma-design-system.md`](docs/figma-design-system.md) documents the earlier Public Record direction. The current Field Journal design is implemented in CSS and was not applied to that Figma file.
 
-`src/quantum/simulator.ts` is a dependency-free statevector simulator for up to three qubits. Qubit 0 is the most significant bit, so a basis index reads `|q0 q1 … qn-1⟩` left to right.
+## AI use
 
-Supported: `I, X, Z, H, S, T`, `R_y(θ)`, `CNOT`, `CZ`, measurement with collapse, and the CHSH game (both classical and optimal quantum strategies).
+AI supported concept and copy brainstorming, review of supplied course materials, draft visual identity studies, a Figma mapping of interface tokens, gallery plates and video thumbnails, and React/TypeScript coding. The group selected the direction and is responsible for revising draft content, verifying scientific claims, and testing the site before submission. The same brief disclosure appears in the Credits page and should be updated if actual use changes.
 
-`npm test` verifies it against closed-form physics rather than against itself:
+## Sources and content review
 
-| Test | Assertion |
-|---|---|
-| Two Hadamards | `H·H = I` on every basis state |
-| Bell state | only ever yields `00` or `11` |
-| Equal-angle correlation | `= 1` |
-| Outcome agreement | `P(same) = cos²(angleA − angleB)` |
-| CHSH quantum | win rate `= cos²(π/8) ≈ 0.8536` |
-| CHSH classical | win rate `= 0.75` |
-
-`npm run test:e2e` drives a real Chromium against the dev server and covers:
-
-- the static splash handing off to the app and being **removed from the DOM** (it once trapped the page);
-- the splash progress bar being clipped inside its frame;
-- all four routes, the `/lab#chsh` deep link and the 404 page;
-- measuring a Bell pair in the UI only ever collapsing to `|00⟩` or `|11⟩`;
-- the CHSH game converging above the classical ceiling;
-- axe-core scans (WCAG 2.0/2.1 A + AA) on every route, failing on any serious or critical violation.
-
----
-
-## Editing content
-
-All copy is typed data under `src/data/`. To add a timeline entry, a concept, a hype-check card or a quiz question, edit the relevant file — no component changes needed.
-
-**Videos.** Add real YouTube ids to `src/data/videos.ts`. Slots without an id render a branded placeholder. Cards use a facade, so YouTube is contacted only after a click.
-
-**Gallery.** Replace the SVGs in `public/gallery/` and update `src/data/gallery.ts` (path plus intrinsic `width`/`height`). Regenerate the current plates with `python scripts/make_gallery.py`.
-
----
-
-## Accessibility
-
-- Keyboard reachable controls throughout; Radix primitives handle focus trapping and ARIA wiring.
-- Toggles expose `aria-pressed`; the mobile menu is a proper dialog with a title and description.
-- A skip link precedes the navigation.
-- `prefers-reduced-motion` disables the boot animation, smooth scrolling, the Observer Field, reveal transitions and confetti.
-- Colour tokens are defined for both light and dark themes with contrast in mind.
-
-## Typography
-
-Type is deliberately large, because the retro-terminal look tempts you into sizes that are unreadable.
-
-| Rule | Detail |
-|---|---|
-| Floor | Nothing meaningful renders below **13px**. `--text-xs` is 13px, `--text-sm` is 15px, `--text-base` is 17px. |
-| Pixel font | **VT323 is only ever used at display sizes.** It has a small cap-height, so a nominal 13px renders like ~8px. A base-layer rule floors `.font-mono` at 17px so it can never be used small again. |
-| Small labels | Use the `ui-label` utility — the sans stack at 13px, semibold, wide tracking, uppercase. Never the pixel font. |
-| Numerals | Use the `num` utility (`tabular-nums`) so columns of figures line up. |
-| Charts | Recharts ticks and legends are 12–13px and set in the sans stack, not the pixel font. |
-
-Two escape hatches if you need to tune it: change the `--text-*` values in the `@theme` block in `src/index.css`, or adjust the `.font-mono` floor in the same file.
-
-## Performance
-
-- Route-level code splitting via `React.lazy`.
-- `three.js` and `recharts` are split into their own chunks; the Bloch sphere is lazily mounted.
-- Fonts are self-hosted through Fontsource — no third-party font requests.
-- The video wall loads nothing from YouTube until clicked.
-
----
-
-## Licensing
-
-Project code is MIT licensed (see `LICENSE`). Third-party packages are used under their own licences: MIT for React, Vite, Tailwind CSS, Motion, Radix UI, Zustand, Recharts, three.js and react-three-fiber; ISC for `canvas-confetti` and `lucide-react`; OFL for the Fontsource typefaces. The mascot concept and gallery plates are original work created for this project.
+The selected cases map to CCST9077 Lectures 2–4. A working topic-to-lecture map is in [`docs/science-source-register.md`](docs/science-source-register.md); exact slide references should be added after the group science review. Generated image studies are ideation references, not scientific sources.

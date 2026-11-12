@@ -12,6 +12,7 @@ import {
   hadamard,
   makeRng,
   measure,
+  playChshQuantum,
   pauliX,
   probabilities,
   sameProbability,
@@ -101,6 +102,25 @@ describe('statevector simulator', () => {
     expect(rate).toBeGreaterThan(0.845);
     expect(rate).toBeLessThan(0.862);
     expect(rate).toBeCloseTo(0.8536, 2);
+  });
+
+  it('keeps each local outcome random regardless of the distant setting', () => {
+    const rng = makeRng(2026);
+    const samples = Array.from({ length: 120_000 }, () => playChshQuantum(rng));
+    for (const y of [0, 1]) {
+      const localBob = [0, 1].map((x) => samples.filter((s) => s.x === x && s.y === y));
+      const rates = localBob.map((group) => group.filter((s) => s.b === 1).length / group.length);
+      expect(Math.abs(rates[0] - rates[1])).toBeLessThan(0.02);
+      expect(rates[0]).toBeCloseTo(0.5, 1);
+      expect(rates[1]).toBeCloseTo(0.5, 1);
+    }
+    for (const x of [0, 1]) {
+      const localAlice = [0, 1].map((y) => samples.filter((s) => s.x === x && s.y === y));
+      const rates = localAlice.map((group) => group.filter((s) => s.a === 1).length / group.length);
+      expect(Math.abs(rates[0] - rates[1])).toBeLessThan(0.02);
+      expect(rates[0]).toBeCloseTo(0.5, 1);
+      expect(rates[1]).toBeCloseTo(0.5, 1);
+    }
   });
 
   it('confirms the classical CHSH ceiling is 3/4', () => {

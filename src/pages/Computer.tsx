@@ -33,6 +33,7 @@ export default function Computer() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="Qubit & Circuit Playground"
         title="Build your own quantum circuits"
         lead="Three levels of hands-on play: a single qubit as a magic box, two entangled qubits, and guided circuit puzzles. Every gate runs in your browser using the same statevector engine as the lab."

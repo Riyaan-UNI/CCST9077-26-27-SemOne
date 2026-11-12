@@ -1,25 +1,20 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import * as Tooltip from '@radix-ui/react-tooltip';
-import Lenis from 'lenis';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import LoadingScreen from '@/components/LoadingScreen';
 import QubiCompanion from '@/components/QubiCompanion';
-import StartHere from '@/components/StartHere';
-import KonamiCode from '@/components/easter/KonamiCode';
+import QuantumIntro from '@/components/QuantumIntro';
+import GuidedTour from '@/components/GuidedTour';
 import { useStore } from '@/store/useStore';
+import { useProgression } from '@/features/progression/ProgressionProvider';
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const theme = useStore((s) => s.theme);
-  const reduceMotion = useStore((s) => s.reduceMotion);
-  const setReduceMotion = useStore((s) => s.setReduceMotion);
+  const theme = useStore((state) => state.theme);
+  const reduceMotion = useStore((state) => state.reduceMotion);
+  const setReduceMotion = useStore((state) => state.setReduceMotion);
   const location = useLocation();
-  const [booted, setBooted] = useState(
-    () => typeof sessionStorage !== 'undefined' && sessionStorage.getItem('qubi-booted') === '1',
-  );
+  const { progress } = useProgression();
 
-  /* Apply the theme class to <html> so tokens flip globally. */
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle('dark', theme === 'dark');
@@ -27,36 +22,19 @@ export default function Layout({ children }: { children: ReactNode }) {
     root.style.colorScheme = theme;
   }, [theme]);
 
-  /* Track the OS reduced-motion preference. */
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduceMotion(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
   }, [setReduceMotion]);
 
-  /* Optional smooth scrolling, off for reduced motion. */
-  useEffect(() => {
-    if (reduceMotion) return;
-    const lenis = new Lenis({ duration: 1.05, smoothWheel: true, wheelMultiplier: 0.95 });
-    let raf = 0;
-    const loop = (time: number) => {
-      lenis.raf(time);
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => {
-      cancelAnimationFrame(raf);
-      lenis.destroy();
-    };
-  }, [reduceMotion]);
-
-  /* Start each route at the top (unless a hash target was requested). */
   useEffect(() => {
     if (location.hash) {
-      const el = document.querySelector(location.hash);
-      if (el) {
-        el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (target) {
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
         return;
       }
     }
@@ -64,33 +42,14 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, [location.pathname, location.hash, reduceMotion]);
 
   return (
-    <Tooltip.Provider delayDuration={200}>
-      <div className="site-atmosphere relative min-h-screen bg-canvas">
-        <a
-          href="#main"
-          className="sr-only-focusable focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-neon focus:px-4 focus:py-2 focus:text-neon-ink"
-        >
-          Skip to content
-        </a>
-
-        {!booted && !reduceMotion && (
-          <LoadingScreen
-            onDone={() => {
-              sessionStorage.setItem('qubi-booted', '1');
-              setBooted(true);
-            }}
-          />
-        )}
-
-        <Nav />
-        <main id="main" className="relative">
-          {children}
-        </main>
-        <Footer />
-        <QubiCompanion />
-        <StartHere />
-        <KonamiCode />
-      </div>
-    </Tooltip.Provider>
+    <div className="site-atmosphere bureau-site min-h-screen bg-canvas text-ink">
+      <a href="#main" className="bureau-skip-link">Skip to main content</a>
+      <Nav />
+      <main id="main" tabIndex={-1} className={`bureau-main${progress.observerMode ? ' observer-mode' : ''}`}>{children}</main>
+      <Footer />
+      <QubiCompanion />
+      <GuidedTour />
+      <QuantumIntro />
+    </div>
   );
 }

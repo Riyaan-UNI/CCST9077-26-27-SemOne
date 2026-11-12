@@ -35,6 +35,7 @@ export default function Lab() {
   return (
     <Page>
       <Section
+        headingLevel={1}
         eyebrow="The lab"
         title="Run the maths yourself"
         lead="Everything here executes locally in your browser, using a hand-written statevector engine. No server, no simulator dependency, and no rounding tricks."

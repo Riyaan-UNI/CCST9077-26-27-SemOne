@@ -33,7 +33,7 @@ interface ObserverFieldProps {
  */
 export default function ObserverField({ className, density = 0.9, radius = 150 }: ObserverFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const observerMode = useStore((s) => s.observerMode);
+  const observerMode = useStore((s) => s.observerFieldEnabled);
   const reduceMotion = useStore((s) => s.reduceMotion);
   const observerModeRef = useRef(observerMode);
   const reduceMotionRef = useRef(reduceMotion);

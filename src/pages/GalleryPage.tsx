@@ -1,75 +1,72 @@
-import { useState } from 'react';
-import { MasonryPhotoAlbum, type Photo } from 'react-photo-album';
-import 'react-photo-album/masonry.css';
+import { useMemo, useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/captions.css';
 import Page from '@/components/Page';
-import Section from '@/components/Section';
-import Qubi from '@/components/Qubi';
+import { artworks } from '@/content/artworks';
 import { gallery } from '@/data/gallery';
-
-type Plate = Photo & { title: string; caption: string; credit: string };
-
-const photos: Plate[] = gallery.map((item) => ({
-  src: item.src,
-  width: item.width,
-  height: item.height,
-  alt: item.title,
-  title: item.title,
-  caption: item.caption,
-  credit: item.credit,
-}));
+import { videos } from '@/data/videos';
+import { useProgression } from '@/features/progression/ProgressionProvider';
+import { asset } from '@/lib/utils';
 
 export default function GalleryPage() {
-  const [index, setIndex] = useState(-1);
+  const { progress } = useProgression();
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [sealedId, setSealedId] = useState<string | null>(null);
+  const visibleArt = useMemo(() => artworks.filter((plate) => progress.observerMode || progress.unlockedArtworks.includes(plate.id)), [progress]);
+  const activeIndex = visibleArt.findIndex((plate) => plate.id === activeId);
+  const sealed = artworks.find((plate) => plate.id === sealedId);
 
   return (
     <Page>
-      <Section
-        eyebrow="Gallery"
-        title="Plates from the quantum world"
-        lead="Some of these ideas resist language. These plates are the visual shorthand the team uses when a diagram has to do the explaining."
-      >
-        <div className="mb-6 flex items-center justify-end">
-          <Qubi mood="happy" size={80} className="hidden shrink-0 sm:block" />
+      <div className="record-page mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8">
+        <p className="record-kicker">Bureau / public record</p>
+        <h1 className="record-title mt-4">The Gallery Wall</h1>
+        <p className="record-lead mt-5 max-w-3xl">Team-supplied plates are declassified as you file episode checks. Every image is an educational visual, not a scientific proof.</p>
+        <div className="gallery-wall-counter progression-chrome" aria-live="polite">
+          <strong>{progress.observerMode ? artworks.length : visibleArt.length} / {artworks.length}</strong>
+          <span>{progress.observerMode ? 'Observer Mode · all plates visible' : 'plates declassified'}</span>
         </div>
-        <div className="rounded-xl border border-hype-amber/30 bg-hype-amber/10 p-4">
-          <p className="text-sm text-ink-soft">
-            <strong className="text-hype-amber">AI-generated art disclosure:</strong>{' '}
-            The plates below were generated with AI assistance for this educational project.
-            They are concept art, not scientific illustrations. If you use them elsewhere,
-            please credit the project.
-          </p>
+        <div className="gallery-wall">
+          {artworks.map((plate, index) => {
+            const isUnlocked = progress.observerMode || progress.unlockedArtworks.includes(plate.id);
+            const source = gallery.find((item) => item.id === plate.id);
+            const unlockVideo = videos.find((video) => video.id === plate.unlockEpisodeId);
+            return (
+              <article className={`gallery-plate${isUnlocked ? ' is-declassified' : ' is-sealed'}`} key={plate.id}>
+                <button type="button" className="gallery-plate-image" onClick={() => isUnlocked ? setActiveId(plate.id) : setSealedId(plate.id)} aria-label={isUnlocked ? `View artwork: ${plate.title}` : `Sealed artwork ${String(index + 1).padStart(2, '0')}. Unlock by passing the quiz for ${unlockVideo ? `Episode ${unlockVideo.episode}` : 'its episode'}.`}>
+                  <img src={asset(plate.imagePath)} alt={isUnlocked ? plate.altText : ''} aria-hidden={!isUnlocked} loading="lazy" />
+                  {!isUnlocked && <span className="gallery-redaction" aria-hidden="true"><i /><i /><i /><b>SEALED</b></span>}
+                  <span className="gallery-plate-number">PLATE / {String(index + 1).padStart(2, '0')}</span>
+                </button>
+                <div className="gallery-plate-copy">
+                  <p className="record-kicker progression-chrome">{isUnlocked ? 'Declassified' : 'Redacted'}</p>
+                  <h2>{isUnlocked ? plate.title : 'Redacted record'}</h2>
+                  <p>{isUnlocked ? source?.caption ?? 'An educational visual supplied with the project.' : 'This plate’s title and image are sealed until declassification.'}</p>
+                  {!isUnlocked && <span className="gallery-unlock-reason">Unlock condition: pass the related episode check</span>}
+                </div>
+              </article>
+            );
+          })}
         </div>
-
-        <div className="mt-6">
-          <MasonryPhotoAlbum
-            photos={photos}
-            columns={(containerWidth) => (containerWidth < 640 ? 1 : containerWidth < 1024 ? 2 : 3)}
-            spacing={16}
-            onClick={({ index: i }) => setIndex(i)}
-          />
-        </div>
-
+        {sealed && <aside className="gallery-sealed-note" role="status">
+          <strong>This plate is still sealed.</strong> Pass the associated episode’s three-question check to declassify it.
+          <button type="button" onClick={() => setSealedId(null)} aria-label="Dismiss artwork unlock details">Close</button>
+        </aside>}
         <Lightbox
-          open={index >= 0}
-          index={index}
-          close={() => setIndex(-1)}
-          slides={photos.map((p) => ({ src: p.src, title: p.title, description: p.caption }))}
+          open={activeIndex >= 0}
+          index={activeIndex}
+          close={() => setActiveId(null)}
+          slides={visibleArt.map((plate) => {
+            const source = gallery.find((item) => item.id === plate.id);
+            return { src: asset(plate.imagePath), title: plate.title, description: source?.caption };
+          })}
           plugins={[Captions]}
           carousel={{ finite: false, padding: 0 }}
           styles={{ container: { backgroundColor: 'rgba(4, 8, 6, 0.94)' } }}
         />
-
-        <p className="mt-8 text-sm leading-relaxed text-muted">
-          Concept art generated for this project. Swap the files in{' '}
-          <code className="text-neon">public/gallery</code> and update{' '}
-          <code className="text-neon">src/data/gallery.ts</code> to use your own renders, production
-          stills or photography — the masonry layout and lightbox adapt automatically.
-        </p>
-      </Section>
+      </div>
     </Page>
   );
 }

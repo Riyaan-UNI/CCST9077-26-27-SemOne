@@ -7,7 +7,7 @@ import Qubi from '@/components/Qubi';
 export default function ComingSoon({ title, blurb }: { title: string; blurb: string }) {
   return (
     <Page>
-      <Section eyebrow="Coming soon" title={title} lead={blurb}>
+      <Section headingLevel={1} eyebrow="Coming soon" title={title} lead={blurb}>
         <div className="flex flex-col items-center gap-6 rounded-2xl border border-dashed border-line bg-surface/60 p-12 text-center">
           <Qubi mood="thinking" size={120} />
           <p className="max-w-md text-muted">

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { CaseId } from '@/content/cases';
 
 export type Theme = 'dark' | 'light';
 
@@ -18,23 +19,45 @@ export interface QubiReaction {
   text: string;
 }
 
+export interface CaseLedgerEntry {
+  prediction: string;
+  observation: string;
+  updatedAt: number;
+  confidence: number;
+  findingRead: boolean;
+}
+
 interface AppState {
   /* settings */
   theme: Theme;
   sound: boolean;
-  observerMode: boolean;
+  observerFieldEnabled: boolean;
   reduceMotion: boolean;
+  hasHydrated: boolean;
+  introComplete: boolean;
+  tourActive: boolean;
+  tourIndex: number;
 
   /* Qubi's reaction event bus */
   reaction: QubiReaction | null;
   reactionCount: number;
+  caseLedger: Partial<Record<CaseId, CaseLedgerEntry>>;
 
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   toggleSound: () => void;
-  toggleObserverMode: () => void;
+  toggleObserverField: () => void;
   setReduceMotion: (value: boolean) => void;
+  setHasHydrated: (value: boolean) => void;
+  completeIntro: () => void;
+  replayIntro: () => void;
+  startTour: () => void;
+  setTourIndex: (index: number) => void;
+  finishTour: () => void;
   react: (mood: QubiMood, text: string) => void;
+  recordPrediction: (caseId: CaseId, prediction: string, confidence?: number) => void;
+  recordObservation: (caseId: CaseId, observation: string) => void;
+  recordFindingRead: (caseId: CaseId) => void;
 }
 
 const prefersReducedMotion = () =>
@@ -47,31 +70,95 @@ export const useStore = create<AppState>()(
       // New visitors start in dark mode; a saved theme choice still takes precedence.
       theme: 'dark',
       sound: false,
-      observerMode: true,
+      observerFieldEnabled: true,
       reduceMotion: prefersReducedMotion(),
+      hasHydrated: false,
+      introComplete: false,
+      tourActive: false,
+      tourIndex: 0,
 
       reaction: null,
       reactionCount: 0,
+      caseLedger: {},
 
       setTheme: (theme) => set({ theme }),
       toggleTheme: () => set({ theme: get().theme === 'dark' ? 'light' : 'dark' }),
       toggleSound: () => set({ sound: !get().sound }),
-      toggleObserverMode: () => set({ observerMode: !get().observerMode }),
+      toggleObserverField: () => set({ observerFieldEnabled: !get().observerFieldEnabled }),
       setReduceMotion: (reduceMotion) => set({ reduceMotion }),
+      setHasHydrated: (hasHydrated) => {
+        const seenThisSession = hasHydrated && typeof window !== 'undefined' &&
+          window.sessionStorage.getItem('qubi-intro-seen') === 'true';
+        set({ hasHydrated, ...(hasHydrated ? { introComplete: seenThisSession } : {}) });
+      },
+      completeIntro: () => {
+        if (typeof window !== 'undefined') window.sessionStorage.setItem('qubi-intro-seen', 'true');
+        set({ introComplete: true });
+      },
+      replayIntro: () => {
+        if (typeof window !== 'undefined') window.sessionStorage.removeItem('qubi-intro-seen');
+        set({ introComplete: false, tourActive: false, tourIndex: 0 });
+      },
+      startTour: () => {
+        if (typeof window !== 'undefined') window.sessionStorage.setItem('qubi-intro-seen', 'true');
+        set({ introComplete: true, tourActive: true, tourIndex: 0 });
+      },
+      setTourIndex: (tourIndex) => set({ tourIndex }),
+      finishTour: () => set({ tourActive: false, tourIndex: 0 }),
 
       react: (mood, text) =>
         set((s) => ({
           reaction: { id: s.reactionCount + 1, mood, text },
           reactionCount: s.reactionCount + 1,
         })),
+      recordPrediction: (caseId, prediction, confidence = 3) =>
+        set((s) => ({
+          caseLedger: {
+            ...s.caseLedger,
+            [caseId]: {
+              prediction,
+              observation: s.caseLedger[caseId]?.observation ?? '',
+              updatedAt: Date.now(),
+              confidence,
+              findingRead: s.caseLedger[caseId]?.findingRead ?? false,
+            },
+          },
+        })),
+      recordObservation: (caseId, observation) =>
+        set((s) => ({
+          caseLedger: {
+            ...s.caseLedger,
+            [caseId]: {
+              prediction: s.caseLedger[caseId]?.prediction ?? '',
+              observation,
+              updatedAt: Date.now(),
+              confidence: s.caseLedger[caseId]?.confidence ?? 3,
+              findingRead: s.caseLedger[caseId]?.findingRead ?? false,
+            },
+          },
+        })),
+      recordFindingRead: (caseId) => set((s) => ({
+        caseLedger: {
+          ...s.caseLedger,
+          [caseId]: {
+            prediction: s.caseLedger[caseId]?.prediction ?? '',
+            observation: s.caseLedger[caseId]?.observation ?? '',
+            confidence: s.caseLedger[caseId]?.confidence ?? 3,
+            findingRead: true,
+            updatedAt: Date.now(),
+          },
+        },
+      })),
     }),
     {
       name: 'qubi-preferences',
+      onRehydrateStorage: () => (state) => state?.setHasHydrated(true),
       // Only persist genuine preferences, never transient UI state.
       partialize: (s) => ({
         theme: s.theme,
         sound: s.sound,
-        observerMode: s.observerMode,
+        observerFieldEnabled: s.observerFieldEnabled,
+        caseLedger: s.caseLedger,
       }),
     },
   ),
