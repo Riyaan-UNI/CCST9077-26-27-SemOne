@@ -15,6 +15,9 @@ This is a working audit aid based on the CCST9077 project brief. It does not pre
 
 ## Current checks
 
+- 2026-11-12: `npm run lint` passed; `npm test` passed (21 tests); `npm run build` passed. Vite reported the existing large Three.js chunk warning.
+- 2026-11-12: `npm run test:e2e` was attempted but produced no test results before it was stopped. This run is **unverified**, not a pass; the earlier 169-test result below remains the last completed browser-suite run.
+- 2026-11-12: A local browser preview could not be opened from this environment (the browser timed out and shell socket access was denied), so no fresh screenshots or hands-on visual checks were captured.
 - `npm test`: 21 tests passed across 2 files on 2026-11-11.
 - `npm run build`: passed on 2026-11-11. Vite reported large-chunk warnings for the 3D and chart bundles.
 - `npm run lint`: passed on 2026-11-11.
