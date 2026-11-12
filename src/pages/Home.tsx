@@ -1,22 +1,12 @@
 import { Link } from 'react-router-dom';
-import { ArrowDown, ArrowRight, ArrowUpRight, BookOpen, Clapperboard, FlaskConical, NotebookTabs } from 'lucide-react';
+import { ArrowDown, ArrowRight, Clapperboard, FlaskConical, NotebookTabs } from 'lucide-react';
 import Page from '@/components/Page';
 import Qubi from '@/components/Qubi';
 import VideoWall from '@/components/sections/VideoWall';
 import EvidenceLedger from '@/components/cases/EvidenceLedger';
+import PageDirectory from '@/components/PageDirectory';
 import { bureauCases } from '@/content/cases';
 import { useProgression } from '@/features/progression/ProgressionProvider';
-
-const REFERENCE_LINKS = [
-  { href: '/lab', label: 'Reference Lab', detail: 'Run the simulator and CHSH game.' },
-  { href: '/timeline', label: 'Course Timeline', detail: 'Trace the ideas across the course.' },
-  { href: '/course-map', label: 'Lecture Map', detail: 'Browse the lecture connections.' },
-  { href: '/gallery', label: 'Diagram Archive', detail: 'Inspect the project’s visual explainers.' },
-  { href: '/glossary', label: 'Term Index', detail: 'Look up quantum vocabulary.' },
-  { href: '/computer', label: 'Computer Desk', detail: 'Try the interactive quantum computer activity.' },
-  { href: '/delight', label: 'Quick Checks', detail: 'Check common claims and misconceptions.' },
-  { href: '/about', label: 'About the Bureau', detail: 'How to explore the archive and its case tests.' },
-];
 
 export default function Home() {
   const { dispatch } = useProgression();
@@ -40,6 +30,7 @@ export default function Home() {
                 <a href="#videos" className="record-button">Watch the video episodes <ArrowDown size={16} aria-hidden="true" /></a>
                 <Link to="/cases" className="record-text-link">Or explore the cases <ArrowRight size={15} aria-hidden="true" /></Link>
                 <Link to="/cases" className="record-text-link" onClick={() => dispatch({ type: 'setObserverMode', value: true })}>Read without playing</Link>
+                <Link to="#site-index" className="record-text-link">Explore all pages <ArrowRight size={15} aria-hidden="true" /></Link>
               </div>
               <div className="qubi-desk-note mt-9">
                 <Qubi mood="curious" size={90} float={false} />
@@ -94,27 +85,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="record-section reference-section" aria-labelledby="reference-title">
-          <div className="record-section-inner">
-            <p className="record-kicker">Supporting material / browse by interest</p>
-            <h2 id="reference-title">More from the bureau</h2>
-            <div className="reference-register mt-7">
-              {REFERENCE_LINKS.map((item, index) => (
-                <Link key={item.href} to={item.href} className="reference-row">
-                  <span className="record-case-number">{String(index + 1).padStart(2, '0')}</span>
-                  <span><strong>{item.label}</strong><small>{item.detail}</small></span>
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </Link>
-              ))}
-              <Link to="/team" className="reference-row">
-                <span className="record-case-number">09</span>
-                <span><strong>Meet the team</strong><small>The people behind the project and Qubi.</small></span>
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </Link>
-            </div>
-            <p className="record-note mt-6"><BookOpen size={14} aria-hidden="true" /> The team reviewed the science explanations against CCST9077 lecture material.</p>
-          </div>
-        </section>
+        <PageDirectory />
       </div>
     </Page>
   );
