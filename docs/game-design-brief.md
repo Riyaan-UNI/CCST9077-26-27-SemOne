@@ -2,7 +2,7 @@
 
 **Project:** CCST9077 website (React + TypeScript + Vite)
 **Branch:** `concept/quantum-bureau-field-journal`
-**Status:** AI-assisted working draft; not final group-authored copy or science approval.
+**Status:** AI-assisted working design draft; the team reports reviewing current science explanations for accuracy. This file remains planning material, not evidence that AI-generated copy or code was student-authored.
 
 > **Decision precedence:** This document began as an AI-assisted design draft and
 > contains outdated suggestions. Use `docs/human-decisions-log.md` and
@@ -11,9 +11,10 @@
 > has three published videos and one forthcoming slot, and the case conference
 > compares the three investigations rather than being a fourth case. The linked
 > Public Record Figma file is historical and has not been updated. Do not treat
-> generated implementation or copy as student-authored final work. The group
-> must make substantial creative contributions, rewrite draft content, verify
-> science against original lectures, and disclose AI assistance accurately.
+> generated implementation or copy as student-authored final work. The user
+> reports the group has reviewed the current science content for accuracy.
+> Authorship and member contributions must still be represented honestly, and
+> AI assistance must be disclosed accurately.
 
 This draft is retained as planning history. It is not an instruction to have AI
 write the complete assessed product or implement every unreviewed suggestion

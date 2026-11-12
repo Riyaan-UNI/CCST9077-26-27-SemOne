@@ -23,16 +23,16 @@ export default function Credits() {
       <div className="record-page mx-auto max-w-5xl px-5 pb-20 pt-28 sm:px-8">
         <p className="record-kicker">Public record / credits</p>
         <h1 className="record-title mt-4 max-w-3xl">Sources, tools, and authorship.</h1>
-        <p className="record-lead mt-5 max-w-2xl">A student project connected to {site.course}. The group is responsible for reviewing the science, media, and code before submission.</p>
+        <p className="record-lead mt-5 max-w-2xl">A student project connected to {site.course}. The group reports that it has reviewed the science explanations for accuracy.</p>
 
         <section className="credit-record mt-10" aria-labelledby="ai-statement-title">
           <h2 id="ai-statement-title"><Sparkles size={19} aria-hidden="true" /> AI-use statement</h2>
           <p>
             AI contributed concept and copy brainstorming, review of supplied course materials,
             visual identity studies, a Figma token map, gallery plates, video thumbnails, and a
-            substantial part of this React/TypeScript prototype. The group must substantially revise
-            and author its final submission, verify scientific claims and assets, and test the site;
-            this prototype is not a substitute for that work.
+            substantial part of this React/TypeScript prototype. The group reports that it reviewed
+            the current science explanations for accuracy. AI assistance does not replace the
+            members’ own contributions or authorship evidence in the final submission.
           </p>
           <p className="record-note">This statement should be updated if the group’s actual use of AI changes.</p>
         </section>
@@ -40,14 +40,14 @@ export default function Credits() {
         <section className="credit-record mt-6" aria-labelledby="sources-title">
           <h2 id="sources-title"><BookOpen size={19} aria-hidden="true" /> Science sources</h2>
           <p>
-            The group is checking the case drafts against the supplied CCST9077 lecture materials.
-            The topic-to-lecture map below is a starting point; the group should confirm exact slides
-            and add any other sources used for the final explanations after its science review.
+            The group reports reviewing the current case explanations, demonstrations, and quiz
+            questions against the supplied CCST9077 lecture materials. This map records the lecture
+            connections; reviewer names and exact slide numbers were not supplied.
           </p>
           <ul className="credit-source-list">
-            <li><strong>Case 01:</strong> Lecture 2, <em>Entering the Quantum Realm</em> · superposition and measurement · slide references pending group review.</li>
-            <li><strong>Case 02:</strong> Lecture 3, <em>Quantum Spookiness</em>, and Lecture 4, <em>Winning Games with Quantum Tricks</em> · entanglement, no-signalling, and CHSH · slide references pending group review.</li>
-            <li><strong>Case 03:</strong> Lecture 2, <em>Entering the Quantum Realm</em> · no-cloning theorem · slide references pending group review.</li>
+            <li><strong>Case 01:</strong> Lecture 2, <em>Entering the Quantum Realm</em> · superposition and measurement.</li>
+            <li><strong>Case 02:</strong> Lecture 3, <em>Quantum Spookiness</em>, and Lecture 4, <em>Winning Games with Quantum Tricks</em> · entanglement, no-signalling, and CHSH.</li>
+            <li><strong>Case 03:</strong> Lecture 2, <em>Entering the Quantum Realm</em> · no-cloning theorem.</li>
           </ul>
         </section>
 

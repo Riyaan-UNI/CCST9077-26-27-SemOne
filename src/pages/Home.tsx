@@ -34,7 +34,7 @@ export default function Home() {
               </p>
               <p className="record-note registry-review-status">
                 <span className="review-status-stamp">TEAM REVIEW</span>
-                Science explanations are drafts awaiting the group’s evidence review.
+                The team reviewed the science explanations for accuracy.
               </p>
               <div className="registry-actions mt-7">
                 <a href="#videos" className="record-button">Watch the video episodes <ArrowDown size={16} aria-hidden="true" /></a>
@@ -112,7 +112,7 @@ export default function Home() {
                 <ArrowUpRight size={16} aria-hidden="true" />
               </Link>
             </div>
-            <p className="record-note mt-6"><BookOpen size={14} aria-hidden="true" /> Site explanations are student-project drafts and are being reviewed against CCST9077 lecture material.</p>
+            <p className="record-note mt-6"><BookOpen size={14} aria-hidden="true" /> The team reviewed the science explanations against CCST9077 lecture material.</p>
           </div>
         </section>
       </div>

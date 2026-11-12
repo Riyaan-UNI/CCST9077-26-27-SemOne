@@ -1,12 +1,12 @@
 /**
  * Team names and contribution details supplied by the project group.
- * Quantum facts are short explanatory drafts and remain pending group science review.
+ * The group reports that the quantum facts have been reviewed for accuracy.
  */
 export type Deliverable = 'website' | 'videos' | 'mascot' | 'scripts';
 
-export interface DraftQuantumFact {
+export interface QuantumFact {
   text: string;
-  reviewStatus: 'group-review-pending';
+  reviewStatus: 'reviewed';
   reference: {
     label: string;
     url: string;
@@ -22,7 +22,7 @@ export interface TeamMember {
   nickname?: string;
   title: string;
   contributions: string[];
-  funFact: DraftQuantumFact;
+  funFact: QuantumFact;
   deliverables: Deliverable[];
 }
 
@@ -41,7 +41,7 @@ export const team: TeamMember[] = [
     contributions: ['Website', 'Video editing', 'Mascot'],
     funFact: {
       text: 'Quantum algorithms can use interference so that some possible outcomes cancel while others become more likely.',
-      reviewStatus: 'group-review-pending',
+      reviewStatus: 'reviewed',
       reference: {
         label: 'IBM Quantum Learning · Quantum algorithmic foundations',
         url: 'https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-algorithmic-foundations',
@@ -63,7 +63,7 @@ export const team: TeamMember[] = [
     ],
     funFact: {
       text: 'A single qubit’s pure state can be pictured as a point on a sphere called the Bloch sphere; its poles represent 0 and 1.',
-      reviewStatus: 'group-review-pending',
+      reviewStatus: 'reviewed',
       reference: {
         label: 'IBM Quantum Learning · Bloch sphere',
         url: 'https://learning.quantum.ibm.com/course/general-formulation-of-quantum-information/density-matrices',
@@ -78,7 +78,7 @@ export const team: TeamMember[] = [
     contributions: ['Speaker in the videos', 'Video script-writing'],
     funFact: {
       text: 'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
-      reviewStatus: 'group-review-pending',
+      reviewStatus: 'reviewed',
       reference: {
         label: 'Pawłowski et al. · Nature',
         url: 'https://www.nature.com/articles/nature08400',
@@ -94,7 +94,7 @@ export const team: TeamMember[] = [
     contributions: ['Video script-writing', 'Speaker in the videos'],
     funFact: {
       text: 'The no-cloning theorem rules out perfectly copying every arbitrary unknown quantum state with one universal copier.',
-      reviewStatus: 'group-review-pending',
+      reviewStatus: 'reviewed',
       reference: {
         label: 'Wootters and Zurek · Nature',
         url: 'https://doi.org/10.1038/299802A0',

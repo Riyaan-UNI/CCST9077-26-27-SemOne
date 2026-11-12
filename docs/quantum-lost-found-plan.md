@@ -11,9 +11,9 @@
 - **Case pages:** Prediction → Test → Finding.
 - **Accessibility and responsive design:** Guided Case Flow, with keyboard and touch access, reduced-motion support, readable stacking on small screens, captions/transcripts, and no drag-only controls.
 - **Architecture:** Route-based React and TypeScript on Vite.
-- **Group contribution approach:** Preserve the roles the group already stated; clarify the mascot contribution overlap before publishing it.
+- **Group contribution approach:** Preserve the roles the group supplied. The user reports the team reviewed and confirmed the current contribution details.
 - **Git:** New branch `concept/quantum-bureau-field-journal` based on `feature/quantum-observatory-reskin`; leave prior branches untouched. Bureau-specific case and progression work from the existing checkout was carried into this branch for the redesign.
-- **Review:** Science Evidence Review as the release gate, supported by responsive/accessibility checks and a first-time visitor review.
+- **Review:** The user reports the team completed its science accuracy review. Responsive/accessibility and first-time visitor checks remain separate release checks.
 - **AI disclosure:** Brief statement only, describing actual AI use after implementation is complete.
 - **Final assessment audit:** Rubric Traceability Matrix, with a submission checklist.
 - **Continuity requirements:** Qubi stays the mascot. Three YouTube videos are available; the fourth episode remains marked as forthcoming. Preserve the existing feature set where it can be meaningfully re-expressed in the Bureau architecture.
@@ -68,7 +68,7 @@
 3. Build the Public Registry with landing-first/video-second ordering.
 4. Build typed case content and accessible guided case pages plus the evidence ledger.
 5. Integrate existing simulator functions, videos, Qubi, team, and supporting archive pages.
-6. Review science claims against supplied lecture notes; collect team-authored copy and contributions.
+6. Record the completed team science review; collect evidence of student-authored work and contributions separately.
 7. Check layout at 320, 768, 1024, and 1440 CSS pixels, keyboard access, short-height mobile navigation, reduced motion, theme control, video dismissal, and direct routes.
 8. Produce the final AI statement and rubric traceability matrix based on actual work, then make accurate milestone commits.
 

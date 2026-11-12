@@ -51,17 +51,18 @@ generating all or a significant part of the final assignment.
   associated live video and check. After a correct check, return the visitor
   directly to the selected plate after it is declassified.
 - **Team:** preserve each member’s supplied name and contribution claims in
-  `src/content/team.ts`; ask the group to resolve any overlap before stating it
-  as settled. Do not invent biography or personal facts.
+  `src/content/team.ts`. The user reports the group reviewed and confirmed the
+  current role details. Do not invent biography or personal facts.
 - **Architecture:** route-based React + TypeScript + Vite.
 - **Branch:** continue on `concept/quantum-bureau-field-journal`, based on the
   current feature branch. Do not alter `main` or earlier branches.
-- **Review:** science evidence review, supported by accessibility and
-  first-time-visitor review.
+- **Review:** the user reports the group completed its science accuracy review.
+  Accessibility and first-time-visitor reviews remain separate.
 - **AI disclosure:** brief statement only, but it must accurately describe the
   actual assistance used, including brainstorming, research review, generated
-  visuals if applicable, and code. Do not claim that AI-generated drafts were
-  written or verified by the group.
+  visuals if applicable, and code. The group reports checking the current
+  science content for accuracy; do not claim that AI-generated work was
+  student-authored unless the group provides evidence of its own contribution.
 - **Final audit:** use `docs/rubric-traceability-matrix.md`.
 
 ## Repository context
@@ -74,10 +75,10 @@ changing anything. The implementation already exists; do not restart it or
 create another branch. Treat the decision log as the record of choices, and
 record new group decisions only when the group actually makes them.
 
-The implementation and draft explanations include AI assistance. Treat them
-as a prototype for the group to review, rewrite where needed, and own through
-its own creative, scientific, and technical work. Keep a clear distinction
-between a functioning prototype and student-authored final work.
+The implementation and some explanations include substantial AI assistance.
+The user reports that the group reviewed the current science content for
+accuracy. Keep that review distinct from student authorship and contribution
+evidence; do not represent AI-assisted work as student-authored.
 
 ## How to work with us
 
@@ -91,18 +92,18 @@ between a functioning prototype and student-authored final work.
 4. Make a small, reviewable change that addresses the agreed issue. Explain
    what changed and why; do not generate the complete final product or
    substantial new assessed science copy on our behalf.
-5. Prefer helping us critique and revise writing that we provide. For science
-   text, flag claims needing verification and leave them marked as drafts until
-   a group member checks the original lecture source.
+5. Prefer helping us critique and revise writing that we provide. The current
+   science content is reported as team-reviewed; if a future edit changes a
+   claim or demonstration, flag it for a fresh group accuracy check.
 6. Keep authentic Git history. Never fabricate commits, authorship, tests,
    review approvals, user research, or contributions.
 
 ## Science and authorship safeguards
 
-- Verify lecture relevance against the supplied original PDFs. The current
-  source register is a review aid; its AI-assisted notes are not group approval.
-  Add exact slide numbers, reviewer name/initials, and corrections only after a
-  group member performs that review.
+- The team reports reviewing current science content for accuracy. The source
+  register preserves lecture mapping and references; reviewer names and exact
+  slide numbers were not supplied and must not be invented. Recheck changes to
+  science content against the original PDFs.
 - Keep the boundary clear between a scientific statement, analogy,
   simplification, and fictional Bureau language.
 - Do not imply that consciousness causes measurement, that entanglement sends
@@ -141,18 +142,16 @@ between a functioning prototype and student-authored final work.
 
 ## Current review gates
 
-Before submission, our group still needs to:
+Separate work remains before submission:
 
-- rewrite or substantially revise draft explanations and case copy in our own
-  voice;
-- check each science claim and simulator against lecture PDFs, with slide
-  references recorded;
-- confirm team contribution wording and the episode-four plan;
+- ensure final authorship and contribution evidence reflects what each member
+  actually created, separately from AI assistance;
+- settle the fourth-episode plan when its content is ready;
 - confirm captions/transcripts and media credits;
 - run and record a first-time visitor review plus accessibility review;
 - keep the repo-native Field Journal design guide and responsive screenshots
   aligned with the implemented CSS and current UI;
-- update the rubric matrix and AI statement using evidence from the final work.
+- keep the rubric matrix and AI statement aligned if later project work changes.
 
 Do not describe these pending tasks as complete. Begin by stating the specific
 small issue you are addressing, inspect its evidence, implement that change,

@@ -60,6 +60,6 @@ These screenshots were captured from the current implementation during the 177-t
 | Tablet · 768 × 1024 | [Home at 768 px](design-previews/home-tablet-768.png) |
 | Wide desktop · 1440 × 900 | [Home at 1440 px](design-previews/home-wide-1440.png) |
 
-## Review still needed
+## Separate checks
 
-The implementation is a working prototype. The group still needs to revise the draft explanatory copy, verify each science claim against the original lecture slides, confirm media captions and contribution wording, and record a first-time visitor and accessibility review. See [`science-source-register.md`](science-source-register.md), [`human-decisions-log.md`](human-decisions-log.md), and [`rubric-traceability-matrix.md`](rubric-traceability-matrix.md).
+The user reports that the group reviewed the current science explanations for accuracy. Video caption/transcript availability, a first-time visitor review, and a full accessibility review are separate checks that still need evidence. See [`science-source-register.md`](science-source-register.md), [`human-decisions-log.md`](human-decisions-log.md), and [`rubric-traceability-matrix.md`](rubric-traceability-matrix.md).

@@ -54,7 +54,6 @@ export default function CaseArchive() {
           </li>
         </ol>
         {!progress.observerMode && <p className="record-note progression-chrome mt-6">Open any folder; the case reading path is never locked. The fourth episode remains forthcoming.</p>}
-        <p className="record-note mt-2">Case summaries are working drafts for group science review.</p>
       </div>
     </Page>
   );

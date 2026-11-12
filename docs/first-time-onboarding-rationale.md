@@ -1,6 +1,6 @@
 # First-visit walkthrough: design rationale
 
-The Quantum Realm intro and Qubi tour are a navigation and learning scaffold. They are not evidence for the quantum explanations; those still need review against CCST9077 lectures and authoritative physics sources by the group.
+The Quantum Realm intro and Qubi tour are a navigation and learning scaffold. The team reports that it reviewed the current science explanations for accuracy. This content review is separate from testing whether first-time visitors can use the tour and understand its pacing.
 
 ## Research applied
 
@@ -15,6 +15,6 @@ The Quantum Realm intro and Qubi tour are a navigation and learning scaffold. Th
 - Visitors can play each case experiment: change measurement basis and collect trials; compare the quantum and classical CHSH strategies; or test a basis-copying rule against a superposition input. The explanations stay next to the controls and show each model's limits.
 - The intro appears on a new browser tab/session and can be replayed from the site menu. The visitor can skip it, and reduced-motion preferences disable smooth scrolling and decorative movement.
 
-## Group review
+## Remaining visitor checks
 
-Review the order and length of the 18-stop route with first-time visitors. Revise the copy and all quantum analogies in the group's own voice, verify simulator assumptions against the lectures and sources, and confirm that page targets, mobile layout, keyboard flow, repeated visits, and reduced-motion behavior work as intended before submission.
+Ask first-time visitors to try the 18-stop route and record where they hesitate. Check page targets, mobile layout, keyboard flow, repeated visits, and reduced-motion behavior in use. The team’s science accuracy review is recorded separately in `docs/science-source-register.md`.

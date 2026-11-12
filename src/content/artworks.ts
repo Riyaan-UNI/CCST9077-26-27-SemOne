@@ -6,7 +6,7 @@ export interface ArtworkPlate {
   unlockEpisodeId: string;
 }
 
-// Artwork/topic matching follows existing captions and remains for group confirmation.
+// The user reports that the team reviewed the current project content for accuracy.
 export const artworks: ArtworkPlate[] = [
   { id: 'bloch', title: 'The Bloch sphere', imagePath: '/gallery/bloch-sphere.svg', altText: 'A sphere diagram representing pure qubit states, with the zero and one basis states at opposite poles.', unlockEpisodeId: 'the-magic-box' },
   { id: 'entangled', title: 'An entangled pair', imagePath: '/gallery/entangled-pair.svg', altText: 'A diagram of two qubits represented together as an entangled pair.', unlockEpisodeId: 'spooky-twins-no-messages' },

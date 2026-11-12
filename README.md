@@ -4,7 +4,7 @@ An interactive popular-science project for **CCST9077 · The Quantum Revolution*
 
 The site uses the **Registrar’s Field Journal** visual identity: a dark, ruled notebook with margin marks, specimen tabs, handwritten notes, and warm signal-orange and mineral-teal accents. Dark mode is the default, with an optional light theme.
 
-The public-facing text and diagrams in the case files are working drafts. The student group must review and revise them against the course material before submission.
+The group reports reviewing the current science explanations for accuracy against the supplied course material. AI assistance and source pointers are documented in Credits and the science source register.
 
 ## Run locally
 
@@ -45,7 +45,7 @@ The Vite development server runs at `http://127.0.0.1:5173`.
 
 - A case follows **Prediction → Test → Finding**. Visitors can skip the test and read the working finding.
 - Predictions and observations shown in the evidence ledger are saved in local browser storage; there is no project backend.
-- Video thumbnails load a nonmodal player only after a visitor selects a live episode. YouTube captions/transcript availability still needs group review.
+- Video thumbnails load a nonmodal player only after a visitor selects a live episode. Caption and transcript availability should be checked on the published YouTube videos before submission.
 - Dark mode is the default for new visitors. A light theme switch is available.
 - Site navigation, predictions, case tests, and video controls are keyboard reachable. The short-height mobile menu scrolls internally.
 - The interface respects `prefers-reduced-motion`; explanatory content does not depend on animation or color alone.
@@ -63,8 +63,8 @@ The implemented Field Journal system and responsive screenshots are documented i
 
 ## AI use
 
-AI supported concept and copy brainstorming, review of supplied course materials, draft visual identity studies, a Figma mapping of interface tokens, gallery plates and video thumbnails, and React/TypeScript coding. The group selected the direction and is responsible for revising draft content, verifying scientific claims, and testing the site before submission. The same brief disclosure appears in the Credits page and should be updated if actual use changes.
+AI supported concept and copy brainstorming, review of supplied course materials, visual identity studies, a Figma token map, gallery plates and video thumbnails, and substantial React/TypeScript coding. The group reports reviewing the current science content for accuracy. Student-authored contributions should be documented separately from AI assistance; first-time visitor, accessibility, and media-caption checks remain to be recorded. The same brief disclosure appears on the Credits page and should be updated if actual use changes.
 
 ## Sources and content review
 
-The selected cases map to CCST9077 Lectures 2–4. A working topic-to-lecture map is in [`docs/science-source-register.md`](docs/science-source-register.md); exact slide references should be added after the group science review. Generated image studies are ideation references, not scientific sources.
+The selected cases map to CCST9077 Lectures 2–4. The topic-to-lecture map and supporting references are in [`docs/science-source-register.md`](docs/science-source-register.md). Exact slide numbers and reviewer names were not provided. Generated image studies are ideation references, not scientific sources.

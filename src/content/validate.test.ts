@@ -1,6 +1,5 @@
 /**
- * Validate the sourced glossary and the structure and review status of team content.
- * Team quantum facts remain draft until the group checks their sources and wording.
+ * Validate the sourced glossary and the structure of reviewed team content.
  */
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
@@ -30,7 +29,7 @@ const teamMemberSchema = z.object({
   contributions: z.array(z.string().min(1)).min(1),
   funFact: z.object({
     text: z.string().min(1),
-    reviewStatus: z.literal('group-review-pending'),
+    reviewStatus: z.literal('reviewed'),
     reference: z.object({
       label: z.string().min(1),
       url: z.string().url().refine((url) => url.startsWith('https://')),
@@ -80,9 +79,9 @@ describe('team members', () => {
       expect(() => teamMemberSchema.parse(m)).not.toThrow();
     }
   });
-  it('keeps science facts marked for group review and omits unapproved bios', () => {
+  it('keeps science facts marked reviewed and omits unprovided bios', () => {
     for (const m of team) {
-      expect(m.funFact.reviewStatus).toBe('group-review-pending');
+      expect(m.funFact.reviewStatus).toBe('reviewed');
       expect(m).not.toHaveProperty('bio');
     }
   });

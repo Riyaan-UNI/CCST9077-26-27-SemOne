@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { episodeQuizzes } from './episodeQuizzes';
 
 describe('episode quiz content', () => {
-  it('uses unique questions and three draft questions for each live episode', () => {
+  it('uses unique questions and three reviewed questions for each live episode', () => {
     expect(new Set(episodeQuizzes.map((question) => question.id)).size).toBe(episodeQuizzes.length);
     for (const episodeId of ['the-magic-box', 'spooky-twins-no-messages', 'the-game-show-that-broke-reality']) {
       expect(episodeQuizzes.filter((question) => question.episodeId === episodeId)).toHaveLength(3);
@@ -15,7 +15,7 @@ describe('episode quiz content', () => {
       expect(question.correctIndex).toBeGreaterThanOrEqual(0);
       expect(question.correctIndex).toBeLessThan(question.options.length);
       expect(question.sourceLecture).toMatch(/CCST9077 Lecture/);
-      expect(question.reviewStatus).toBe('needs-review');
+      expect(question.reviewStatus).toBe('reviewed');
     }
   });
 });

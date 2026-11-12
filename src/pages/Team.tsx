@@ -71,7 +71,7 @@ function MemberCard({
                 ))}
               </ul>
               <div className="team-fun-fact mt-4 border border-line bg-elevated px-4 py-3">
-                <p className="text-xs text-muted">Quantum fact · group review pending</p>
+                <p className="text-xs text-muted">Quantum fact · reviewed by the team</p>
                 <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.text}</p>
                 <a
                   className="team-fun-fact-source mt-3 block break-words text-sm text-cyan underline underline-offset-4"
@@ -99,7 +99,7 @@ export default function Team() {
       <div className="record-page mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8">
         <p className="record-kicker">Project record / group contributions</p>
         <h1 className="record-title mt-4 max-w-3xl">Four students. Qubi on the desk.</h1>
-        <p className="record-lead mt-5 max-w-2xl">The roles below reflect what the group has supplied so far. Each quantum fact is a draft awaiting the group’s science review.</p>
+        <p className="record-lead mt-5 max-w-2xl">The team has reviewed these quantum facts for accuracy. The cards also record each member’s supplied project contributions.</p>
         <div
           data-testid="team-member-grid"
           className="team-member-grid mt-10 grid auto-rows-min grid-cols-1 content-start items-start gap-5 md:grid-cols-2 xl:grid-cols-4"
@@ -116,7 +116,7 @@ export default function Team() {
 
         <div className="team-contribution-register mt-14">
           <h2>Contribution register</h2>
-          <p>Marks indicate the deliverables currently recorded for each member. The group should verify the record before submission.</p>
+          <p>Marks indicate the deliverables recorded for each member in the team contribution review.</p>
 
           <div className="mt-6 overflow-x-auto">
             <table className="team-register-table w-full border-collapse text-sm" style={{ minWidth: '28rem' }}>
