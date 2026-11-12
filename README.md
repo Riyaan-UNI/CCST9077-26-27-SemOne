@@ -55,7 +55,7 @@ The Vite development server runs at `http://127.0.0.1:5173`.
 
 The Bureau work is on `concept/quantum-bureau-field-journal`, branched from `feature/quantum-observatory-reskin`. The prior branch and `main` remain unchanged. Commits should describe real work as it happens; do not invent or rewrite history.
 
-GitHub Pages deployment for this new branch has not been configured. The existing Pages workflow currently runs for `main` and `feature/quantum-observatory-reskin`; the GitHub Pages environment’s allowed deployment branches must also include this branch before it can publish.
+The Pages workflow runs for `main`, `feature/quantum-observatory-reskin`, and this branch. The repository’s `github-pages` environment must also allow `concept/quantum-bureau-field-journal`; see [`DEPLOY.md`](DEPLOY.md).
 
 ## Design guide and previews
 
