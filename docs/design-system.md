@@ -1,6 +1,6 @@
 # Registrar’s Field Journal design guide
 
-This guide documents the implemented website design in the repository. It replaces a separate design-file handoff and points to responsive screenshots captured from the running site.
+This guide documents the implemented website design in the repository. It replaces a separate design-file handoff. The checked-in responsive screenshots are historical captures and do not reflect the latest team-review wording on Home.
 
 ## Visual direction
 
@@ -52,7 +52,7 @@ The source of truth for colors and spacing is [`src/index.css`](../src/index.css
 
 ## Responsive screen captures
 
-These screenshots were captured from the current implementation during the 177-test browser run. They are review evidence, not finished student artwork.
+These screenshots were captured during an earlier 177-test browser run. They still show the retired message that the science review is pending, while the current Home copy reflects the later team review reported by the user. Treat them as layout references only, not current-copy evidence or finished student artwork. Recapture them from the current running site before using them to document the final interface.
 
 | Viewport | Capture |
 | --- | --- |

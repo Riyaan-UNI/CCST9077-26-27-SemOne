@@ -81,7 +81,7 @@ The Pages workflow runs for `main`, `feature/quantum-observatory-reskin`, and th
 
 ## Design guide and previews
 
-The implemented Field Journal system and responsive screenshots are documented in [`docs/design-system.md`](docs/design-system.md) and [`docs/design-previews/`](docs/design-previews/).
+The implemented Field Journal system is documented in [`docs/design-system.md`](docs/design-system.md). The checked-in screenshots in [`docs/design-previews/`](docs/design-previews/) are historical layout references; the Home captures predate the team-review copy update.
 
 ## AI use
 

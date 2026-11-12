@@ -35,7 +35,7 @@ The previous version of this file described the Observatory / Quantum Playground
 2. Check keyboard-only navigation, screen-reader labels, light-mode contrast, and the availability of video captions or transcripts with the group. Reduced-motion behavior has automated coverage.
 3. Re-run the browser suite after future UI changes. Existing responsive checks cover 18 routes at six widths; latest focused checks cover the changed player and home jump.
 
-The repo-native design handoff is in `docs/design-system.md`; Home and accepted visitor-flow captures are retained in `docs/design-previews/`. These are implementation screenshots, not a substitute for a first-time visitor study.
+The repo-native design handoff is in `docs/design-system.md`; Home and visitor-flow captures are retained in `docs/design-previews/`. The Home screenshots predate the team-review copy update and are historical layout references, not evidence of current wording. These captures are not a substitute for a first-time visitor study.
 
 ## Accepted visitor-flow captures
 
