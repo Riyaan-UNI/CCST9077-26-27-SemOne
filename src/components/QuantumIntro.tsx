@@ -35,15 +35,17 @@ export default function QuantumIntro() {
       <Dialog.Portal>
       <Dialog.Overlay className="quantum-intro-overlay" />
       <Dialog.Content className={`quantum-intro${reduceMotion ? ' is-static' : ''}`} aria-describedby="intro-description">
+      <div className="intro-topline">
+        <p className="intro-overline">CCST9077 · An interactive field guide</p>
       <button type="button" className="intro-sound-toggle" onClick={toggleSound} aria-pressed={sound}>
         {sound ? <Volume2 size={17} aria-hidden="true" /> : <VolumeX size={17} aria-hidden="true" />}
         {sound ? 'Sound on' : 'Sound off'}
       </button>
+      </div>
       <div className="intro-stars" aria-hidden="true" />
       <div className="intro-black-hole" aria-hidden="true"><span /></div>
       <div className="intro-content">
         <Dialog.Description id="intro-description" className="sr-only">A short interactive introduction to the quantum project website. You can skip at any time.</Dialog.Description>
-        <p className="intro-overline">CCST9077 · An interactive field guide</p>
         {scene === 'loading' ? (
           <div className="intro-loading" aria-live="polite">
             <Dialog.Title className="sr-only">Preparing the Quantum Realm</Dialog.Title>
