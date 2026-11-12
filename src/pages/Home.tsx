@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, BookOpen, FileSearch, Rows3 } from 'lucide-react';
 import Page from '@/components/Page';
+import PageDirectory from '@/components/PageDirectory';
 import Qubi from '@/components/Qubi';
 import VideoWall from '@/components/sections/VideoWall';
 import EvidenceLedger from '@/components/cases/EvidenceLedger';
@@ -71,6 +72,8 @@ export default function Home() {
           </div>
           <p className="registry-landing-index">Public Registry / Start here / {bureauCases.length} files open</p>
         </section>
+
+        <PageDirectory indexIcon={<BookOpen size={14} aria-hidden="true" />} />
 
         <section id="videos" className="record-section video-section" aria-labelledby="video-section-title">
           <div className="record-section-inner">

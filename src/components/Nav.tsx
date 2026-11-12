@@ -85,6 +85,7 @@ export default function Nav() {
                         <nav className="bureau-mobile-menu-scroll" aria-label="Site menu" tabIndex={0}>
                           <ul>{links(true)}</ul>
                           <div className="bureau-menu-guides" aria-label="Visitor guides">
+                            <Link to="/#site-index" onClick={() => setOpen(false)} className="bureau-mobile-link">Explore all pages <span aria-hidden="true">↗</span></Link>
                             <button type="button" className="bureau-mobile-link" onClick={() => { setOpen(false); startTour(); }}>Take Qubi’s guided tour <span aria-hidden="true">↗</span></button>
                             <button type="button" className="bureau-mobile-link" onClick={() => { setOpen(false); replayIntro(); }}>Replay the opening <span aria-hidden="true">↗</span></button>
                           </div>
