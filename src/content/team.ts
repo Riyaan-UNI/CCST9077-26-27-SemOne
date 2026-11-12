@@ -7,6 +7,10 @@ export type Deliverable = 'website' | 'videos' | 'mascot' | 'scripts';
 export interface DraftQuantumFact {
   text: string;
   reviewStatus: 'group-review-pending';
+  reference: {
+    label: string;
+    url: string;
+  };
 }
 
 export interface TeamMember {
@@ -38,6 +42,10 @@ export const team: TeamMember[] = [
     funFact: {
       text: 'Quantum algorithms can use interference so that some possible outcomes cancel while others become more likely.',
       reviewStatus: 'group-review-pending',
+      reference: {
+        label: 'IBM Quantum Learning · Quantum algorithmic foundations',
+        url: 'https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-algorithmic-foundations',
+      },
     },
     deliverables: ['website', 'videos', 'mascot'],
   },
@@ -56,6 +64,10 @@ export const team: TeamMember[] = [
     funFact: {
       text: 'A single qubit’s pure state can be pictured as a point on a sphere called the Bloch sphere; its poles represent 0 and 1.',
       reviewStatus: 'group-review-pending',
+      reference: {
+        label: 'IBM Quantum Learning · Bloch sphere',
+        url: 'https://learning.quantum.ibm.com/course/general-formulation-of-quantum-information/density-matrices',
+      },
     },
     deliverables: ['mascot', 'videos', 'scripts'],
   },
@@ -67,6 +79,10 @@ export const team: TeamMember[] = [
     funFact: {
       text: 'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
       reviewStatus: 'group-review-pending',
+      reference: {
+        label: 'Pawłowski et al. · Nature',
+        url: 'https://www.nature.com/articles/nature08400',
+      },
     },
     deliverables: ['videos', 'scripts'],
   },
@@ -79,6 +95,10 @@ export const team: TeamMember[] = [
     funFact: {
       text: 'The no-cloning theorem rules out perfectly copying every arbitrary unknown quantum state with one universal copier.',
       reviewStatus: 'group-review-pending',
+      reference: {
+        label: 'Wootters and Zurek · Nature',
+        url: 'https://doi.org/10.1038/299802A0',
+      },
     },
     deliverables: ['videos', 'scripts'],
   },

@@ -73,6 +73,15 @@ function MemberCard({
               <div className="team-fun-fact mt-4 border border-line bg-elevated px-4 py-3">
                 <p className="text-xs text-muted">Quantum fact · group review pending</p>
                 <p className="mt-1 text-sm leading-relaxed text-ink-soft">{member.funFact.text}</p>
+                <a
+                  className="team-fun-fact-source mt-3 block break-words text-sm text-cyan underline underline-offset-4"
+                  href={member.funFact.reference.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Reference: {member.funFact.reference.label}
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
               </div>
             </div>
           </motion.div>

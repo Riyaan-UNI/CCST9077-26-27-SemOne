@@ -31,6 +31,10 @@ const teamMemberSchema = z.object({
   funFact: z.object({
     text: z.string().min(1),
     reviewStatus: z.literal('group-review-pending'),
+    reference: z.object({
+      label: z.string().min(1),
+      url: z.string().url().refine((url) => url.startsWith('https://')),
+    }),
   }),
   deliverables: z.array(z.string()),
 });

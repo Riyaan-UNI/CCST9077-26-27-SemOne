@@ -214,6 +214,7 @@ test.describe('Public Registry and routes', () => {
     await page.getByRole('button', { name: /Cynthia \(Sun Siyan\)/ }).click();
     await expect(page.getByText(/arbitrary unknown quantum state/i)).toBeVisible();
     await expect(page.getByText(/quantum fact · group review pending/i)).toBeVisible();
+    await expect(page.getByRole('link', { name: /Reference: Wootters and Zurek/ })).toHaveAttribute('target', '_blank');
     await expect(grid.locator('button[aria-expanded="true"]')).toHaveCount(1);
     await page.getByRole('button', { name: /Riyaan/ }).click();
     await expect(grid.locator('button[aria-expanded="true"]')).toHaveCount(1);
