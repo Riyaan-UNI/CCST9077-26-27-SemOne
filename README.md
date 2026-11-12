@@ -75,7 +75,7 @@ main
 | `feature/quantum-observatory-reskin` · `136fcd9` | Sci-fi redesign | Refined the visual system into the Quantum Observatory and set up the branch’s Pages deployment. |
 | `concept/quantum-bureau-field-journal` · `49be66c` → current `eed57dc` | Observatory reskin | Reframed the site as the Quantum Lost-and-Found Bureau: a guided Field Journal with linked investigations, evidence-ledger interactions, video wayfinding, and clearer explanations. Subsequent commits document review, deployment, and refinements. |
 
-This timeline is derived from the branch ancestry and commit history. Branches were kept so a grader can inspect how the interface evolved from `main` to the current version. `main` and the two earlier design branches remain available for comparison. Commits describe the work as it happened; history has not been rewritten.
+This timeline is derived from the branch ancestry and commit history. Branches were kept so a grader can inspect how the interface evolved from `main` to the current version. `concept/quantum-bureau-field-journal` is now the repository’s default branch and is the recommended starting point for assessment; `main` and the two earlier design branches remain available for comparison. Commits describe the work as it happened; history has not been rewritten.
 
 The Pages workflow runs for `main`, `feature/quantum-observatory-reskin`, and this branch. The repository’s `github-pages` environment must also allow `concept/quantum-bureau-field-journal`; see [`DEPLOY.md`](DEPLOY.md).
 
