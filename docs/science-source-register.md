@@ -32,3 +32,16 @@ I compared the current case draft and simulator with the supplied text exports o
 **Required before submission:** a group member should inspect each original PDF, add exact slide numbers, record their name or initials, and note corrections made to the site. The archive remains in draft status until that review is complete.
 
 Before submission, the group should replace each “Pending” entry with reviewer initials or name and the verified slide references. Add external sources only if the group actually uses them, and cite them where the relevant explanation appears.
+
+## Glossary accuracy pass — AI-assisted, group review pending
+
+On 2026-11-12, several inherited glossary statements were narrowed because they implied conscious observation, instant signaling, automatic cryptographic security, or that decoherence removes quantum behavior. The site text was adjusted to distinguish these ideas more carefully. This is a preliminary wording correction, not course approval; the group should confirm lecture fit and technical detail.
+
+| Topic | Primary source to verify | Group review |
+|---|---|---|
+| No-cloning | [Wootters & Zurek, “A single quantum cannot be cloned,” Nature (1982)](https://doi.org/10.1038/299802A0) | Pending |
+| BB84 security framing | [Bennett & Brassard, “Quantum cryptography: Public key distribution and coin tossing” (1984)](https://www.karlin.mff.cuni.cz/~holub/soubory/BB84original.pdf) | Pending |
+| Decoherence and interference | [Zurek, “Decoherence, einselection, and the quantum origins of the classical,” Reviews of Modern Physics (2003)](https://doi.org/10.1103/RevModPhys.75.715) | Pending |
+| Factoring and discrete logarithms | [Shor, “Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer,” SIAM Journal on Computing (1997)](https://doi.org/10.1137/S0097539795293172) | Pending |
+| Unstructured search | [Grover, “A fast quantum mechanical algorithm for database search” (1996)](https://doi.org/10.48550/arXiv.quant-ph/9605043) | Pending |
+| Bell inequality testing | [Clauser, Horne, Shimony & Holt, “Proposed Experiment to Test Local Hidden-Variable Theories,” Physical Review Letters (1969)](https://doi.org/10.1103/PhysRevLett.23.880) | Pending |
