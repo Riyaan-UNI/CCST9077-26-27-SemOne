@@ -74,8 +74,8 @@ export const team: TeamMember[] = [
   {
     id: 'markus',
     name: 'Markus',
-    title: 'Video speaker · Script contributor',
-    contributions: ['Speaker in the videos', 'Video script-writing'],
+    title: 'Video speaker',
+    contributions: ['Speaker in the videos'],
     funFact: {
       text: 'Entangled particles can have strongly linked measurement results, but entanglement cannot send a message faster than light.',
       reviewStatus: 'reviewed',
@@ -84,7 +84,7 @@ export const team: TeamMember[] = [
         url: 'https://www.nature.com/articles/nature08400',
       },
     },
-    deliverables: ['videos', 'scripts'],
+    deliverables: ['videos'],
   },
   {
     id: 'cynthia',
